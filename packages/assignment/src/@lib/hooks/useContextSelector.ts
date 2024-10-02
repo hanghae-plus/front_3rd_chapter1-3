@@ -1,14 +1,18 @@
 import { Context, useContext } from "react";
+import { useRef } from "./useRef.ts";
 
 export function useContextSelector<T, S>(
   context: Context<T>,
   selector: (value: T) => S,
-
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   equals = Object.is
 ): S {
   const value = useContext(context);
-  return selector(value);
+  const selectedValue = selector(value);
+  const ref = useRef(selectedValue);
+
+  if (!equals(selectedValue, ref.current)) {
+    ref.current = selectedValue;
+  }
+
+  return ref.current;
 }
