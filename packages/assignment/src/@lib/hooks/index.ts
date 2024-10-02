@@ -1,3 +1,4 @@
+export * from "./useContextSelector";
 export * from "./useDeepMemo";
 export * from "./useMemo";
 export * from "./useCallback";
