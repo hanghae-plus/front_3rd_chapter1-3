@@ -1,21 +1,22 @@
-import { useNews, useNotification } from "../providers";
 import { FormEvent, useState } from "react";
 import { NewsCategory } from "../domain";
+import { useCallback } from "../@lib";
 
-export const AddNewsForm = () => {
-  const { addNews } = useNews();
-  const { addNotification } = useNotification();
+interface Props {
+  onSubmit?: (payload: { title: string; content: string; category: NewsCategory }) => void;
+}
+
+export const AddNewsForm = ({ onSubmit }: Props) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [category, setCategory] = useState<NewsCategory>('정치');
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = useCallback((e: FormEvent) => {
     e.preventDefault();
-    addNews({ title, content, category });
-    addNotification(`새 뉴스가 추가되었습니다: ${title}`);
+    onSubmit?.({ title, content, category });
     setTitle('');
     setContent('');
-  };
+  }, [category, content, onSubmit, title]);
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 mb-8">

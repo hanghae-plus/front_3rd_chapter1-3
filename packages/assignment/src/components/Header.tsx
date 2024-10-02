@@ -1,20 +1,32 @@
-import { useNotification, useTheme, useUser } from "../providers";
+import { Notification, User } from "../domain";
 
-export const Header = () => {
-  const { theme, toggleTheme } = useTheme();
-  const { user, logout } = useUser();
-  const { notifications } = useNotification();
+interface Props {
+  themeLabel: string;
+  className: string;
+  user: User | null;
+  notifications: Notification[];
+  onToggleThemeClick?: () => void;
+  onLogoutClick?: () => void;
+}
 
+export const Header = ({
+  themeLabel,
+  className,
+  user,
+  notifications,
+  onLogoutClick,
+  onToggleThemeClick,
+}: Props) => {
   return (
-    <header className={`p-4 ${theme === 'light' ? 'bg-blue-600 text-white' : 'bg-gray-800 text-gray-200'}`}>
+    <header className={`p-4 ${className}`}>
       <div className="container mx-auto flex justify-between items-center">
         <h1 className="text-2xl font-bold">뉴스 피드</h1>
         <div className="flex items-center space-x-4">
-          <button onClick={toggleTheme} className="px-3 py-1 rounded bg-gray-200 text-gray-800">
-            {theme === 'light' ? '다크 모드' : '라이트 모드'}
+          <button onClick={onToggleThemeClick} className="px-3 py-1 rounded bg-gray-200 text-gray-800">
+            {themeLabel}
           </button>
           {user && <span>{user.name}님 환영합니다</span>}
-          {user && <button onClick={logout} className="px-3 py-1 rounded bg-red-500 text-white">로그아웃</button>}
+          {user && <button onClick={onLogoutClick} className="px-3 py-1 rounded bg-red-500 text-white">로그아웃</button>}
           <div className="relative">
             <span className="cursor-pointer">🔔</span>
             {notifications.length > 0 && (
