@@ -40,7 +40,7 @@ export const AppContext = createContext<AppState>({
 export const AppProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [theme, setTheme] = useState<Theme>('light');
   const [user, setUser] = useState<User | null>(null);
-  const [news, setNews] = useState<NewsItem[]>(dummyNewsData);
+  const [news, setNews] = useState<NewsItem[]>(dummyNewsData.slice(0, 3));
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [category, setCategory] = useState<NewsCategory | null>(null);
 

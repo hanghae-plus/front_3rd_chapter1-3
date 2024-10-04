@@ -1,10 +1,11 @@
-import { useContextSelector } from "../../@lib";
-import { AppContext } from "../AppProvider";
+import { useAppContext } from "./useAppContext.ts";
+import { useMemo } from "react";
 
 export const useUser = () => {
-  return useContextSelector(AppContext, value => ({
+  const value = useAppContext();
+  return useMemo(() => ({
     user: value.user,
     login: value.login,
     logout: value.logout,
-  }))
+  }), [value]);
 }

@@ -1,9 +1,10 @@
-import { useContextSelector } from "../../@lib";
-import { AppContext } from "../AppProvider";
+import { useAppContext } from "./useAppContext.ts";
+import { useMemo } from "react";
 
 export const useTheme = () => {
-  return useContextSelector(AppContext, value => ({
+  const value = useAppContext();
+  return useMemo(() => ({
     theme: value.theme,
     toggleTheme: value.toggleTheme,
-  }))
+  }), [value]);
 }

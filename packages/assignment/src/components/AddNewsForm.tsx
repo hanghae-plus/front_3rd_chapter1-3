@@ -1,12 +1,12 @@
 import { FormEvent, useState } from "react";
 import { NewsCategory } from "../domain";
-import { useCallback } from "../@lib";
+import { useCallback, memo } from "../@lib";
 
 interface Props {
   onSubmit?: (payload: { title: string; content: string; category: NewsCategory }) => void;
 }
 
-export const AddNewsForm = ({ onSubmit }: Props) => {
+export const AddNewsForm = memo(({ onSubmit }: Props) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [category, setCategory] = useState<NewsCategory>('정치');
@@ -46,4 +46,4 @@ export const AddNewsForm = ({ onSubmit }: Props) => {
       <button type="submit" className="w-full p-2 bg-green-500 text-white rounded">뉴스 추가</button>
     </form>
   );
-};
+});
