@@ -1,4 +1,5 @@
 import React, { useState, createContext, useContext } from 'react';
+import { generateItems, renderLog } from './utils';
 
 // 타입 정의
 interface Item {
@@ -43,19 +44,9 @@ const useAppContext = () => {
   return context;
 };
 
-// 대규모 데이터 생성 함수
-const generateItems = (count: number): Item[] => {
-  const categories = ['전자기기', '의류', '도서', '식품'];
-  return Array.from({ length: count }, (_, index) => ({
-    id: index,
-    name: `상품 ${index}`,
-    category: categories[Math.floor(Math.random() * categories.length)],
-    price: Math.floor(Math.random() * 100000) + 1000
-  }));
-};
-
 // Header 컴포넌트
-const Header: React.FC = () => {
+export const Header: React.FC = () => {
+  renderLog('Header rendered');
   const { theme, toggleTheme, user, login, logout } = useAppContext();
 
   const handleLogin = () => {
@@ -86,7 +77,8 @@ const Header: React.FC = () => {
 };
 
 // ItemList 컴포넌트
-const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
+export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
+  renderLog('ItemList rendered');
   const [filter, setFilter] = useState('');
   const { theme } = useAppContext();
 
@@ -121,7 +113,8 @@ const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
 };
 
 // ComplexForm 컴포넌트
-const ComplexForm: React.FC = () => {
+export const ComplexForm: React.FC = () => {
+  renderLog('ItemList rendered');
   const { addNotification } = useAppContext();
   const [formData, setFormData] = useState({
     name: '',
@@ -203,7 +196,8 @@ const ComplexForm: React.FC = () => {
 };
 
 // NotificationSystem 컴포넌트
-const NotificationSystem: React.FC = () => {
+export const NotificationSystem: React.FC = () => {
+  renderLog('ItemList rendered');
   const { notifications, removeNotification } = useAppContext();
 
   return (
@@ -230,7 +224,7 @@ const NotificationSystem: React.FC = () => {
 // 메인 App 컴포넌트
 const App: React.FC = () => {
   const [theme, setTheme] = useState('light');
-  const [items] = useState(() => generateItems(10000));
+  const [items] = useState(generateItems(10000));
   const [user, setUser] = useState<User | null>(null);
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
