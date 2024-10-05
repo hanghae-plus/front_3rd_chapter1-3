@@ -89,343 +89,343 @@ describe("Chapter 1-3 기본과제: hooks 구현하기 > ", () => {
 		});
 	});
 
-	// describe.each([
-	// 	// 직접 구현한 hook들
-	// 	{ spec: "직접 구현한 hooks", useRef, useCallback, useMemo },
+	describe.each([
+		// 직접 구현한 hook들
+		{ spec: "직접 구현한 hooks", useRef, useCallback, useMemo },
 
-	// 	// React에서 만들어진 훅들
-	// 	{
-	// 		spec: "React에서 제공하는 hooks",
-	// 		useRef: React.useRef,
-	// 		useCallback: React.useCallback,
-	// 		useMemo: React.useMemo,
-	// 	},
-	// ])("$spec > ", ({ useRef, useCallback, useMemo }) => {
-	// 	describe("useRef 훅", () => {
-	// 		it("리렌더링이 되어도 useRef의 참조값이 유지된다. ", () => {
-	// 			const refs = new Set();
+		// React에서 만들어진 훅들
+		{
+			spec: "React에서 제공하는 hooks",
+			useRef: React.useRef,
+			useCallback: React.useCallback,
+			useMemo: React.useMemo,
+		},
+	])("$spec > ", ({ useRef, useCallback, useMemo }) => {
+		describe("useRef 훅", () => {
+			it("리렌더링이 되어도 useRef의 참조값이 유지된다. ", () => {
+				const refs = new Set();
 
-	// 			const UseMyRefTest = ({ label }: { label: string }) => {
-	// 				const [, rerender] = useState({});
-	// 				// useRef로 변경해서 테스트하면 통과됩니다. useMyRef를 useRef와 똑같이 동작하도록 구현해보세요.
-	// 				const ref = useRef<HTMLDivElement | null>(null);
-	// 				refs.add(ref);
+				const UseMyRefTest = ({ label }: { label: string }) => {
+					const [, rerender] = useState({});
+					// useRef로 변경해서 테스트하면 통과됩니다. useMyRef를 useRef와 똑같이 동작하도록 구현해보세요.
+					const ref = useRef<HTMLDivElement | null>(null);
+					refs.add(ref);
 
-	// 				return (
-	// 					<div ref={ref}>
-	// 						<button onClick={() => rerender({})}>{label}</button>
-	// 					</div>
-	// 				);
-	// 			};
+					return (
+						<div ref={ref}>
+							<button onClick={() => rerender({})}>{label}</button>
+						</div>
+					);
+				};
 
-	// 			const { getByText } = render(
-	// 				<>
-	// 					<UseMyRefTest label="rerender1" />
-	// 					<UseMyRefTest label="rerender2" />
-	// 				</>
-	// 			);
+				const { getByText } = render(
+					<>
+						<UseMyRefTest label="rerender1" />
+						<UseMyRefTest label="rerender2" />
+					</>
+				);
 
-	// 			act(() => {
-	// 				fireEvent.click(getByText("rerender1"));
-	// 				fireEvent.click(getByText("rerender2"));
-	// 			});
+				act(() => {
+					fireEvent.click(getByText("rerender1"));
+					fireEvent.click(getByText("rerender2"));
+				});
 
-	// 			expect(refs.size).toBe(2);
-	// 		});
+				expect(refs.size).toBe(2);
+			});
 
-	// 		it("렌더링 간에 ref 값을 유지하고, 값 변경 시 리렌더링을 트리거하지 않아야 한다", () => {
-	// 			let renderCount = 0;
+			it("렌더링 간에 ref 값을 유지하고, 값 변경 시 리렌더링을 트리거하지 않아야 한다", () => {
+				let renderCount = 0;
 
-	// 			function TestComponent() {
-	// 				const [, setForceUpdate] = useState({});
-	// 				const ref = useRef(0);
-	// 				renderCount++;
+				function TestComponent() {
+					const [, setForceUpdate] = useState({});
+					const ref = useRef(0);
+					renderCount++;
 
-	// 				return (
-	// 					<>
-	// 						<div data-testid="render-count">Render Count: {renderCount}</div>
-	// 						<div data-testid="ref-value">Ref Value: {ref.current}</div>
-	// 						<button
-	// 							onClick={() => {
-	// 								ref.current += 1;
-	// 								// ref 값만 변경하고 리렌더링하지 않음
-	// 							}}
-	// 						>
-	// 							Increment Ref
-	// 						</button>
-	// 						<button
-	// 							onClick={() => {
-	// 								setForceUpdate({});
-	// 								// 강제로 리렌더링
-	// 							}}
-	// 						>
-	// 							Force Update
-	// 						</button>
-	// 					</>
-	// 				);
-	// 			}
+					return (
+						<>
+							<div data-testid="render-count">Render Count: {renderCount}</div>
+							<div data-testid="ref-value">Ref Value: {ref.current}</div>
+							<button
+								onClick={() => {
+									ref.current += 1;
+									// ref 값만 변경하고 리렌더링하지 않음
+								}}
+							>
+								Increment Ref
+							</button>
+							<button
+								onClick={() => {
+									setForceUpdate({});
+									// 강제로 리렌더링
+								}}
+							>
+								Force Update
+							</button>
+						</>
+					);
+				}
 
-	// 			const { getByText, getByTestId } = render(<TestComponent />);
+				const { getByText, getByTestId } = render(<TestComponent />);
 
-	// 			// 초기 상태 확인
-	// 			expect(getByTestId("render-count").textContent).toBe("Render Count: 1");
-	// 			expect(getByTestId("ref-value").textContent).toBe("Ref Value: 0");
+				// 초기 상태 확인
+				expect(getByTestId("render-count").textContent).toBe("Render Count: 1");
+				expect(getByTestId("ref-value").textContent).toBe("Ref Value: 0");
 
-	// 			// ref 값 변경
-	// 			fireEvent.click(getByText("Increment Ref"));
+				// ref 값 변경
+				fireEvent.click(getByText("Increment Ref"));
 
-	// 			// ref 값이 변경되었지만 리렌더링은 발생하지 않음
-	// 			expect(getByTestId("render-count").textContent).toBe("Render Count: 1");
-	// 			expect(getByTestId("ref-value").textContent).toBe("Ref Value: 0");
+				// ref 값이 변경되었지만 리렌더링은 발생하지 않음
+				expect(getByTestId("render-count").textContent).toBe("Render Count: 1");
+				expect(getByTestId("ref-value").textContent).toBe("Ref Value: 0");
 
-	// 			// 강제 리렌더링
-	// 			fireEvent.click(getByText("Force Update"));
+				// 강제 리렌더링
+				fireEvent.click(getByText("Force Update"));
 
-	// 			// 리렌더링 발생, 변경된 ref 값 반영
-	// 			expect(getByTestId("render-count").textContent).toBe("Render Count: 2");
-	// 			expect(getByTestId("ref-value").textContent).toBe("Ref Value: 1");
-	// 		});
-	// 	});
+				// 리렌더링 발생, 변경된 ref 값 반영
+				expect(getByTestId("render-count").textContent).toBe("Render Count: 2");
+				expect(getByTestId("ref-value").textContent).toBe("Ref Value: 1");
+			});
+		});
 
-	// 	describe("useMemo 훅", () => {
-	// 		const mockFactory = vi.fn();
+		describe("useMemo 훅", () => {
+			const mockFactory = vi.fn();
 
-	// 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	// 		const TestComponent = forwardRef<
-	// 			{ updateDeps: (newDeps: any[]) => void },
-	// 			{
-	// 				initialDeps: unknown[];
-	// 			}
-	// 		>(({ initialDeps }, ref) => {
-	// 			const [deps, setDeps] = useState(initialDeps);
-	// 			const [, setRenderCount] = useState(0);
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			const TestComponent = forwardRef<
+				{ updateDeps: (newDeps: any[]) => void },
+				{
+					initialDeps: unknown[];
+				}
+			>(({ initialDeps }, ref) => {
+				const [deps, setDeps] = useState(initialDeps);
+				const [, setRenderCount] = useState(0);
 
-	// 			useMemo(() => mockFactory(), deps);
+				useMemo(() => mockFactory(), deps);
 
-	// 			useImperativeHandle(ref, () => ({
-	// 				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	// 				updateDeps: (newDeps: any) => setDeps(newDeps),
-	// 			}));
+				useImperativeHandle(ref, () => ({
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					updateDeps: (newDeps: any) => setDeps(newDeps),
+				}));
 
-	// 			return (
-	// 				<div>
-	// 					<button onClick={() => setRenderCount((prev) => prev + 1)}>
-	// 						Force Render
-	// 					</button>
-	// 				</div>
-	// 			);
-	// 		});
+				return (
+					<div>
+						<button onClick={() => setRenderCount((prev) => prev + 1)}>
+							Force Render
+						</button>
+					</div>
+				);
+			});
 
-	// 		beforeEach(() => {
-	// 			mockFactory.mockClear();
-	// 		});
+			beforeEach(() => {
+				mockFactory.mockClear();
+			});
 
-	// 		it("useMemo 메모이제이션 테스트: 의존성의 값들이 변경될 때 재계산", () => {
-	// 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	// 			const ref: { current: any } = { current: null };
+			it("useMemo 메모이제이션 테스트: 의존성의 값들이 변경될 때 재계산", () => {
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
+				const ref: { current: any } = { current: null };
 
-	// 			// 의존성: [42]
-	// 			render(<TestComponent ref={ref} initialDeps={[42]} />);
-	// 			expect(mockFactory).toHaveBeenCalledTimes(1);
+				// 의존성: [42]
+				render(<TestComponent ref={ref} initialDeps={[42]} />);
+				expect(mockFactory).toHaveBeenCalledTimes(1);
 
-	// 			// 의존성을 다시 [42] 로 변경 -> 재계산 되지 않아야 함
-	// 			act(() => {
-	// 				ref.current.updateDeps([42]);
-	// 			});
-	// 			expect(mockFactory).toHaveBeenCalledTimes(1);
+				// 의존성을 다시 [42] 로 변경 -> 재계산 되지 않아야 함
+				act(() => {
+					ref.current.updateDeps([42]);
+				});
+				expect(mockFactory).toHaveBeenCalledTimes(1);
 
-	// 			// 의존성을 [43]으로 변경 -> 재계산
-	// 			act(() => {
-	// 				ref.current.updateDeps([43]);
-	// 			});
-	// 			expect(mockFactory).toHaveBeenCalledTimes(2);
+				// 의존성을 [43]으로 변경 -> 재계산
+				act(() => {
+					ref.current.updateDeps([43]);
+				});
+				expect(mockFactory).toHaveBeenCalledTimes(2);
 
-	// 			// 의존성을 [42, 43]으로 변경 -> 재계산
-	// 			act(() => {
-	// 				ref.current.updateDeps([42, 43]);
-	// 			});
-	// 			expect(mockFactory).toHaveBeenCalledTimes(3);
+				// 의존성을 [42, 43]으로 변경 -> 재계산
+				act(() => {
+					ref.current.updateDeps([42, 43]);
+				});
+				expect(mockFactory).toHaveBeenCalledTimes(3);
 
-	// 			// 의존성을 [42, 43]으로 다시 변경 -> 재계산 하지 않음
-	// 			act(() => {
-	// 				ref.current.updateDeps([42, 43]);
-	// 			});
-	// 			expect(mockFactory).toHaveBeenCalledTimes(3);
+				// 의존성을 [42, 43]으로 다시 변경 -> 재계산 하지 않음
+				act(() => {
+					ref.current.updateDeps([42, 43]);
+				});
+				expect(mockFactory).toHaveBeenCalledTimes(3);
 
-	// 			const emptyObject = {};
-	// 			// 의존성을 [ {} ]으로 변경 -> 재계산
-	// 			act(() => {
-	// 				ref.current.updateDeps([emptyObject]);
-	// 			});
-	// 			expect(mockFactory).toHaveBeenCalledTimes(4);
+				const emptyObject = {};
+				// 의존성을 [ {} ]으로 변경 -> 재계산
+				act(() => {
+					ref.current.updateDeps([emptyObject]);
+				});
+				expect(mockFactory).toHaveBeenCalledTimes(4);
 
-	// 			// 의존성에 동일한 참조값 사용 -> 재계산 하지 않음
-	// 			act(() => {
-	// 				ref.current.updateDeps([emptyObject]);
-	// 			});
-	// 			expect(mockFactory).toHaveBeenCalledTimes(4);
+				// 의존성에 동일한 참조값 사용 -> 재계산 하지 않음
+				act(() => {
+					ref.current.updateDeps([emptyObject]);
+				});
+				expect(mockFactory).toHaveBeenCalledTimes(4);
 
-	// 			Object.assign(emptyObject, { a: 10 });
-	// 			act(() => {
-	// 				ref.current.updateDeps([emptyObject]);
-	// 			});
-	// 			expect(mockFactory).toHaveBeenCalledTimes(4);
+				Object.assign(emptyObject, { a: 10 });
+				act(() => {
+					ref.current.updateDeps([emptyObject]);
+				});
+				expect(mockFactory).toHaveBeenCalledTimes(4);
 
-	// 			act(() => {
-	// 				ref.current.updateDeps([{ a: 10 }]);
-	// 			});
-	// 			expect(mockFactory).toHaveBeenCalledTimes(5);
+				act(() => {
+					ref.current.updateDeps([{ a: 10 }]);
+				});
+				expect(mockFactory).toHaveBeenCalledTimes(5);
 
-	// 			const emptyArray: number[] = [];
-	// 			act(() => {
-	// 				ref.current.updateDeps([emptyArray]);
-	// 			});
-	// 			expect(mockFactory).toHaveBeenCalledTimes(6);
+				const emptyArray: number[] = [];
+				act(() => {
+					ref.current.updateDeps([emptyArray]);
+				});
+				expect(mockFactory).toHaveBeenCalledTimes(6);
 
-	// 			emptyArray.push(10);
-	// 			act(() => {
-	// 				ref.current.updateDeps([emptyArray]);
-	// 			});
-	// 			expect(mockFactory).toHaveBeenCalledTimes(6);
+				emptyArray.push(10);
+				act(() => {
+					ref.current.updateDeps([emptyArray]);
+				});
+				expect(mockFactory).toHaveBeenCalledTimes(6);
 
-	// 			act(() => {
-	// 				ref.current.updateDeps([[]]);
-	// 			});
-	// 			expect(mockFactory).toHaveBeenCalledTimes(7);
-	// 		});
-	// 	});
+				act(() => {
+					ref.current.updateDeps([[]]);
+				});
+				expect(mockFactory).toHaveBeenCalledTimes(7);
+			});
+		});
 
-	// 	describe("useCallback 훅", () => {
-	// 		const mockCallback = vi.fn((x: number) => x * 2);
+		describe("useCallback 훅", () => {
+			const mockCallback = vi.fn((x: number) => x * 2);
 
-	// 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	// 		const TestComponent = forwardRef<
-	// 			{ updateDeps: (newDeps: any) => void },
-	// 			{
-	// 				initialDeps: unknown;
-	// 			}
-	// 		>(({ initialDeps }, ref) => {
-	// 			const [deps, setDeps] = useState(initialDeps);
-	// 			const [, setRenderCount] = useState(0);
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			const TestComponent = forwardRef<
+				{ updateDeps: (newDeps: any) => void },
+				{
+					initialDeps: unknown;
+				}
+			>(({ initialDeps }, ref) => {
+				const [deps, setDeps] = useState(initialDeps);
+				const [, setRenderCount] = useState(0);
 
-	// 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-	// 			// @ts-ignore
-	// 			// eslint-disable-next-line react-hooks/exhaustive-deps
-	// 			const memoizedCallback = useCallback(() => mockCallback(42), deps);
+				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+				// @ts-ignore
+				// eslint-disable-next-line react-hooks/exhaustive-deps
+				const memoizedCallback = useCallback(() => mockCallback(42), deps);
 
-	// 			useImperativeHandle(ref, () => ({
-	// 				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	// 				updateDeps: (newDeps: any) => setDeps(newDeps),
-	// 				getMemoizedCallback: () => memoizedCallback,
-	// 			}));
+				useImperativeHandle(ref, () => ({
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					updateDeps: (newDeps: any) => setDeps(newDeps),
+					getMemoizedCallback: () => memoizedCallback,
+				}));
 
-	// 			return (
-	// 				<div>
-	// 					<button onClick={() => setRenderCount((prev) => prev + 1)}>
-	// 						Force Render
-	// 					</button>
-	// 				</div>
-	// 			);
-	// 		});
+				return (
+					<div>
+						<button onClick={() => setRenderCount((prev) => prev + 1)}>
+							Force Render
+						</button>
+					</div>
+				);
+			});
 
-	// 		beforeEach(() => {
-	// 			mockCallback.mockClear();
-	// 		});
+			beforeEach(() => {
+				mockCallback.mockClear();
+			});
 
-	// 		it("useCallback 메모이제이션 테스트: 의존성의 값들이 변경될 때 재생성", () => {
-	// 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	// 			const ref: { current: any } = { current: null };
+			it("useCallback 메모이제이션 테스트: 의존성의 값들이 변경될 때 재생성", () => {
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
+				const ref: { current: any } = { current: null };
 
-	// 			// 의존성: [42]
-	// 			render(<TestComponent ref={ref} initialDeps={[42]} />);
-	// 			const initialCallback = ref.current.getMemoizedCallback();
-	// 			expect(initialCallback).toBeDefined();
+				// 의존성: [42]
+				render(<TestComponent ref={ref} initialDeps={[42]} />);
+				const initialCallback = ref.current.getMemoizedCallback();
+				expect(initialCallback).toBeDefined();
 
-	// 			// 의존성을 다시 [42]로 변경 -> 재생성 되지 않아야 함
-	// 			act(() => {
-	// 				ref.current.updateDeps([42]);
-	// 			});
-	// 			expect(ref.current.getMemoizedCallback()).toBe(initialCallback);
+				// 의존성을 다시 [42]로 변경 -> 재생성 되지 않아야 함
+				act(() => {
+					ref.current.updateDeps([42]);
+				});
+				expect(ref.current.getMemoizedCallback()).toBe(initialCallback);
 
-	// 			// 의존성을 [43]으로 변경 -> 재생성
-	// 			act(() => {
-	// 				ref.current.updateDeps([43]);
-	// 			});
-	// 			expect(ref.current.getMemoizedCallback()).not.toBe(initialCallback);
+				// 의존성을 [43]으로 변경 -> 재생성
+				act(() => {
+					ref.current.updateDeps([43]);
+				});
+				expect(ref.current.getMemoizedCallback()).not.toBe(initialCallback);
 
-	// 			// 의존성을 [42, 43]으로 변경 -> 재생성
-	// 			act(() => {
-	// 				ref.current.updateDeps([42, 43]);
-	// 			});
-	// 			const newCallback = ref.current.getMemoizedCallback();
-	// 			expect(newCallback).not.toBe(initialCallback);
+				// 의존성을 [42, 43]으로 변경 -> 재생성
+				act(() => {
+					ref.current.updateDeps([42, 43]);
+				});
+				const newCallback = ref.current.getMemoizedCallback();
+				expect(newCallback).not.toBe(initialCallback);
 
-	// 			// 의존성을 [42, 43]으로 다시 변경 -> 재생성 하지 않음
-	// 			act(() => {
-	// 				ref.current.updateDeps([42, 43]);
-	// 			});
-	// 			expect(ref.current.getMemoizedCallback()).toBe(newCallback);
+				// 의존성을 [42, 43]으로 다시 변경 -> 재생성 하지 않음
+				act(() => {
+					ref.current.updateDeps([42, 43]);
+				});
+				expect(ref.current.getMemoizedCallback()).toBe(newCallback);
 
-	// 			const emptyObject = {};
-	// 			// 의존성을 [{}]으로 변경 -> 재생성
-	// 			act(() => {
-	// 				ref.current.updateDeps([emptyObject]);
-	// 			});
-	// 			const objectCallback = ref.current.getMemoizedCallback();
-	// 			expect(objectCallback).not.toBe(newCallback);
+				const emptyObject = {};
+				// 의존성을 [{}]으로 변경 -> 재생성
+				act(() => {
+					ref.current.updateDeps([emptyObject]);
+				});
+				const objectCallback = ref.current.getMemoizedCallback();
+				expect(objectCallback).not.toBe(newCallback);
 
-	// 			// 의존성에 동일한 참조값 사용 -> 재생성 하지 않음
-	// 			act(() => {
-	// 				ref.current.updateDeps([emptyObject]);
-	// 			});
-	// 			expect(ref.current.getMemoizedCallback()).toBe(objectCallback);
+				// 의존성에 동일한 참조값 사용 -> 재생성 하지 않음
+				act(() => {
+					ref.current.updateDeps([emptyObject]);
+				});
+				expect(ref.current.getMemoizedCallback()).toBe(objectCallback);
 
-	// 			Object.assign(emptyObject, { a: 10 });
-	// 			act(() => {
-	// 				ref.current.updateDeps([emptyObject]);
-	// 			});
-	// 			expect(ref.current.getMemoizedCallback()).toBe(objectCallback);
+				Object.assign(emptyObject, { a: 10 });
+				act(() => {
+					ref.current.updateDeps([emptyObject]);
+				});
+				expect(ref.current.getMemoizedCallback()).toBe(objectCallback);
 
-	// 			act(() => {
-	// 				ref.current.updateDeps([{ a: 10 }]);
-	// 			});
-	// 			expect(ref.current.getMemoizedCallback()).not.toBe(objectCallback);
+				act(() => {
+					ref.current.updateDeps([{ a: 10 }]);
+				});
+				expect(ref.current.getMemoizedCallback()).not.toBe(objectCallback);
 
-	// 			const emptyArray: number[] = [];
-	// 			act(() => {
-	// 				ref.current.updateDeps([emptyArray]);
-	// 			});
-	// 			const arrayCallback = ref.current.getMemoizedCallback();
-	// 			expect(arrayCallback).not.toBe(objectCallback);
+				const emptyArray: number[] = [];
+				act(() => {
+					ref.current.updateDeps([emptyArray]);
+				});
+				const arrayCallback = ref.current.getMemoizedCallback();
+				expect(arrayCallback).not.toBe(objectCallback);
 
-	// 			emptyArray.push(10);
-	// 			act(() => {
-	// 				ref.current.updateDeps([emptyArray]);
-	// 			});
-	// 			expect(ref.current.getMemoizedCallback()).toBe(arrayCallback);
+				emptyArray.push(10);
+				act(() => {
+					ref.current.updateDeps([emptyArray]);
+				});
+				expect(ref.current.getMemoizedCallback()).toBe(arrayCallback);
 
-	// 			act(() => {
-	// 				ref.current.updateDeps([[]]);
-	// 			});
-	// 			expect(ref.current.getMemoizedCallback()).not.toBe(arrayCallback);
-	// 		});
+				act(() => {
+					ref.current.updateDeps([[]]);
+				});
+				expect(ref.current.getMemoizedCallback()).not.toBe(arrayCallback);
+			});
 
-	// 		it("메모이제이션된 콜백 함수가 올바르게 동작하는지 확인", () => {
-	// 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	// 			const ref: { current: any } = { current: null };
+			it("메모이제이션된 콜백 함수가 올바르게 동작하는지 확인", () => {
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
+				const ref: { current: any } = { current: null };
 
-	// 			render(<TestComponent ref={ref} initialDeps={[]} />);
-	// 			const memoizedCallback = ref.current.getMemoizedCallback();
+				render(<TestComponent ref={ref} initialDeps={[]} />);
+				const memoizedCallback = ref.current.getMemoizedCallback();
 
-	// 			memoizedCallback();
-	// 			expect(mockCallback).toHaveBeenCalledWith(42);
-	// 			expect(mockCallback).toHaveBeenCalledTimes(1);
+				memoizedCallback();
+				expect(mockCallback).toHaveBeenCalledWith(42);
+				expect(mockCallback).toHaveBeenCalledTimes(1);
 
-	// 			memoizedCallback();
-	// 			expect(mockCallback).toHaveBeenCalledTimes(2);
-	// 		});
-	// 	});
-	// });
+				memoizedCallback();
+				expect(mockCallback).toHaveBeenCalledTimes(2);
+			});
+		});
+	});
 
 	// describe("custom hook 만들어보기", () => {
 	// 	describe("useMemo의 deps 비교 함수를 주입받아서 사용할 수 있다.", () => {
