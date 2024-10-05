@@ -135,7 +135,7 @@ const NotificationProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	);
 };
 const ItemProvider: React.FC<PropsWithChildren> = ({ children }) => {
-	const [items] = useState(generateItems(10000));
+	const [items] = useState(useMemo(() => generateItems(10000), []));
 	const [filter, setFilter] = useState("");
 
 	const updateFilter = useCallback((filter) => {
