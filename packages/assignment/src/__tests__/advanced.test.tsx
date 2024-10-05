@@ -1,15 +1,16 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import App from '../App';
+import App from '../App.refactoring';
 import * as utils from '../utils';
 
+const renderLogMock = vi.fn(msg => console.log(msg));
+vi.spyOn(utils, 'renderLog').mockImplementation(renderLogMock);
+
 describe('최적화된 App 컴포넌트 테스트', () => {
-  const renderLogMock = vi.fn(msg => console.log(msg));
 
   beforeEach(() => {
     renderLogMock.mockClear();
-    vi.spyOn(utils, 'renderLog').mockImplementation(renderLogMock);
   });
 
   it('초기 렌더링 시 모든 컴포넌트가 한 번씩 렌더링되어야 한다', () => {
@@ -78,12 +79,21 @@ describe('최적화된 App 컴포넌트 테스트', () => {
     expect(renderLogMock).toHaveBeenCalledTimes(1);
   });
 
-  it('알림 추가 시 ComplexForm, NotificationSystem만 리렌더링되어야 한다', async () => {
+  it('알림 추가 및 닫기시 ComplexForm, NotificationSystem만 리렌더링되어야 한다', async () => {
     render(<App/>);
     renderLogMock.mockClear();
 
     const submitButton = await screen.findByText('제출');
     await fireEvent.click(submitButton);
+
+    expect(renderLogMock).toHaveBeenCalledWith('NotificationSystem rendered');
+    expect(renderLogMock).toHaveBeenCalledWith('ComplexForm rendered');
+    expect(renderLogMock).toHaveBeenCalledTimes(2);
+    renderLogMock.mockClear();
+
+    // 알림 닫기 버튼 찾기 및 클릭
+    const closeButton = await screen.findByText('닫기');
+    await fireEvent.click(closeButton);
 
     expect(renderLogMock).toHaveBeenCalledWith('NotificationSystem rendered');
     expect(renderLogMock).toHaveBeenCalledWith('ComplexForm rendered');
@@ -111,6 +121,13 @@ describe('최적화된 App 컴포넌트 테스트', () => {
     expect(renderLogMock).toHaveBeenCalledTimes(3);
     renderLogMock.mockClear();
 
+    // 알림 닫기 버튼 찾기 및 클릭
+    await fireEvent.click(await screen.findByText('닫기'));
+    expect(renderLogMock).toHaveBeenCalledWith('NotificationSystem rendered');
+    expect(renderLogMock).toHaveBeenCalledWith('ComplexForm rendered');
+    expect(renderLogMock).toHaveBeenCalledTimes(2);
+    renderLogMock.mockClear();
+
     // 아이템 검색
     const searchInput = await screen.findByPlaceholderText('상품 검색...');
     await userEvent.type(searchInput, '검색어입력');
@@ -130,6 +147,13 @@ describe('최적화된 App 컴포넌트 테스트', () => {
     await fireEvent.click(submitButton);
     expect(renderLogMock).toHaveBeenCalledWith('ComplexForm rendered');
     expect(renderLogMock).toHaveBeenCalledWith('NotificationSystem rendered');
+    expect(renderLogMock).toHaveBeenCalledTimes(2);
+    renderLogMock.mockClear();
+
+    // 알림 닫기 버튼 찾기 및 클릭
+    await fireEvent.click(await screen.findByText('닫기'));
+    expect(renderLogMock).toHaveBeenCalledWith('NotificationSystem rendered');
+    expect(renderLogMock).toHaveBeenCalledWith('ComplexForm rendered');
     expect(renderLogMock).toHaveBeenCalledTimes(2);
   });
 });
