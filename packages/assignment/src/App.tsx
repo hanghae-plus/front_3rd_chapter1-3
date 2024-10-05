@@ -34,10 +34,18 @@ interface NotificationContextType {
 	addNotification: (message: string, type: Notification["type"]) => void;
 	removeNotification: (id: number) => void;
 }
+interface ItemContextType {
+	items: Item[];
+	filter: string;
+	updateFilter: (filter: string) => void;
+	filteredItems: Item[];
+	averagePrice: number;
+}
 
 const ThemeContext = createContext<ThemeContextType | null>(null);
 const UserContext = createContext<UserContextType | null>(null);
 const NotificationContext = createContext<NotificationContextType | null>(null);
+const ItemContext = createContext<ItemContextType | null>(null);
 
 const useTheme = () => {
 	const context = useContext(ThemeContext);
@@ -54,6 +62,11 @@ const useNotification = () => {
 	if (!context) throw new Error("useNotification must be used within a NotificationProvider");
 	return context;
 };
+const useItem = () => {
+	const context = useContext(ItemContext);
+	if (!context) throw new Error("useItem must be used within a ItemProvider");
+	return context;
+};
 
 const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const [theme, setTheme] = useState<Theme>("light");
@@ -61,16 +74,31 @@ const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
 	}, []);
 	const value = useMemo(() => ({ theme, toggleTheme }), [theme, toggleTheme]);
-	return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+	return (
+		<ThemeContext.Provider value={value}>
+			<div
+				className={`min-h-screen ${theme === "light" ? "bg-gray-100" : "bg-gray-900 text-white"}`}
+			>
+				{children}
+			</div>
+		</ThemeContext.Provider>
+	);
 };
 const UserProvider: React.FC<PropsWithChildren> = ({ children }) => {
+	const { addNotification } = useNotification();
+
 	const [user, setUser] = useState<User | null>(null);
-	const login = useCallback((email: string) => {
-		setUser({ id: 1, name: "홍길동", email });
-	}, []);
+	const login = useCallback(
+		(email: string) => {
+			setUser({ id: 1, name: "홍길동", email });
+			addNotification("성공적으로 로그인되었습니다", "success");
+		},
+		[addNotification]
+	);
 	const logout = useCallback(() => {
 		setUser(null);
-	}, []);
+		addNotification("로그아웃되었습니다", "info");
+	}, [addNotification]);
 	const value = useMemo(() => ({ user, login, logout }), [user, login, logout]);
 	return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
@@ -99,7 +127,39 @@ const NotificationProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		[notifications, addNotification, removeNotification]
 	);
 
-	return <NotificationContext.Provider value={value}>{children}</NotificationContext.Provider>;
+	return (
+		<NotificationContext.Provider value={value}>
+			<NotificationSystem />
+			{children}
+		</NotificationContext.Provider>
+	);
+};
+const ItemProvider: React.FC<PropsWithChildren> = ({ children }) => {
+	const [items] = useState(generateItems(10000));
+	const [filter, setFilter] = useState("");
+
+	const updateFilter = useCallback((filter) => {
+		setFilter(filter);
+	}, []);
+	const filteredItems = useMemo(
+		() =>
+			items.filter(
+				(item) =>
+					item.name.toLowerCase().includes(filter.toLowerCase()) ||
+					item.category.toLowerCase().includes(filter.toLowerCase())
+			),
+		[items, filter]
+	);
+	const averagePrice = useMemo(
+		() => items.reduce((sum, item) => sum + item.price, 0) / items.length,
+		[items]
+	);
+
+	const value = useMemo(
+		() => ({ items, filter, updateFilter, filteredItems, averagePrice }),
+		[items, filter, updateFilter, filteredItems, averagePrice]
+	);
+	return <ItemContext.Provider value={value}>{children}</ItemContext.Provider>;
 };
 
 // Header 컴포넌트
@@ -107,18 +167,11 @@ export const Header: React.FC = () => {
 	renderLog("Header rendered");
 	const { theme, toggleTheme } = useTheme();
 	const { user, login, logout } = useUser();
-	const { addNotification } = useNotification();
 
 	const handleLogin = useCallback(() => {
 		// 실제 애플리케이션에서는 사용자 입력을 받아야 합니다.
 		login("user@example.com", "password");
-		addNotification("성공적으로 로그인되었습니다", "success");
-	}, [login, addNotification]);
-
-	const handleLogout = useCallback(() => {
-		logout();
-		addNotification("로그아웃되었습니다", "info");
-	}, [logout, addNotification]);
+	}, [login]);
 
 	return (
 		<header className="bg-gray-800 text-white p-4">
@@ -135,7 +188,7 @@ export const Header: React.FC = () => {
 						<div className="flex items-center">
 							<span className="mr-2">{user.name}님 환영합니다!</span>
 							<button
-								onClick={handleLogout}
+								onClick={logout}
 								className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
 							>
 								로그아웃
@@ -155,25 +208,10 @@ export const Header: React.FC = () => {
 	);
 };
 // ItemList 컴포넌트
-export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
+export const ItemList: React.FC = () => {
 	renderLog("ItemList rendered");
-	const [filter, setFilter] = useState("");
+	const { filter, updateFilter, filteredItems, averagePrice } = useItem();
 	const { theme } = useTheme();
-
-	const filteredItems = useMemo(
-		() =>
-			items.filter(
-				(item) =>
-					item.name.toLowerCase().includes(filter.toLowerCase()) ||
-					item.category.toLowerCase().includes(filter.toLowerCase())
-			),
-		[items, filter]
-	);
-
-	const averagePrice = useMemo(
-		() => items.reduce((sum, item) => sum + item.price, 0) / items.length,
-		[items]
-	);
 
 	return (
 		<div className="mt-8">
@@ -182,7 +220,7 @@ export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
 				type="text"
 				placeholder="상품 검색..."
 				value={filter}
-				onChange={(e) => setFilter(e.target.value)}
+				onChange={(e) => updateFilter(e.target.value)}
 				className="w-full p-2 mb-4 border border-gray-300 rounded text-black"
 			/>
 			<p className="mb-4">평균 가격: {averagePrice.toLocaleString()}원</p>
@@ -325,34 +363,32 @@ export const NotificationSystem: React.FC = () => {
 };
 
 const AppContent: React.FC = () => {
-	const [items] = useState(generateItems(10000));
-	const { theme } = useTheme();
-
 	return (
-		<div className={`min-h-screen ${theme === "light" ? "bg-gray-100" : "bg-gray-900 text-white"}`}>
+		<>
 			<Header />
 			<div className="container mx-auto px-4 py-8">
 				<div className="flex flex-col md:flex-row">
 					<div className="w-full md:w-1/2 md:pr-4">
-						<ItemList items={items} />
+						<ItemList />
 					</div>
 					<div className="w-full md:w-1/2 md:pl-4">
 						<ComplexForm />
 					</div>
 				</div>
 			</div>
-			<NotificationSystem />
-		</div>
+		</>
 	);
 };
 const App: React.FC = () => {
 	return (
 		<ThemeProvider>
-			<UserProvider>
-				<NotificationProvider>
-					<AppContent />
-				</NotificationProvider>
-			</UserProvider>
+			<NotificationProvider>
+				<UserProvider>
+					<ItemProvider>
+						<AppContent />
+					</ItemProvider>
+				</UserProvider>
+			</NotificationProvider>
 		</ThemeProvider>
 	);
 };
