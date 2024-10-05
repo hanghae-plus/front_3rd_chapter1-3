@@ -34,18 +34,10 @@ interface NotificationContextType {
 	addNotification: (message: string, type: Notification["type"]) => void;
 	removeNotification: (id: number) => void;
 }
-interface ItemContextType {
-	items: Item[];
-	filter: string;
-	updateFilter: (filter: string) => void;
-	filteredItems: Item[];
-	averagePrice: number;
-}
 
 const ThemeContext = createContext<ThemeContextType | null>(null);
 const UserContext = createContext<UserContextType | null>(null);
 const NotificationContext = createContext<NotificationContextType | null>(null);
-const ItemContext = createContext<ItemContextType | null>(null);
 
 const useTheme = () => {
 	const context = useContext(ThemeContext);
@@ -60,11 +52,6 @@ const useUser = () => {
 const useNotification = () => {
 	const context = useContext(NotificationContext);
 	if (!context) throw new Error("useNotification must be used within a NotificationProvider");
-	return context;
-};
-const useItem = () => {
-	const context = useContext(ItemContext);
-	if (!context) throw new Error("useItem must be used within a ItemProvider");
 	return context;
 };
 
@@ -134,33 +121,6 @@ const NotificationProvider: React.FC<PropsWithChildren> = ({ children }) => {
 		</NotificationContext.Provider>
 	);
 };
-const ItemProvider: React.FC<PropsWithChildren> = ({ children }) => {
-	const [items] = useState(useMemo(() => generateItems(10000), []));
-	const [filter, setFilter] = useState("");
-
-	const updateFilter = useCallback((filter) => {
-		setFilter(filter);
-	}, []);
-	const filteredItems = useMemo(
-		() =>
-			items.filter(
-				(item) =>
-					item.name.toLowerCase().includes(filter.toLowerCase()) ||
-					item.category.toLowerCase().includes(filter.toLowerCase())
-			),
-		[items, filter]
-	);
-	const averagePrice = useMemo(
-		() => items.reduce((sum, item) => sum + item.price, 0) / items.length,
-		[items]
-	);
-
-	const value = useMemo(
-		() => ({ items, filter, updateFilter, filteredItems, averagePrice }),
-		[items, filter, updateFilter, filteredItems, averagePrice]
-	);
-	return <ItemContext.Provider value={value}>{children}</ItemContext.Provider>;
-};
 
 // Header 컴포넌트
 export const Header: React.FC = () => {
@@ -208,10 +168,28 @@ export const Header: React.FC = () => {
 	);
 };
 // ItemList 컴포넌트
-export const ItemList: React.FC = () => {
+export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
 	renderLog("ItemList rendered");
-	const { filter, updateFilter, filteredItems, averagePrice } = useItem();
 	const { theme } = useTheme();
+
+	const [filter, setFilter] = useState("");
+
+	const updateFilter = useCallback((filter) => {
+		setFilter(filter);
+	}, []);
+	const filteredItems = useMemo(
+		() =>
+			items.filter(
+				(item) =>
+					item.name.toLowerCase().includes(filter.toLowerCase()) ||
+					item.category.toLowerCase().includes(filter.toLowerCase())
+			),
+		[items, filter]
+	);
+	const averagePrice = useMemo(
+		() => items.reduce((sum, item) => sum + item.price, 0) / items.length,
+		[items]
+	);
 
 	return (
 		<div className="mt-8">
@@ -363,13 +341,15 @@ export const NotificationSystem: React.FC = () => {
 };
 
 const AppContent: React.FC = () => {
+	const [items] = useState(useMemo(() => generateItems(10000), []));
+
 	return (
 		<>
 			<Header />
 			<div className="container mx-auto px-4 py-8">
 				<div className="flex flex-col md:flex-row">
 					<div className="w-full md:w-1/2 md:pr-4">
-						<ItemList />
+						<ItemList items={items} />
 					</div>
 					<div className="w-full md:w-1/2 md:pl-4">
 						<ComplexForm />
@@ -384,9 +364,7 @@ const App: React.FC = () => {
 		<ThemeProvider>
 			<NotificationProvider>
 				<UserProvider>
-					<ItemProvider>
-						<AppContent />
-					</ItemProvider>
+					<AppContent />
 				</UserProvider>
 			</NotificationProvider>
 		</ThemeProvider>
