@@ -1,39 +1,15 @@
 import React, { useState, createContext, useContext, PropsWithChildren } from "react";
 import { generateItems, renderLog } from "./utils";
 import { useCallback, useMemo } from "./@lib";
-
-type Theme = "light" | "dark";
-interface Item {
-	id: number;
-	name: string;
-	category: string;
-	price: number;
-}
-interface User {
-	id: number;
-	name: string;
-	email: string;
-}
-interface Notification {
-	id: number;
-	message: string;
-	type: "info" | "success" | "warning" | "error";
-}
-
-interface ThemeContextType {
-	theme: Theme;
-	toggleTheme: () => void;
-}
-interface UserContextType {
-	user: User | null;
-	login: (email: string, password: string) => void;
-	logout: () => void;
-}
-interface NotificationContextType {
-	notifications: Notification[];
-	addNotification: (message: string, type: Notification["type"]) => void;
-	removeNotification: (id: number) => void;
-}
+import {
+	Item,
+	Notification,
+	NotificationContextType,
+	Theme,
+	ThemeContextType,
+	User,
+	UserContextType,
+} from "./types";
 
 const ThemeContext = createContext<ThemeContextType | null>(null);
 const UserContext = createContext<UserContextType | null>(null);
