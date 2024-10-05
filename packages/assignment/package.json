@@ -7,7 +7,10 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint ./",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:basic": "vitest basic.test",
+    "test:advanced": "vitest advanced.test"
   },
   "dependencies": {
     "react": "^18.3.1",
