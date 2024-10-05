@@ -7,10 +7,13 @@ import * as utils from '../utils';
 const renderLogMock = vi.fn(msg => console.log(msg));
 vi.spyOn(utils, 'renderLog').mockImplementation(renderLogMock);
 
+const generateItemsSpy = vi.spyOn(utils, 'generateItems');
+
 describe('최적화된 App 컴포넌트 테스트', () => {
 
   beforeEach(() => {
     renderLogMock.mockClear();
+    generateItemsSpy.mockClear();
   });
 
   it('초기 렌더링 시 모든 컴포넌트가 한 번씩 렌더링되어야 한다', () => {
@@ -155,5 +158,7 @@ describe('최적화된 App 컴포넌트 테스트', () => {
     expect(renderLogMock).toHaveBeenCalledWith('NotificationSystem rendered');
     expect(renderLogMock).toHaveBeenCalledWith('ComplexForm rendered');
     expect(renderLogMock).toHaveBeenCalledTimes(2);
+
+    expect(generateItemsSpy).toHaveBeenCalledTimes(1);
   });
 });
