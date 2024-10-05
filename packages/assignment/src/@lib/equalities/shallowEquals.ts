@@ -4,7 +4,7 @@ export function shallowEquals(objA: any, objB: any): boolean {
 
 	if (objA === objB) return true;
 
-	if (Array.isArray(objA) && Array.isArray(objB)) {
+	if (Array.isArray(objA)) {
 		return objA.filter((item) => objB.includes(item)).length === objA.length;
 	}
 
