@@ -1,82 +1,9 @@
-import React, { useState, PropsWithChildren } from "react";
+import React, { useState } from "react";
 import { generateItems, renderLog } from "./utils";
 import { useCallback, useMemo } from "./@lib";
-import { Item, Notification, Theme, User } from "./types";
-import {
-	NotificationContext,
-	ThemeContext,
-	useNotification,
-	UserContext,
-	useTheme,
-	useUser,
-} from "./context";
-
-const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
-	const [theme, setTheme] = useState<Theme>("light");
-	const toggleTheme = useCallback(() => {
-		setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
-	}, []);
-	const value = useMemo(() => ({ theme, toggleTheme }), [theme, toggleTheme]);
-	return (
-		<ThemeContext.Provider value={value}>
-			<div
-				className={`min-h-screen ${theme === "light" ? "bg-gray-100" : "bg-gray-900 text-white"}`}
-			>
-				{children}
-			</div>
-		</ThemeContext.Provider>
-	);
-};
-const UserProvider: React.FC<PropsWithChildren> = ({ children }) => {
-	const { addNotification } = useNotification();
-
-	const [user, setUser] = useState<User | null>(null);
-	const login = useCallback(
-		(email: string) => {
-			setUser({ id: 1, name: "홍길동", email });
-			addNotification("성공적으로 로그인되었습니다", "success");
-		},
-		[addNotification]
-	);
-	const logout = useCallback(() => {
-		setUser(null);
-		addNotification("로그아웃되었습니다", "info");
-	}, [addNotification]);
-	const value = useMemo(() => ({ user, login, logout }), [user, login, logout]);
-	return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
-};
-const NotificationProvider: React.FC<PropsWithChildren> = ({ children }) => {
-	const [notifications, setNotifications] = useState<Notification[]>([]);
-
-	const addNotification = useCallback((message: string, type: Notification["type"]) => {
-		const newNotification: Notification = {
-			id: Date.now(),
-			message,
-			type,
-		};
-		setNotifications((prev) => [...prev, newNotification]);
-	}, []);
-
-	const removeNotification = useCallback((id: number) => {
-		setNotifications((prev) => prev.filter((notification) => notification.id !== id));
-	}, []);
-
-	const value = useMemo(
-		() => ({
-			notifications,
-			addNotification,
-			removeNotification,
-		}),
-		[notifications, addNotification, removeNotification]
-	);
-
-	return (
-		<NotificationContext.Provider value={value}>
-			<NotificationSystem />
-			{children}
-		</NotificationContext.Provider>
-	);
-};
+import { Item } from "./types";
+import { useNotification, useTheme, useUser } from "./context";
+import { NotificationProvider, ThemeProvider, UserProvider } from "./providers";
 
 // Header 컴포넌트
 export const Header: React.FC = () => {
@@ -260,38 +187,6 @@ export const ComplexForm: React.FC = () => {
 					제출
 				</button>
 			</form>
-		</div>
-	);
-};
-// NotificationSystem 컴포넌트
-export const NotificationSystem: React.FC = () => {
-	renderLog("NotificationSystem rendered");
-	const { notifications, removeNotification } = useNotification();
-
-	return (
-		<div className="fixed bottom-4 right-4 space-y-2">
-			{notifications.map((notification) => (
-				<div
-					key={notification.id}
-					className={`p-4 rounded shadow-lg ${
-						notification.type === "success"
-							? "bg-green-500"
-							: notification.type === "error"
-							? "bg-red-500"
-							: notification.type === "warning"
-							? "bg-yellow-500"
-							: "bg-blue-500"
-					} text-white`}
-				>
-					{notification.message}
-					<button
-						onClick={() => removeNotification(notification.id)}
-						className="ml-4 text-white hover:text-gray-200"
-					>
-						닫기
-					</button>
-				</div>
-			))}
 		</div>
 	);
 };
