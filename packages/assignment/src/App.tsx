@@ -9,13 +9,11 @@ interface Item {
 	category: string;
 	price: number;
 }
-
 interface User {
 	id: number;
 	name: string;
 	email: string;
 }
-
 interface Notification {
 	id: number;
 	message: string;
@@ -26,13 +24,11 @@ interface ThemeContextType {
 	theme: Theme;
 	toggleTheme: () => void;
 }
-
 interface UserContextType {
 	user: User | null;
 	login: (email: string, password: string) => void;
 	logout: () => void;
 }
-
 interface NotificationContextType {
 	notifications: Notification[];
 	addNotification: (message: string, type: Notification["type"]) => void;
@@ -67,7 +63,6 @@ const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const value = useMemo(() => ({ theme, toggleTheme }), [theme, toggleTheme]);
 	return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 };
-
 const UserProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const [user, setUser] = useState<User | null>(null);
 	const login = useCallback((email: string) => {
@@ -79,7 +74,6 @@ const UserProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const value = useMemo(() => ({ user, login, logout }), [user, login, logout]);
 	return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
-
 const NotificationProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const [notifications, setNotifications] = useState<Notification[]>([]);
 
@@ -160,7 +154,6 @@ export const Header: React.FC = () => {
 		</header>
 	);
 };
-
 // ItemList 컴포넌트
 export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
 	renderLog("ItemList rendered");
@@ -211,7 +204,6 @@ export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
 		</div>
 	);
 };
-
 // ComplexForm 컴포넌트
 export const ComplexForm: React.FC = () => {
 	renderLog("ComplexForm rendered");
@@ -299,7 +291,6 @@ export const ComplexForm: React.FC = () => {
 		</div>
 	);
 };
-
 // NotificationSystem 컴포넌트
 export const NotificationSystem: React.FC = () => {
 	renderLog("NotificationSystem rendered");
@@ -354,7 +345,6 @@ const AppContent: React.FC = () => {
 		</div>
 	);
 };
-
 const App: React.FC = () => {
 	return (
 		<ThemeProvider>
