@@ -1,35 +1,15 @@
-import React, { useState, createContext, useContext, PropsWithChildren } from "react";
+import React, { useState, PropsWithChildren } from "react";
 import { generateItems, renderLog } from "./utils";
 import { useCallback, useMemo } from "./@lib";
+import { Item, Notification, Theme, User } from "./types";
 import {
-	Item,
-	Notification,
-	NotificationContextType,
-	Theme,
-	ThemeContextType,
-	User,
-	UserContextType,
-} from "./types";
-
-const ThemeContext = createContext<ThemeContextType | null>(null);
-const UserContext = createContext<UserContextType | null>(null);
-const NotificationContext = createContext<NotificationContextType | null>(null);
-
-const useTheme = () => {
-	const context = useContext(ThemeContext);
-	if (!context) throw new Error("useTheme must be used within a ThemeProvider");
-	return context;
-};
-const useUser = () => {
-	const context = useContext(UserContext);
-	if (!context) throw new Error("useUser must be used within a UserProvider");
-	return context;
-};
-const useNotification = () => {
-	const context = useContext(NotificationContext);
-	if (!context) throw new Error("useNotification must be used within a NotificationProvider");
-	return context;
-};
+	NotificationContext,
+	ThemeContext,
+	useNotification,
+	UserContext,
+	useTheme,
+	useUser,
+} from "./context";
 
 const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
 	const [theme, setTheme] = useState<Theme>("light");
