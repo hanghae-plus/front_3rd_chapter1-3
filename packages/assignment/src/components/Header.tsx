@@ -1,5 +1,5 @@
-import { memo, useCallback } from "../@lib";
-import { useThemeContext, useUserContext } from "../context/hooks";
+import { useCallback } from "../@lib";
+import { useThemeContext, useUserContext } from "../context";
 import { renderLog } from "../utils";
 
 // Header 컴포넌트

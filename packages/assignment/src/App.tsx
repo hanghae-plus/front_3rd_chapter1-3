@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { renderLog } from "./utils";
-import { AppProvider } from "./context/AppProvider";
 import Header from "./components/Header";
 import {
   useItemsContext,
   useNotificationContext,
   useThemeContext,
-} from "./context/hooks";
+  AppProvider,
+} from "./context";
 
 // ItemList 컴포넌트
 export const ItemList: React.FC = () => {

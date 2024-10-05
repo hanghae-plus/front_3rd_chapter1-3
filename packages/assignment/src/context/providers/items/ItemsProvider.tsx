@@ -1,26 +1,9 @@
-import { createContext, useState } from "react";
-import { useCallback, useMemo } from "../@lib";
-import { generateItems } from "../utils";
+import { useState } from "react";
+import { useCallback, useMemo } from "../../../@lib";
+import { generateItems } from "../../../utils";
+import { ItemsContext, ItemsContextType } from "./ItemsContext";
 
 // 타입 정의
-interface Item {
-  id: number;
-  name: string;
-  category: string;
-  price: number;
-}
-
-interface ItemsContextType {
-  filter: string;
-  handleSetFilter: (filter: string) => void;
-  filteredItems: Item[];
-  averagePrice: number;
-  addItem: (item: Item) => void;
-}
-
-export const ItemsContext = createContext<ItemsContextType | undefined>(
-  undefined
-);
 
 type ItemsProviderProps = {
   children: React.ReactNode;
@@ -30,7 +13,7 @@ export const ItemsProvider = ({ children }: ItemsProviderProps) => {
   const [filter, setFilter] = useState("");
 
   const initialItems = useMemo(() => generateItems(100000), []);
-  const [items, setItems] = useState<Item[]>(initialItems);
+  const [items, setItems] = useState(initialItems);
 
   const handleSetFilter = useCallback((filter: string) => {
     setFilter(filter);
@@ -51,19 +34,20 @@ export const ItemsProvider = ({ children }: ItemsProviderProps) => {
     [items]
   );
 
-  const addItem = useCallback((item: Item) => {
+  const addItem = useCallback((item: ItemsContextType["items"][number]) => {
     setItems((prev) => [...prev, item]);
   }, []);
 
-  const values = useMemo(
+  const values: ItemsContextType = useMemo(
     () => ({
       addItem,
       handleSetFilter,
       filter,
+      items,
       filteredItems,
       averagePrice,
     }),
-    [filter, handleSetFilter, filteredItems, averagePrice, addItem]
+    [filter, handleSetFilter, filteredItems, averagePrice, addItem, items]
   );
 
   return (

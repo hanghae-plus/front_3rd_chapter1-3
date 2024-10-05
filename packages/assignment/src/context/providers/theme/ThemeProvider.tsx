@@ -1,23 +1,13 @@
-import { createContext, useState } from "react";
-import { useCallback, useMemo } from "../@lib";
-
-type ThemeType = "light" | "dark";
-
-interface ThemeContextType {
-  theme: ThemeType;
-  toggleTheme: () => void;
-}
-
-export const ThemeContext = createContext<ThemeContextType | undefined>(
-  undefined
-);
+import { useState } from "react";
+import { useCallback, useMemo } from "../../../@lib";
+import { ThemeContext, ThemeContextType } from "./ThemeContext";
 
 type ThemeProviderProps = {
   children: React.ReactNode;
 };
 
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
-  const [theme, setTheme] = useState<ThemeType>("light");
+  const [theme, setTheme] = useState<ThemeContextType["theme"]>("light");
 
   const toggleTheme = useCallback(() => {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));

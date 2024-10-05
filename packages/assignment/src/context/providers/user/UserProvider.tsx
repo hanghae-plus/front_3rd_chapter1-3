@@ -1,22 +1,7 @@
-import { createContext, useState } from "react";
-import { useCallback, useMemo } from "../@lib";
-import { useNotificationContext } from "./hooks";
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-}
-
-interface UserContextType {
-  user: User | null;
-  login: (email: string) => void;
-  logout: () => void;
-}
-
-export const UserContext = createContext<UserContextType | undefined>(
-  undefined
-);
+import { useState } from "react";
+import { useCallback, useMemo } from "../../../@lib";
+import { useNotificationContext } from "../notification/useNotificationContext";
+import { UserContext, UserContextType } from "./UserContext";
 
 type ThemeProviderProps = {
   children: React.ReactNode;
@@ -24,7 +9,7 @@ type ThemeProviderProps = {
 
 export const UserProvider = ({ children }: ThemeProviderProps) => {
   const { addNotification } = useNotificationContext();
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserContextType["user"] | null>(null);
 
   const login = useCallback(
     (email: string) => {
