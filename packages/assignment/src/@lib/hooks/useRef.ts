@@ -1,4 +1,9 @@
-export function useRef<T>(initialValue: T): { current: T } {
+import { useState } from "react";
+
+type Ref<T> = { current: T | null };
+export function useRef<T>(initialValue: T | null): Ref<T> {
   // React의 useState를 이용해서 만들어보세요.
-  return { current: initialValue };
+  const [ref] = useState<Ref<T>>({ current: initialValue });
+
+  return ref;
 }
