@@ -9,9 +9,7 @@ type ItemsProviderProps = {
 
 export const ItemsProvider = ({ children }: ItemsProviderProps) => {
   const [filter, setFilter] = useState("");
-
-  const initialItems = useMemo(() => generateItems(100000), []);
-  const [items, setItems] = useState(initialItems);
+  const [items, setItems] = useState(() => generateItems(100000));
 
   const handleSetFilter = useCallback((filter: string) => {
     setFilter(filter);
