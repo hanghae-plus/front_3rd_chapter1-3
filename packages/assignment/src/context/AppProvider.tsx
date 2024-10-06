@@ -1,7 +1,9 @@
-import { ItemsProvider } from "./providers/items/ItemsProvider";
-import { NotificationProvider } from "./providers/notification/NotificationProvider";
-import { ThemeProvider } from "./providers/theme/ThemeProvider";
-import { UserProvider } from "./providers/user/UserProvider";
+import {
+  NotificationProvider,
+  ThemeProvider,
+  UserProvider,
+  ItemsProvider,
+} from "./providers";
 
 type AppProviderProps = {
   children: React.ReactNode;

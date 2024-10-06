@@ -1,9 +1,7 @@
 import { useState } from "react";
-import { useCallback, useMemo } from "../../../@lib";
-import { generateItems } from "../../../utils";
+import { useCallback, useMemo } from "@/@lib";
+import { generateItems } from "@/utils";
 import { ItemsContext, ItemsContextType } from "./ItemsContext";
-
-// 타입 정의
 
 type ItemsProviderProps = {
   children: React.ReactNode;

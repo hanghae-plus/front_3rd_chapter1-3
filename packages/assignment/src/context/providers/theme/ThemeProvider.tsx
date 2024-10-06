@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useCallback, useMemo } from "../../../@lib";
+import { useCallback, useMemo } from "@/@lib";
 import { ThemeContext, ThemeContextType } from "./ThemeContext";
 
 type ThemeProviderProps = {

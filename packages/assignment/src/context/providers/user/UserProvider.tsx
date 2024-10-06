@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useCallback, useMemo } from "../../../@lib";
-import { useNotificationContext } from "../notification/useNotificationContext";
+import { useCallback, useMemo } from "@/@lib";
+import { useNotificationContext } from "@/context/providers/notification/useNotificationContext";
 import { UserContext, UserContextType } from "./UserContext";
 
 type ThemeProviderProps = {

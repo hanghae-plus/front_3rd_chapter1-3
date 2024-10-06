@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import { renderLog } from "./utils";
-import Header from "./components/Header";
+import { renderLog } from "@/utils";
+import Header from "@/components/Header";
 import {
   useItemsContext,
   useNotificationContext,
   useThemeContext,
   AppProvider,
-} from "./context";
+} from "@/context";
 
-// ItemList 컴포넌트
 export const ItemList: React.FC = () => {
   renderLog("ItemList rendered");
   const { theme } = useThemeContext();
