@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function deepEquals(objA: any, objB: any): boolean {
+export function deepEquals(objA: unknown, objB: unknown): boolean {
   if (objA === objB) {
     return true;
   }
@@ -13,31 +12,20 @@ export function deepEquals(objA: any, objB: any): boolean {
     return false;
   }
 
-  if (Array.isArray(objA) && Array.isArray(objB)) {
-    if (objA.length !== objB.length) {
-      return false;
-    }
+  const _objA = objA as Record<string, unknown>;
+  const _objB = objB as Record<string, unknown>;
 
-    for (let i = 0; i < objA.length; i++) {
-      if (!deepEquals(objA[i], objB[i])) {
-        return false;
-      }
-    }
-    return true;
-  } else {
-    // 진짜 객체일 경우에만 남음 {}
-    const keysA = Object.keys(objA);
-    const keysB = Object.keys(objB);
+  const keysA = Object.keys(_objA);
+  const keysB = Object.keys(_objB);
 
-    if (keysA.length !== keysB.length) {
-      return false;
-    }
-
-    for (const key of keysA) {
-      if (!keysB.includes(key) || !deepEquals(objA[key], objB[key])) {
-        return false;
-      }
-    }
-    return true;
+  if (keysA.length !== keysB.length) {
+    return false;
   }
+
+  for (const key of keysA) {
+    if (!deepEquals(_objA[key], _objB[key])) {
+      return false;
+    }
+  }
+  return true;
 }

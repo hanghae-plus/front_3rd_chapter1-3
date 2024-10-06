@@ -15,8 +15,12 @@ export function shallowEquals(objA: unknown, objB: unknown): boolean {
   }
 
   // 3. 객체의 키 개수가 다른 경우 처리
-  const keysA = Object.keys(objA);
-  const keysB = Object.keys(objB);
+
+  const _objA = objA as Record<string, unknown>;
+  const _objB = objB as Record<string, unknown>;
+
+  const keysA = Object.keys(_objA);
+  const keysB = Object.keys(_objB);
 
   if (keysA.length !== keysB.length) {
     return false;
@@ -24,10 +28,7 @@ export function shallowEquals(objA: unknown, objB: unknown): boolean {
 
   // 4. 모든 키에 대해 얕은 비교 수행
   for (const key of keysA) {
-    if (
-      (objA as Record<string, unknown>)[key] !==
-      (objB as Record<string, unknown>)[key]
-    ) {
+    if (_objA[key] !== _objB[key]) {
       return false;
     }
   }
