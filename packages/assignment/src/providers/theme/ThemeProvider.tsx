@@ -1,6 +1,6 @@
 import React, { useState, createContext, useContext } from "react";
-import { useCallback } from "../../@lib/hooks/useCallback";
-import { useMemo } from "../../@lib/hooks/useMemo";
+import { useCallback } from "@/@lib/hooks/useCallback";
+import { useMemo } from "@/@lib/hooks/useMemo";
 
 interface ThemeContextType {
   theme: string;

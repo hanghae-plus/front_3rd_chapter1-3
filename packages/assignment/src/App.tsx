@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { NotificationProvider } from "./providers/notification/NotificationProvider";
-import { ThemeProvider } from "./providers/theme/ThemeProvider";
-import { UserProvider } from "./providers/user/UserProvider";
-import ComplexForm from "./components/ComplexForm";
-import Header from "./components/Header";
-import ItemList from "./components/ItemList";
-import NotificationSystem from "./components/NotificationSystem";
-import WrapperComponent from "./components/WrapperComponent";
-import { generateItems } from "./utils";
+import { NotificationProvider } from "@/providers/notification/NotificationProvider";
+import { ThemeProvider } from "@/providers/theme/ThemeProvider";
+import { UserProvider } from "@/providers/user/UserProvider";
+import ComplexForm from "@/components/ComplexForm";
+import Header from "@/components/Header";
+import ItemList from "@/components/ItemList";
+import NotificationSystem from "@/components/NotificationSystem";
+import WrapperComponent from "@/components/WrapperComponent";
+import { generateItems } from "@/utils";
 
 const App: React.FC = () => {
   const [items] = useState(generateItems(10000));

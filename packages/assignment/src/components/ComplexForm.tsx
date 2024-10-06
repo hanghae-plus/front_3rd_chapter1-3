@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useCallback } from "../@lib/hooks/useCallback";
-import { useNotificationContext } from "../providers/notification/NotificationProvider";
-import { renderLog } from "../utils";
+import { useCallback } from "@/@lib/hooks/useCallback";
+import { useNotificationContext } from "@/providers/notification/NotificationProvider";
+import { renderLog } from "@/utils";
 
 const ComplexForm: React.FC = () => {
   renderLog("ComplexForm rendered");

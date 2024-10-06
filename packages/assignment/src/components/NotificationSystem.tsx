@@ -1,5 +1,5 @@
-import { useNotificationContext } from "../providers/notification/NotificationProvider";
-import { renderLog } from "../utils";
+import { useNotificationContext } from "@/providers/notification/NotificationProvider";
+import { renderLog } from "@/utils";
 
 const NotificationSystem: React.FC = () => {
   renderLog("NotificationSystem rendered");

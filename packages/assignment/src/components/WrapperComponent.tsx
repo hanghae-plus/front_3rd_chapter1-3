@@ -1,4 +1,4 @@
-import { useThemeContext } from "../providers/theme/ThemeProvider";
+import { useThemeContext } from "@/providers/theme/ThemeProvider";
 
 const WrapperComponent = ({ children }: React.ReactNode) => {
   const { theme } = useThemeContext();

@@ -1,6 +1,6 @@
-import { useThemeContext } from "../providers/theme/ThemeProvider";
-import { useUserContext } from "../providers/user/UserProvider";
-import { renderLog } from "../utils";
+import { useThemeContext } from "@/providers/theme/ThemeProvider";
+import { useUserContext } from "@/providers/user/UserProvider";
+import { renderLog } from "@/utils";
 
 const Header: React.FC = () => {
   renderLog("Header rendered");
