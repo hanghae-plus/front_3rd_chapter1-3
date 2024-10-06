@@ -17,5 +17,5 @@ export function useMemo<T>(factory: () => T, deps: DependencyList, equals = shal
     return result;
   }
 
-  return prev.current.result!;
+  return prev.current.result as T;
 }
