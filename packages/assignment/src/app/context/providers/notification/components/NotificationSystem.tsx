@@ -1,4 +1,4 @@
-import { renderLog } from "../../../../utils";
+import { renderLog } from "../../../../../utils";
 import { useNotificationContext } from "../useNotificationContext";
 
 // NotificationSystem 컴포넌트
