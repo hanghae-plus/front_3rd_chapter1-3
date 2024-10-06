@@ -1,50 +1,37 @@
-# React + TypeScript + Vite
+# 기본 과제 관련 메모
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+1. package.json
 
-Currently, two official plugins are available:
+   - "main": "index.js", // 프로젝트에 index.js가 없음
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+2. tsconfig
 
-## Expanding the ESLint configuration
+   - Cannot find type definition file for 'estree'. The file is in the program because: Entry point for implicit type library 'estree'ts
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+3. shallowEquals 관련 시행착오
 
-- Configure the top-level `parserOptions` property like this:
+```ts
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function shallowEquals(objA: any, objB: any): boolean {
+  if (objA === objB) return true;
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+  // TODO: typeof null은 'object'를 반환하므로, 미리 체크하는 로직을 추가하는 것이 좋음
+  if (objA === null || objB === null) return false;
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+  if (typeof objA !== 'object' || typeof objB !== 'object') {
+    return false;
+  }
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+  const keysA = Object.keys(objA);
+  const keysB = Object.keys(objB);
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+  // TODO: length 속성은 배열에만 적용되므로 객체 비교시에는 length 체크가 잘못된 결과를 줄 수 있음
+  if (keysA.length !== keysB.length) return false;
+
+  // TODO: Object.entries는 객체의 자체 속성만을 순회하므로, 상속된 속성은 포함되지 않습니다.
+  return Object.entries(objA).every(([key, value]) => {
+    // TODO: https://eslint.org/docs/latest/rules/no-prototype-builtins
+    return Object.hasOwnProperty.call(objB, key) && objB[key] === value;
+  });
+}
 ```
