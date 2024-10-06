@@ -1,6 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function shallowEquals(objA: any, objB: any): boolean {
-  console.log("objA:", typeof objA, objA, "objB:", typeof objB, objB);
   // 1. 두 값이 정확히 같은지 확인 (참조가 같은 경우)
   if (objA === objB) return true;
 
