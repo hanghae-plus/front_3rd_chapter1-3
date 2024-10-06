@@ -4,11 +4,7 @@
 
    - "main": "index.js", // 프로젝트에 index.js가 없음
 
-2. tsconfig
-
-   - Cannot find type definition file for 'estree'. The file is in the program because: Entry point for implicit type library 'estree'ts
-
-3. shallowEquals 관련 시행착오
+2. shallowEquals 관련 시행착오
 
 ```ts
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

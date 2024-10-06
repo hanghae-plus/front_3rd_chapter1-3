@@ -26,7 +26,7 @@ export function shallowEquals(objA: any, objB: any): boolean {
     const currentKey = keysA[i];
 
     if (
-      !Object.hasOwnProperty.call(objB, currentKey) ||
+      !Object.prototype.hasOwnProperty.call(objB, currentKey) ||
       objA[currentKey] !== objB[currentKey]
     ) {
       return false;
