@@ -12,7 +12,7 @@ export function useMemo<T>(
 ): T {
   const prefRef = useRef<{ value: T; deps: DependencyList } | null>(null);
 
-  if (prefRef.current === null || !equals(deps, prefRef.current?.deps)) {
+  if (prefRef.current === null || !equals(deps, prefRef.current.deps)) {
     prefRef.current = { value: factory(), deps };
   }
 
