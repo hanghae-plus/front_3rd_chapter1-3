@@ -1,5 +1,6 @@
-import React, { useState, createContext, useContext } from 'react';
+import React, { useState, createContext, useContext, PropsWithChildren } from 'react';
 import { generateItems, renderLog } from './utils';
+import { memo, useCallback, useMemo } from './@lib';
 
 // 타입 정의
 interface Item {
@@ -33,7 +34,42 @@ interface AppContextType {
   removeNotification: (id: number) => void;
 }
 
+interface ThemeContextType {
+  theme: 'dark' | 'light';
+  toggleTheme: () => void;
+}
+// interface UserContextType {
+//   user: User | null;
+//   login: (email: string, password: string) => void;
+//   logout: () => void;
+// }
+
+// Provider 컴포넌트
+const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
+  const [theme, setTheme] = useState<ThemeContextType['theme']>('light');
+  const toggleTheme = useCallback(() => {
+    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+  }, []);
+  const value = useMemo(() => ({ theme, toggleTheme }), [theme, toggleTheme]);
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+};
+
+// const UserProvider: React.FC<PropsWithChildren> = ({ children }) => {
+//   const [user, setUser] = useState<User | null>(null);
+//   const login = useCallback((name: string, email: string) => {
+//     setUser({ name, email });
+//   }, []);
+//   const logout = useCallback(() => {
+//     setUser(null);
+//   }, []);
+//   const value = useMemo(() => ({ user, login, logout }), [user, login, logout]);
+//   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+// };
+
+
 const AppContext = createContext<AppContextType | undefined>(undefined);
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+// const UserContext = createContext<UserContextType | undefined>(undefined);
 
 // 커스텀 훅: useAppContext
 const useAppContext = () => {
@@ -43,11 +79,18 @@ const useAppContext = () => {
   }
   return context;
 };
-
+const useTheme = () => {
+  const context = useContext(ThemeContext);
+  if (context === undefined) {
+    throw new Error('useTheme must be used within an AppProvider');
+  }
+  return context;
+};
 // Header 컴포넌트
-export const Header: React.FC = () => {
+export const Header: React.FC = memo(() => {
   renderLog('Header rendered');
-  const { theme, toggleTheme, user, login, logout } = useAppContext();
+  const { user, login, logout } = useAppContext();
+  const { theme, toggleTheme } = useTheme();
 
   const handleLogin = () => {
     // 실제 애플리케이션에서는 사용자 입력을 받아야 합니다.
@@ -74,7 +117,7 @@ export const Header: React.FC = () => {
       </div>
     </header>
   );
-};
+});
 
 // ItemList 컴포넌트
 export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
@@ -267,6 +310,7 @@ const App: React.FC = () => {
 
   return (
     <AppContext.Provider value={contextValue}>
+      <ThemeProvider>
       <div className={`min-h-screen ${theme === 'light' ? 'bg-gray-100' : 'bg-gray-900 text-white'}`}>
         <Header />
         <div className="container mx-auto px-4 py-8">
@@ -281,6 +325,7 @@ const App: React.FC = () => {
         </div>
         <NotificationSystem />
       </div>
+      </ThemeProvider>
     </AppContext.Provider>
   );
 };
