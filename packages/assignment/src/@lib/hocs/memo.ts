@@ -12,13 +12,14 @@ export function memo<P extends object>(
 	equals = shallowEquals
 ) {
 	return function (currentProps: any) {
-		if (previousProps && !equals(previousProps, currentProps)) {
+		if (equals(previousProps, currentProps)) {
+			previousProps = currentProps;
 			return previousComponent;
 		}
 
 		previousProps = currentProps;
 
-		if (typeof Component === "function") {
+		if (typeof Component === "function" && previousProps) {
 			previousComponent = (Component as FunctionComponent)(currentProps);
 		}
 

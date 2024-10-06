@@ -10,6 +10,9 @@ export function shallowEquals(objA: any, objB: any): boolean {
 	}
 
 	if (typeof objA === "object") {
+		if (typeof objB !== "object") return false;
+		if (objA === null || objB === null) return false;
+
 		const intersection = [];
 		const keys = Object.keys(objB);
 
