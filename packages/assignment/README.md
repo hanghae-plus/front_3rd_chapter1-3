@@ -31,3 +31,35 @@ export function shallowEquals(objA: any, objB: any): boolean {
   });
 }
 ```
+
+3. deepEquals 관련 시행착오
+
+4. memo 관련 시행착오
+
+- 생각의 전환을 하는 것 -> 순서를 전환하는 것이 어려웠다
+
+  ```ts
+  import { ComponentType, useRef } from 'react';
+  import { shallowEquals } from '../equalities';
+
+  export function memo<P extends object>(
+    Component: ComponentType<P>,
+    equals = shallowEquals
+  ) {
+    return function MemoizedComponent(props: P) {
+      const prevProps = useRef<P | null>(null);
+
+      const isEqual = prevProps.current && equals(prevProps.current, props);
+
+      // props가 동일하면 이전 렌더링 결과 반환
+      // TODO: null로 하면 테코 통과되는데, 왜 ..
+      if (isEqual) {
+        return null;
+        // return <Component {...prevProps.current} />;
+      }
+
+      prevProps.current = props;
+      return <Component {...props} />;
+    };
+  }
+  ```
