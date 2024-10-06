@@ -10,8 +10,9 @@ export function useMemo<T>(
   // 직접 작성한 useRef를 통해서 만들어보세요.
   const factoryRef = useRef<T>(null);
   const depsRef = useRef<DependencyList>(null);
+  const { current } = depsRef;
 
-  const isDepsEquals = equals(depsRef.current, deps);
+  const isDepsEquals = current !== null && equals(depsRef.current, deps);
 
   if (!isDepsEquals) {
     factoryRef.current = factory();
