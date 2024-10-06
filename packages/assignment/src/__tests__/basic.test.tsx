@@ -427,255 +427,255 @@ describe("Chapter 1-3 기본과제: hooks 구현하기 > ", () => {
 		});
 	});
 
-	// describe("custom hook 만들어보기", () => {
-	// 	describe("useMemo의 deps 비교 함수를 주입받아서 사용할 수 있다.", () => {
-	// 		const mockFactory = vi.fn();
+	describe("custom hook 만들어보기", () => {
+		describe("useMemo의 deps 비교 함수를 주입받아서 사용할 수 있다.", () => {
+			const mockFactory = vi.fn();
 
-	// 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	// 		const TestComponent = forwardRef<
-	// 			{ updateDeps: (newDeps: any[]) => void },
-	// 			{
-	// 				initialDeps: unknown[];
-	// 				equals?: typeof Object.is;
-	// 			}
-	// 		>(({ initialDeps, equals }, ref) => {
-	// 			const [deps, setDeps] = useState(initialDeps);
-	// 			const [, setRenderCount] = useState(0);
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			const TestComponent = forwardRef<
+				{ updateDeps: (newDeps: any[]) => void },
+				{
+					initialDeps: unknown[];
+					equals?: typeof Object.is;
+				}
+			>(({ initialDeps, equals }, ref) => {
+				const [deps, setDeps] = useState(initialDeps);
+				const [, setRenderCount] = useState(0);
 
-	// 			// eslint-disable-next-line react-hooks/exhaustive-deps
-	// 			useMemo(() => mockFactory(), deps, equals);
+				// eslint-disable-next-line react-hooks/exhaustive-deps
+				useMemo(() => mockFactory(), deps, equals);
 
-	// 			useImperativeHandle(ref, () => ({
-	// 				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	// 				updateDeps: (newDeps: any) => setDeps(newDeps),
-	// 			}));
+				useImperativeHandle(ref, () => ({
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					updateDeps: (newDeps: any) => setDeps(newDeps),
+				}));
 
-	// 			return (
-	// 				<div>
-	// 					<button onClick={() => setRenderCount((prev) => prev + 1)}>
-	// 						Force Render
-	// 					</button>
-	// 				</div>
-	// 			);
-	// 		});
+				return (
+					<div>
+						<button onClick={() => setRenderCount((prev) => prev + 1)}>
+							Force Render
+						</button>
+					</div>
+				);
+			});
 
-	// 		beforeEach(() => {
-	// 			mockFactory.mockClear();
-	// 		});
+			beforeEach(() => {
+				mockFactory.mockClear();
+			});
 
-	// 		it("useMemo의 deps 비교 함수를 주입받아서 사용할 수 있다.", () => {
-	// 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	// 			const ref: { current: any } = { current: null };
+			it("useMemo의 deps 비교 함수를 주입받아서 사용할 수 있다.", () => {
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
+				const ref: { current: any } = { current: null };
 
-	// 			// 배열의 첫 번째 인자에 대해서만 값이 같은지 검사하는 equals 주입
-	// 			const equals = (a: unknown[], b: unknown[]) => a[0] === b[0];
-	// 			render(<TestComponent ref={ref} initialDeps={[42]} equals={equals} />);
-	// 			expect(mockFactory).toHaveBeenCalledTimes(1);
+				// 배열의 첫 번째 인자에 대해서만 값이 같은지 검사하는 equals 주입
+				const equals = (a: unknown[], b: unknown[]) => a[0] === b[0];
+				render(<TestComponent ref={ref} initialDeps={[42]} equals={equals} />);
+				expect(mockFactory).toHaveBeenCalledTimes(1);
 
-	// 			// 첫 번째 의존성을 다시 [42] 로 변경 -> 재계산 되지 않아야 함
-	// 			act(() => {
-	// 				ref.current.updateDeps([42]);
-	// 			});
-	// 			expect(mockFactory).toHaveBeenCalledTimes(1);
+				// 첫 번째 의존성을 다시 [42] 로 변경 -> 재계산 되지 않아야 함
+				act(() => {
+					ref.current.updateDeps([42]);
+				});
+				expect(mockFactory).toHaveBeenCalledTimes(1);
 
-	// 			// 첫 번째 의존성을 [43]으로 변경 -> 재계산
-	// 			act(() => {
-	// 				ref.current.updateDeps([43]);
-	// 			});
-	// 			expect(mockFactory).toHaveBeenCalledTimes(2);
+				// 첫 번째 의존성을 [43]으로 변경 -> 재계산
+				act(() => {
+					ref.current.updateDeps([43]);
+				});
+				expect(mockFactory).toHaveBeenCalledTimes(2);
 
-	// 			// 두 번째 의존성 추가 -> 재계산 하지 않음
-	// 			act(() => {
-	// 				ref.current.updateDeps([43, 44]);
-	// 			});
-	// 			expect(mockFactory).toHaveBeenCalledTimes(2);
+				// 두 번째 의존성 추가 -> 재계산 하지 않음
+				act(() => {
+					ref.current.updateDeps([43, 44]);
+				});
+				expect(mockFactory).toHaveBeenCalledTimes(2);
 
-	// 			// 첫 번째 의존성 수정 -> 재계산
-	// 			act(() => {
-	// 				ref.current.updateDeps([41, 44]);
-	// 			});
-	// 			expect(mockFactory).toHaveBeenCalledTimes(3);
-	// 		});
-	// 	});
+				// 첫 번째 의존성 수정 -> 재계산
+				act(() => {
+					ref.current.updateDeps([41, 44]);
+				});
+				expect(mockFactory).toHaveBeenCalledTimes(3);
+			});
+		});
 
-	// 	describe("useDeepMemo 훅", () => {
-	// 		const mockFactory = vi.fn();
+		describe("useDeepMemo 훅", () => {
+			const mockFactory = vi.fn();
 
-	// 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	// 		const TestComponent = forwardRef<
-	// 			{ updateDeps: (newDeps: any[]) => void },
-	// 			{
-	// 				initialDeps: unknown[];
-	// 			}
-	// 		>(({ initialDeps }, ref) => {
-	// 			const [deps, setDeps] = useState(initialDeps);
-	// 			const [, setRenderCount] = useState(0);
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			const TestComponent = forwardRef<
+				{ updateDeps: (newDeps: any[]) => void },
+				{
+					initialDeps: unknown[];
+				}
+			>(({ initialDeps }, ref) => {
+				const [deps, setDeps] = useState(initialDeps);
+				const [, setRenderCount] = useState(0);
 
-	// 			useDeepMemo(() => mockFactory(), deps);
+				useDeepMemo(() => mockFactory(), deps);
 
-	// 			useImperativeHandle(ref, () => ({
-	// 				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	// 				updateDeps: (newDeps: any) => setDeps(newDeps),
-	// 			}));
+				useImperativeHandle(ref, () => ({
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					updateDeps: (newDeps: any) => setDeps(newDeps),
+				}));
 
-	// 			return (
-	// 				<div>
-	// 					<button onClick={() => setRenderCount((prev) => prev + 1)}>
-	// 						Force Render
-	// 					</button>
-	// 				</div>
-	// 			);
-	// 		});
+				return (
+					<div>
+						<button onClick={() => setRenderCount((prev) => prev + 1)}>
+							Force Render
+						</button>
+					</div>
+				);
+			});
 
-	// 		beforeEach(() => {
-	// 			mockFactory.mockClear();
-	// 		});
+			beforeEach(() => {
+				mockFactory.mockClear();
+			});
 
-	// 		it("useDeepMemo를 사용할 경우, dependencies의 값에 대해 깊은비교를 하여 메모이제이션 한다.", () => {
-	// 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	// 			const ref: { current: any } = { current: null };
+			it("useDeepMemo를 사용할 경우, dependencies의 값에 대해 깊은비교를 하여 메모이제이션 한다.", () => {
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
+				const ref: { current: any } = { current: null };
 
-	// 			// 배열의 첫 번째 인자에 대해서만 값이 같은지 검사하는 equals 주입
-	// 			render(<TestComponent ref={ref} initialDeps={[{}]} />);
-	// 			expect(mockFactory).toHaveBeenCalledTimes(1);
+				// 배열의 첫 번째 인자에 대해서만 값이 같은지 검사하는 equals 주입
+				render(<TestComponent ref={ref} initialDeps={[{}]} />);
+				expect(mockFactory).toHaveBeenCalledTimes(1);
 
-	// 			act(() => {
-	// 				ref.current.updateDeps([{}]);
-	// 			});
-	// 			expect(mockFactory).toHaveBeenCalledTimes(1);
+				act(() => {
+					ref.current.updateDeps([{}]);
+				});
+				expect(mockFactory).toHaveBeenCalledTimes(1);
 
-	// 			act(() => {
-	// 				ref.current.updateDeps([{ a: 1 }]);
-	// 			});
-	// 			expect(mockFactory).toHaveBeenCalledTimes(2);
+				act(() => {
+					ref.current.updateDeps([{ a: 1 }]);
+				});
+				expect(mockFactory).toHaveBeenCalledTimes(2);
 
-	// 			act(() => {
-	// 				ref.current.updateDeps([{ a: 1 }]);
-	// 			});
-	// 			expect(mockFactory).toHaveBeenCalledTimes(2);
+				act(() => {
+					ref.current.updateDeps([{ a: 1 }]);
+				});
+				expect(mockFactory).toHaveBeenCalledTimes(2);
 
-	// 			act(() => {
-	// 				ref.current.updateDeps([[1, 2]]);
-	// 			});
-	// 			expect(mockFactory).toHaveBeenCalledTimes(3);
+				act(() => {
+					ref.current.updateDeps([[1, 2]]);
+				});
+				expect(mockFactory).toHaveBeenCalledTimes(3);
 
-	// 			act(() => {
-	// 				ref.current.updateDeps([[1, 2]]);
-	// 			});
-	// 			expect(mockFactory).toHaveBeenCalledTimes(3);
+				act(() => {
+					ref.current.updateDeps([[1, 2]]);
+				});
+				expect(mockFactory).toHaveBeenCalledTimes(3);
 
-	// 			act(() => {
-	// 				ref.current.updateDeps([[1, 2, 3]]);
-	// 			});
-	// 			expect(mockFactory).toHaveBeenCalledTimes(4);
-	// 		});
-	// 	});
-	// });
+				act(() => {
+					ref.current.updateDeps([[1, 2, 3]]);
+				});
+				expect(mockFactory).toHaveBeenCalledTimes(4);
+			});
+		});
+	});
 
-	// describe("hoc 만들어보기", () => {
-	// 	// 테스트용 컴포넌트
-	// 	const TestComponent = vi.fn(({ value, ...props }) => {
-	// 		return (
-	// 			<div data-testid="test-component" {...props}>
-	// 				{JSON.stringify(value)}
-	// 			</div>
-	// 		);
-	// 	});
+	describe("hoc 만들어보기", () => {
+		// 테스트용 컴포넌트
+		const TestComponent = vi.fn(({ value, ...props }) => {
+			return (
+				<div data-testid="test-component" {...props}>
+					{JSON.stringify(value)}
+				</div>
+			);
+		});
 
-	// 	beforeEach(() => {
-	// 		TestComponent.mockClear();
-	// 	});
+		beforeEach(() => {
+			TestComponent.mockClear();
+		});
 
-	// 	describe.each([
-	// 		{ spec: "직접 만든 memo", memo },
-	// 		{ spec: "React에서 제공하는 memo", memo: React.memo as typeof memo },
-	// 	])("$spec", ({ memo }) => {
-	// 		it("props로 전달하는 값이 변경되어야 리렌더링 된다.", () => {
-	// 			const MemoizedComponent = memo(TestComponent);
-	// 			const { rerender } = render(<MemoizedComponent value={1} />);
+		describe.each([
+			{ spec: "직접 만든 memo", memo },
+			{ spec: "React에서 제공하는 memo", memo: React.memo as typeof memo },
+		])("$spec", ({ memo }) => {
+			it("props로 전달하는 값이 변경되어야 리렌더링 된다.", () => {
+				const MemoizedComponent = memo(TestComponent);
+				const { rerender } = render(<MemoizedComponent value={1} />);
 
-	// 			expect(TestComponent).toHaveBeenCalledTimes(1);
+				expect(TestComponent).toHaveBeenCalledTimes(1);
 
-	// 			rerender(<MemoizedComponent value={1} />);
-	// 			expect(TestComponent).toHaveBeenCalledTimes(1);
+				rerender(<MemoizedComponent value={1} />);
+				expect(TestComponent).toHaveBeenCalledTimes(1);
 
-	// 			rerender(<MemoizedComponent value={2} />);
-	// 			expect(TestComponent).toHaveBeenCalledTimes(2);
+				rerender(<MemoizedComponent value={2} />);
+				expect(TestComponent).toHaveBeenCalledTimes(2);
 
-	// 			rerender(<MemoizedComponent value={2} />);
-	// 			expect(TestComponent).toHaveBeenCalledTimes(2);
+				rerender(<MemoizedComponent value={2} />);
+				expect(TestComponent).toHaveBeenCalledTimes(2);
 
-	// 			rerender(<MemoizedComponent value={2} style={{ color: "#09F" }} />);
-	// 			expect(TestComponent).toHaveBeenCalledTimes(3);
+				rerender(<MemoizedComponent value={2} style={{ color: "#09F" }} />);
+				expect(TestComponent).toHaveBeenCalledTimes(3);
 
-	// 			rerender(<MemoizedComponent value={2} style={{ color: "#09F" }} />);
-	// 			expect(TestComponent).toHaveBeenCalledTimes(4);
+				rerender(<MemoizedComponent value={2} style={{ color: "#09F" }} />);
+				expect(TestComponent).toHaveBeenCalledTimes(4);
 
-	// 			const DEFAULT_STYLE = { color: "#09F" };
-	// 			rerender(<MemoizedComponent value={2} style={DEFAULT_STYLE} />);
-	// 			expect(TestComponent).toHaveBeenCalledTimes(5);
+				const DEFAULT_STYLE = { color: "#09F" };
+				rerender(<MemoizedComponent value={2} style={DEFAULT_STYLE} />);
+				expect(TestComponent).toHaveBeenCalledTimes(5);
 
-	// 			rerender(<MemoizedComponent value={2} style={DEFAULT_STYLE} />);
-	// 			expect(TestComponent).toHaveBeenCalledTimes(5);
-	// 		});
-	// 	});
+				rerender(<MemoizedComponent value={2} style={DEFAULT_STYLE} />);
+				expect(TestComponent).toHaveBeenCalledTimes(5);
+			});
+		});
 
-	// 	describe("deepMemo HOC", () => {
-	// 		it("props로 전달하는 값이 모두 변경되어야 리렌더링 된다.", () => {
-	// 			const DeepMemoizedComponent = deepMemo(TestComponent);
-	// 			const { rerender } = render(<DeepMemoizedComponent value={1} />);
+		describe("deepMemo HOC", () => {
+			it("props로 전달하는 값이 모두 변경되어야 리렌더링 된다.", () => {
+				const DeepMemoizedComponent = deepMemo(TestComponent);
+				const { rerender } = render(<DeepMemoizedComponent value={1} />);
 
-	// 			expect(TestComponent).toHaveBeenCalledTimes(1);
+				expect(TestComponent).toHaveBeenCalledTimes(1);
 
-	// 			rerender(<DeepMemoizedComponent value={1} />);
-	// 			expect(TestComponent).toHaveBeenCalledTimes(1);
+				rerender(<DeepMemoizedComponent value={1} />);
+				expect(TestComponent).toHaveBeenCalledTimes(1);
 
-	// 			rerender(<DeepMemoizedComponent value={2} />);
-	// 			expect(TestComponent).toHaveBeenCalledTimes(2);
+				rerender(<DeepMemoizedComponent value={2} />);
+				expect(TestComponent).toHaveBeenCalledTimes(2);
 
-	// 			rerender(<DeepMemoizedComponent value={2} />);
-	// 			expect(TestComponent).toHaveBeenCalledTimes(2);
+				rerender(<DeepMemoizedComponent value={2} />);
+				expect(TestComponent).toHaveBeenCalledTimes(2);
 
-	// 			const DEFAULT_STYLE = { color: "#09F" };
-	// 			rerender(<DeepMemoizedComponent value={2} style={DEFAULT_STYLE} />);
-	// 			expect(TestComponent).toHaveBeenCalledTimes(3);
+				const DEFAULT_STYLE = { color: "#09F" };
+				rerender(<DeepMemoizedComponent value={2} style={DEFAULT_STYLE} />);
+				expect(TestComponent).toHaveBeenCalledTimes(3);
 
-	// 			rerender(<DeepMemoizedComponent value={2} style={{ color: "#09F" }} />);
-	// 			expect(TestComponent).toHaveBeenCalledTimes(3);
+				rerender(<DeepMemoizedComponent value={2} style={{ color: "#09F" }} />);
+				expect(TestComponent).toHaveBeenCalledTimes(3);
 
-	// 			rerender(<DeepMemoizedComponent style={{ color: "#09F" }} value={2} />);
-	// 			expect(TestComponent).toHaveBeenCalledTimes(3);
-	// 		});
+				rerender(<DeepMemoizedComponent style={{ color: "#09F" }} value={2} />);
+				expect(TestComponent).toHaveBeenCalledTimes(3);
+			});
 
-	// 		it("깊은 객체 비교를 수행해야 한다", () => {
-	// 			const DeepMemoizedComponent = deepMemo(TestComponent);
-	// 			const { rerender } = render(
-	// 				<DeepMemoizedComponent value={{ a: { b: 1 } }} />
-	// 			);
+			it("깊은 객체 비교를 수행해야 한다", () => {
+				const DeepMemoizedComponent = deepMemo(TestComponent);
+				const { rerender } = render(
+					<DeepMemoizedComponent value={{ a: { b: 1 } }} />
+				);
 
-	// 			expect(TestComponent).toHaveBeenCalledTimes(1);
+				expect(TestComponent).toHaveBeenCalledTimes(1);
 
-	// 			rerender(<DeepMemoizedComponent value={{ a: { b: 1 } }} />);
-	// 			expect(TestComponent).toHaveBeenCalledTimes(1); // 깊은 비교로 인해 리렌더링하지 않음
+				rerender(<DeepMemoizedComponent value={{ a: { b: 1 } }} />);
+				expect(TestComponent).toHaveBeenCalledTimes(1); // 깊은 비교로 인해 리렌더링하지 않음
 
-	// 			rerender(<DeepMemoizedComponent value={{ a: { b: 2 } }} />);
-	// 			expect(TestComponent).toHaveBeenCalledTimes(2); // 값이 변경되어 리렌더링
-	// 		});
+				rerender(<DeepMemoizedComponent value={{ a: { b: 2 } }} />);
+				expect(TestComponent).toHaveBeenCalledTimes(2); // 값이 변경되어 리렌더링
+			});
 
-	// 		it("깊은 배열 비교를 수행해야 한다", () => {
-	// 			const DeepMemoizedComponent = deepMemo(TestComponent);
-	// 			const { rerender } = render(
-	// 				<DeepMemoizedComponent value={[1, [2, 3]]} />
-	// 			);
+			it("깊은 배열 비교를 수행해야 한다", () => {
+				const DeepMemoizedComponent = deepMemo(TestComponent);
+				const { rerender } = render(
+					<DeepMemoizedComponent value={[1, [2, 3]]} />
+				);
 
-	// 			expect(TestComponent).toHaveBeenCalledTimes(1);
+				expect(TestComponent).toHaveBeenCalledTimes(1);
 
-	// 			rerender(<DeepMemoizedComponent value={[1, [2, 3]]} />);
-	// 			expect(TestComponent).toHaveBeenCalledTimes(1); // 깊은 비교로 인해 리렌더링하지 않음
+				rerender(<DeepMemoizedComponent value={[1, [2, 3]]} />);
+				expect(TestComponent).toHaveBeenCalledTimes(1); // 깊은 비교로 인해 리렌더링하지 않음
 
-	// 			rerender(<DeepMemoizedComponent value={[1, [2, 4]]} />);
-	// 			expect(TestComponent).toHaveBeenCalledTimes(2); // 값이 변경되어 리렌더링
-	// 		});
-	// 	});
-	// });
+				rerender(<DeepMemoizedComponent value={[1, [2, 4]]} />);
+				expect(TestComponent).toHaveBeenCalledTimes(2); // 값이 변경되어 리렌더링
+			});
+		});
+	});
 });

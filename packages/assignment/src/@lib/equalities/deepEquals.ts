@@ -18,9 +18,19 @@ export function deepEquals(objA: any, objB: any): boolean {
 
 	if (typeof objA === "object") {
 		if (typeof objB !== "object") return false;
+		if (objA === null || objB === null) return false;
 
-		for (const key in objA) {
-			if (!deepEquals(objA[key], objB[key])) {
+		const objBkeys = Object.keys(objB);
+		const objAKeys = Object.keys(objA);
+
+		if (objAKeys.length !== objBkeys.length) return false;
+
+		deepEquals(objBkeys, objAKeys);
+
+		for (const [key, value] of Object.entries(objA)) {
+			if (!objBkeys.includes(key)) return false;
+
+			if (!deepEquals(value, objB[key])) {
 				return false;
 			}
 		}
