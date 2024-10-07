@@ -2,8 +2,6 @@ import { createContext, PropsWithChildren, useState } from 'react';
 import { Notification, User } from '../types';
 
 interface AppContextType {
-  theme: string;
-  toggleTheme: () => void;
   user: User | null;
   login: (email: string, password: string) => void;
   logout: () => void;
@@ -15,13 +13,8 @@ interface AppContextType {
 export const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppProvider({ children }: PropsWithChildren) {
-  const [theme, setTheme] = useState('light');
   const [user, setUser] = useState<User | null>(null);
   const [notifications, setNotifications] = useState<Notification[]>([]);
-
-  const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
-  };
 
   const login = (email: string) => {
     setUser({ id: 1, name: '홍길동', email });
@@ -49,8 +42,6 @@ export function AppProvider({ children }: PropsWithChildren) {
   };
 
   const contextValue: AppContextType = {
-    theme,
-    toggleTheme,
     user,
     login,
     logout,

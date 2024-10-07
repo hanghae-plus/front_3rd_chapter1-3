@@ -1,8 +1,8 @@
 import { PropsWithChildren } from 'react';
-import { useAppContext } from '../@lib/context';
+import { useThemeContext } from '../@lib/context';
 
 export const ThemeContainer = ({ children }: PropsWithChildren) => {
-  const { theme } = useAppContext();
+  const { theme } = useThemeContext();
 
   return (
     <div
