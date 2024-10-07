@@ -17,6 +17,7 @@ export default function AuthContextProvider({ children }: Props) {
 
   const logout = () => {
     setUser(null);
+    addNotification("로그아웃되었습니다", "info");
   };
 
   return (
