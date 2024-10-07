@@ -59,16 +59,26 @@ export const Header: React.FC = () => {
       <div className="container mx-auto flex justify-between items-center">
         <h1 className="text-2xl font-bold">샘플 애플리케이션</h1>
         <div className="flex items-center">
-          <button onClick={toggleTheme} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
+          <button
+            onClick={toggleTheme}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+          >
             {theme === 'light' ? '다크 모드' : '라이트 모드'}
           </button>
           {user ? (
             <div className="flex items-center">
               <span className="mr-2">{user.name}님 환영합니다!</span>
-              <button onClick={logout} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">로그아웃</button>
+              <button onClick={logout} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                로그아웃
+              </button>
             </div>
           ) : (
-            <button onClick={handleLogin} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">로그인</button>
+            <button
+              onClick={handleLogin}
+              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            >
+              로그인
+            </button>
           )}
         </div>
       </div>
@@ -82,9 +92,10 @@ export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
   const [filter, setFilter] = useState('');
   const { theme } = useAppContext();
 
-  const filteredItems = items.filter(item =>
-    item.name.toLowerCase().includes(filter.toLowerCase()) ||
-    item.category.toLowerCase().includes(filter.toLowerCase())
+  const filteredItems = items.filter(
+    (item) =>
+      item.name.toLowerCase().includes(filter.toLowerCase()) ||
+      item.category.toLowerCase().includes(filter.toLowerCase()),
   );
 
   const averagePrice = items.reduce((sum, item) => sum + item.price, 0) / items.length;
@@ -101,8 +112,11 @@ export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
       />
       <p className="mb-4">평균 가격: {averagePrice.toLocaleString()}원</p>
       <ul className="space-y-2">
-        {filteredItems.slice(0, 100).map(item => (
-          <li key={item.id} className={`p-2 rounded shadow ${theme === 'light' ? 'bg-white text-black' : 'bg-gray-700 text-white'}`}>
+        {filteredItems.slice(0, 100).map((item) => (
+          <li
+            key={item.id}
+            className={`p-2 rounded shadow ${theme === 'light' ? 'bg-white text-black' : 'bg-gray-700 text-white'}`}
+          >
             {item.name} - {item.category} - {item.price.toLocaleString()}원
           </li>
         ))}
@@ -120,7 +134,7 @@ export const ComplexForm: React.FC = () => {
     name: '',
     email: '',
     age: 0,
-    preferences: [] as string[]
+    preferences: [] as string[],
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -130,18 +144,18 @@ export const ComplexForm: React.FC = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: name === 'age' ? parseInt(value) || 0 : value
+      [name]: name === 'age' ? parseInt(value) || 0 : value,
     }));
   };
 
   const handlePreferenceChange = (preference: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       preferences: prev.preferences.includes(preference)
-        ? prev.preferences.filter(p => p !== preference)
-        : [...prev.preferences, preference]
+        ? prev.preferences.filter((p) => p !== preference)
+        : [...prev.preferences, preference],
     }));
   };
 
@@ -174,7 +188,7 @@ export const ComplexForm: React.FC = () => {
           className="w-full p-2 border border-gray-300 rounded text-black"
         />
         <div className="space-x-4">
-          {['독서', '운동', '음악', '여행'].map(pref => (
+          {['독서', '운동', '음악', '여행'].map((pref) => (
             <label key={pref} className="inline-flex items-center">
               <input
                 type="checkbox"
@@ -201,17 +215,21 @@ export const NotificationSystem: React.FC = () => {
 
   return (
     <div className="fixed bottom-4 right-4 space-y-2">
-      {notifications.map(notification => (
-        <div key={notification.id} className={`p-4 rounded shadow-lg ${
-          notification.type === 'success' ? 'bg-green-500' :
-            notification.type === 'error' ? 'bg-red-500' :
-              notification.type === 'warning' ? 'bg-yellow-500' : 'bg-blue-500'
-        } text-white`}>
+      {notifications.map((notification) => (
+        <div
+          key={notification.id}
+          className={`p-4 rounded shadow-lg ${
+            notification.type === 'success'
+              ? 'bg-green-500'
+              : notification.type === 'error'
+                ? 'bg-red-500'
+                : notification.type === 'warning'
+                  ? 'bg-yellow-500'
+                  : 'bg-blue-500'
+          } text-white`}
+        >
           {notification.message}
-          <button
-            onClick={() => removeNotification(notification.id)}
-            className="ml-4 text-white hover:text-gray-200"
-          >
+          <button onClick={() => removeNotification(notification.id)} className="ml-4 text-white hover:text-gray-200">
             닫기
           </button>
         </div>
@@ -228,7 +246,7 @@ const App: React.FC = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
   const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
   };
 
   const login = (email: string) => {
@@ -245,13 +263,13 @@ const App: React.FC = () => {
     const newNotification: Notification = {
       id: Date.now(),
       message,
-      type
+      type,
     };
-    setNotifications(prev => [...prev, newNotification]);
+    setNotifications((prev) => [...prev, newNotification]);
   };
 
   const removeNotification = (id: number) => {
-    setNotifications(prev => prev.filter(notification => notification.id !== id));
+    setNotifications((prev) => prev.filter((notification) => notification.id !== id));
   };
 
   const contextValue: AppContextType = {
@@ -262,7 +280,7 @@ const App: React.FC = () => {
     logout,
     notifications,
     addNotification,
-    removeNotification
+    removeNotification,
   };
 
   return (

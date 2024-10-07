@@ -1,5 +1,5 @@
-import { DependencyList } from "react";
-import { shallowEquals } from "../equalities";
+import { DependencyList } from 'react';
+import { shallowEquals } from '../equalities';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
