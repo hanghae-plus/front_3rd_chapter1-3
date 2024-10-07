@@ -19,6 +19,7 @@ export function shallowEquals(objA: any, objB: any): boolean {
 
   // 4. 모든 키에 대해 얕은 비교 수행
   for (let key of objAKeys) {
+    console.log(key, 'forKey');
     if (!objB.hasOwnProperty(key) || objA[key] !== objB[key]) {
       return false;
     }
