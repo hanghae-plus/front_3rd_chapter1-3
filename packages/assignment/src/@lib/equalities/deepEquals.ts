@@ -8,6 +8,10 @@ export function deepEquals(objA: any, objB: any): boolean {
     return false;
   }
 
+  if (typeof objA !== "object" || typeof objB !== "object") {
+    return objA === objB;
+  }
+
   const keysA = Object.keys(objA);
   const keysB = Object.keys(objB);
 

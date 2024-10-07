@@ -6,6 +6,11 @@ export function shallowEquals(objA: any, objB: any): boolean {
   if (objA === null || objB === null) {
     return false;
   }
+
+  if (typeof objA !== "object" || typeof objB !== "object") {
+    return objA === objB;
+  }
+
   const keysA = Object.keys(objA);
   const keysB = Object.keys(objB);
 
