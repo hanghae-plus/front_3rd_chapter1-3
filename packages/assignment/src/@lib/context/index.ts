@@ -4,5 +4,5 @@ export * from './notification/useNotificationContext';
 export * from './theme/ThemeContext';
 export * from './theme/useThemeContext';
 
-export * from './user/useAppContext';
+export * from './user/useUserContext';
 export * from './user/UserContext';
