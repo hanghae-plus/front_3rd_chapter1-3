@@ -3,13 +3,13 @@ export function deepEquals(objA: any, objB: any): boolean {
   
   if(objA === objB) return true;
 
+  // 1. 기본 타입이거나 null인 경우 처리
   if(typeof objA !== typeof objB) return false;
 
-  // 1. 기본 타입이거나 null인 경우 처리
   if(objA == null || objB == null) return false;
 
-  
   if(typeof objA !== 'object' && typeof objB !== 'object') {
+    // 원시타입인 경우 동등비교
     return objA === objB;
   }
 
@@ -28,6 +28,7 @@ export function deepEquals(objA: any, objB: any): boolean {
   }
 
   //    - 객체의 키 개수가 다른 경우 처리
+  // 키를 배열에 담아서 시도
   const keysA = Object.keys(objA);
   const keysB = Object.keys(objB);
 
@@ -35,6 +36,8 @@ export function deepEquals(objA: any, objB: any): boolean {
 
   //    - 재귀적으로 각 속성에 대해 deepEquals 호출
   for(let key of keysA) {
+    // objB가 A의 키값을 가지고 있지 않으면 다른 객체므로 false
+    // 키가 같다면 값을 비교하기 위해 두 객체의 동일 키의 값을 넣어서 deepEquals을 통해 재귀적으로 확인
     if(!objB.hasOwnProperty(key) || !deepEquals((objA)[key], (objB)[key])){
       return false;
     }
