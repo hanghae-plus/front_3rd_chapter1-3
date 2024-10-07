@@ -48,7 +48,7 @@ function deepCompareObjects(objA: AnyObject, objB: AnyObject): boolean {
     return false;
   }
   for (const key of keysA) {
-    // 4-2. 재귀적으로 각 속성에 대해 deepEquals 호출
+    // 재귀적으로 각 속성에 대해 deepEquals 호출
     if (!keysB.includes(key) || !deepEquals(objA[key], objB[key])) {
       return false;
     }
