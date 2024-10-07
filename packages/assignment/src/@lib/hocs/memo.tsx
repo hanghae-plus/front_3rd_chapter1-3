@@ -24,6 +24,6 @@ export function memo<P extends object>(
       return <Component {...props} />; 
     }
 
-    return <Component {...(prevPropsRef.current ?? props)} />;
+    return null;
   };
 }
