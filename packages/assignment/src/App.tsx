@@ -10,14 +10,14 @@ const App: React.FC = () => {
   return (
     <>
       <ThemeProvider>
-        <UserProvider>
-          <NotificationProvider>
+        <NotificationProvider>
+          <UserProvider>
             <Layout>
               <HomePage />
             </Layout>
             <NotificationSystem />
-          </NotificationProvider>
-        </UserProvider>
+          </UserProvider>
+        </NotificationProvider>
       </ThemeProvider>
     </>
   );

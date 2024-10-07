@@ -1,5 +1,5 @@
 import { shallowEquals } from '../equalities';
-import { ComponentType, useEffect } from 'react';
+import { ComponentType } from 'react';
 import { useRef } from '../hooks';
 
 // memo HOC는 컴포넌트의 props를 얕은 비교하여 불필요한 리렌더링을 방지합니다.

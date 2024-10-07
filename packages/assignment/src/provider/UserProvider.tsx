@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
+import { useNotificationClient } from './NotificationProvider';
+import { useMemo } from '../@lib';
 
 interface User {
   id: number;
@@ -26,9 +28,26 @@ export const useUserClient = (): UserContextType => {
 
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  const { addNotification } = useNotificationClient();
 
-  const login = (email: string) => setUser({ id: 1, name: '홍길동', email });
-  const logout = () => setUser(null);
+  const login = (email: string) => {
+    setUser({ id: 1, name: '홍길동', email });
+    addNotification('성공적으로 로그인되었습니다', 'success');
+  };
 
-  return <UserContext.Provider value={{ user, login, logout }}>{children}</UserContext.Provider>;
+  const logout = () => {
+    setUser(null);
+    addNotification('로그아웃되었습니다', 'info');
+  };
+
+  const value = useMemo(
+    () => ({
+      user,
+      login,
+      logout,
+    }),
+    [user]
+  );
+
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
