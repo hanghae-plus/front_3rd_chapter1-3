@@ -31,6 +31,6 @@ export function deepEquals(objA: any, objB: any): boolean {
             return true;
         }
         default:
-            return objA === objB;
+            return Object.is(objA, objB);
     }
 }
