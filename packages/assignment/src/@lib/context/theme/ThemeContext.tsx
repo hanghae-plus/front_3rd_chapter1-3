@@ -1,4 +1,10 @@
-import { createContext, PropsWithChildren, useState } from 'react';
+import {
+  createContext,
+  PropsWithChildren,
+  useCallback,
+  useMemo,
+  useState,
+} from 'react';
 
 interface ThemeContextType {
   theme: string;
@@ -12,14 +18,17 @@ export const ThemeContext = createContext<ThemeContextType | undefined>(
 export function ThemeProvider({ children }: PropsWithChildren) {
   const [theme, setTheme] = useState('light');
 
-  const toggleTheme = () => {
+  const toggleTheme = useCallback(() => {
     setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
-  };
+  }, []);
 
-  const contextValue: ThemeContextType = {
-    theme,
-    toggleTheme,
-  };
+  const contextValue = useMemo(
+    () => ({
+      theme,
+      toggleTheme,
+    }),
+    [theme, toggleTheme]
+  );
 
   return (
     <ThemeContext.Provider value={contextValue}>
