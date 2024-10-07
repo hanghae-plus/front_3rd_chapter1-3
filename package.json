@@ -12,5 +12,8 @@
   "private": true,
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "pnpm": "^9.12.0"
+  }
 }
