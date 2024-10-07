@@ -9,6 +9,13 @@ export function shallowEquals(objA: any, objB: any): boolean {
     return true;
   }
   if (typeof objA === "object" && typeof objB === "object") {
+    // obj가 null일 때 비교
+    if (objA === null && objB === null) {
+      return true;
+    } else if (objA === null || objB === null) {
+      return false;
+    }
+
     for (const i in objA) {
       if (objA[i] !== objB[i]) {
         return false;

@@ -5,6 +5,12 @@ export function deepEquals(objA: any, objB: any): boolean {
   }
 
   if (typeof objA === "object" && typeof objB === "object") {
+    if (objA === null && objB === null) {
+      return true;
+    } else if (objA === null || objB === null) {
+      return false;
+    }
+
     for (const i in objA) {
       // 객체항목중 배열이나 객체가 중첩되어 있을 때 재귀
       if (typeof objA[i] === "object" || Array.isArray(objA[i])) {
