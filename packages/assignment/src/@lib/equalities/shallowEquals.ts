@@ -7,9 +7,9 @@ export function shallowEquals(objA: any, objB: any): boolean {
 
   // 2. 두 값이 모두 객체인지 확인
   if (
-    typeof objA !== 'object' ||
+    typeof objA !== "object" ||
     objA === null ||
-    typeof objB !== 'object' ||
+    typeof objB !== "object" ||
     objB === null
   ) {
     return false;
@@ -24,7 +24,8 @@ export function shallowEquals(objA: any, objB: any): boolean {
 
   // 4. 모든 키에 대해 얕은 비교
   for (const key of keysA) {
-    if (objA[key] !== objB[key]) {
+    // eslint-disable-next-line no-prototype-builtins
+    if (!objB.hasOwnProperty(key) || objA[key] !== objB[key]) {
       return false;
     }
   }
