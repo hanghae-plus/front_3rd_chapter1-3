@@ -1,10 +1,5 @@
-import {
-  createContext,
-  PropsWithChildren,
-  useCallback,
-  useMemo,
-  useState,
-} from 'react';
+import { createContext, PropsWithChildren, useState } from 'react';
+import { useCallback, useMemo } from '../../hooks';
 
 interface ThemeContextType {
   theme: string;

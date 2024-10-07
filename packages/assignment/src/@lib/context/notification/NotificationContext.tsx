@@ -1,10 +1,5 @@
-import {
-  createContext,
-  PropsWithChildren,
-  useCallback,
-  useMemo,
-  useState,
-} from 'react';
+import { createContext, PropsWithChildren, useState } from 'react';
+import { useCallback, useMemo } from '../../hooks';
 import { Notification } from '../../types';
 
 interface NotificationContextType {
