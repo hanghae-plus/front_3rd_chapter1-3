@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { type User, AuthContext } from "../store/AuthContext";
 import { useNotificationContext } from "../../notification/hook/useNotificationContext";
+import { useMemo } from "../../../@lib";
 
 type Props = {
   children: React.ReactNode;
@@ -20,8 +21,12 @@ export default function AuthContextProvider({ children }: Props) {
     addNotification("로그아웃되었습니다", "info");
   };
 
+  const authContextValue = useMemo(() => {
+    return { user, login, logout };
+  }, [user]);
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={authContextValue}>
       {children}
     </AuthContext.Provider>
   );
