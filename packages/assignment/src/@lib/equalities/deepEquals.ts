@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function deepEquals(objA: any, objB: any): boolean {
-  if (isPrimitive(objA) && isPrimitive(objB)) {
+  if (isPrimitiveorNull(objA) && isPrimitiveorNull(objB)) {
     return objA === objB;
   } else if (Array.isArray(objA) && Array.isArray(objB)) {
     if (objA.length !== objB.length) return false;
@@ -34,7 +34,7 @@ export function deepEquals(objA: any, objB: any): boolean {
   }
 }
 
-function isPrimitive(val: any) {
+function isPrimitiveorNull(val: any) {
   return val === null || typeof val !== "object";
 }
 

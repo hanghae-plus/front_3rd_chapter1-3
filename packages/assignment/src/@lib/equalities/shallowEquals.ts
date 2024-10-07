@@ -1,7 +1,7 @@
 // shallowEquals 함수는 두 값의 얕은 비교를 수행합니다.
 export function shallowEquals(objA: any, objB: any): boolean {
   //기본타입 비교
-  if (isPrimitive(objA) && isPrimitive(objB)) {
+  if (isPrimitiveorNull(objA) && isPrimitiveorNull(objB)) {
     // 1. 두 값이 정확히 같은지 확인 (참조가 같은 경우)
     return objA === objB;
   } else if (Array.isArray(objA) && Array.isArray(objB)) {
@@ -35,6 +35,6 @@ export function shallowEquals(objA: any, objB: any): boolean {
   }
 }
 
-function isPrimitive(val: any) {
+function isPrimitiveorNull(val: any) {
   return val === null || typeof val !== "object";
 }
