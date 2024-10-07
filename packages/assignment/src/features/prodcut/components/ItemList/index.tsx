@@ -1,10 +1,20 @@
 import { useState } from "react";
-import { generateItems, renderLog } from "../../../../utils";
+import { renderLog } from "../../../../utils";
 import { useThemeContext } from "../../../theme/hook/useThemeContext";
 
-export function ItemList() {
+type Item = {
+  id: number;
+  name: string;
+  category: string;
+  price: number;
+};
+
+type Props = {
+  itemList: Item[];
+};
+
+export function ItemList({ itemList }: Props) {
   renderLog("ItemList rendered");
-  const [itemList] = useState(generateItems(10000));
 
   const [filter, setFilter] = useState("");
   const { theme } = useThemeContext();
