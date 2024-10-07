@@ -19,7 +19,8 @@ export function useMemo<T>(
   });
 
   // 의존성이 변경되었는지 확인
-  const hasChanged = !equals(ref.current.deps, deps);
+  const hasChanged =
+    !equals(ref.current.deps || [], deps) || ref.current.deps === undefined; // 기본값을 빈 배열로 설정
 
   // 의존성이 변경된 경우에만 factory를 호출
   if (hasChanged) {
