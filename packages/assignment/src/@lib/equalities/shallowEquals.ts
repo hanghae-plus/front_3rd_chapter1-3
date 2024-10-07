@@ -1,28 +1,26 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function shallowEquals(objA: any, objB: any): boolean {
-  if (Array.isArray(objA) && Array.isArray(objB)) {
-    for (let i = 0; i < Math.max(objA.length, objB.length); i++) {
-      if (objA[i] !== objB[i]) {
-        return false;
-      }
-    }
+  if (objA === objB) {
     return true;
   }
-  if (typeof objA === "object" && typeof objB === "object") {
-    // obj가 null일 때 비교
-    if (objA === null && objB === null) {
-      return true;
-    } else if (objA === null || objB === null) {
+  if (objA === null || objB === null) {
+    return false;
+  }
+  const keysA = Object.keys(objA);
+  const keysB = Object.keys(objB);
+
+  if (keysA.length !== keysB.length) {
+    return false;
+  }
+
+  for (const key of keysA) {
+    if (!keysB.includes(key)) {
       return false;
     }
-
-    for (const i in objA) {
-      if (objA[i] !== objB[i]) {
-        return false;
-      }
+    if (objA[key] !== objB[key]) {
+      return false;
     }
-    return true;
   }
 
-  return objA === objB;
+  return true;
 }
