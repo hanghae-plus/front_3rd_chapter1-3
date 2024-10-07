@@ -12,7 +12,7 @@ export function deepEquals(objA: any, objB: any): boolean {
           return false;
         }
       }
-      //중첩항목 없이 단순 참조 비교
+      // 중첩항목 없이 단순 참조 비교
       else {
         if (objA[i] !== objB[i]) {
           return false;
