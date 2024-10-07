@@ -6,15 +6,12 @@ import { useRef } from "./useRef";
 // @ts-ignore
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function useMemo<T>(factory: () => T, deps: DependencyList, equals = shallowEquals): T {
-  const prevDepsRef = useRef<DependencyList | undefined>(undefined);
-  const resultRef = useRef<T | undefined>(undefined); 
 
-  const isSameDeps = prevDepsRef.current !== undefined && equals(prevDepsRef.current, deps);
+  const memoized = useRef<{ deps: DependencyList, value: T } | undefined>(undefined);
+  if (!memoized.current || !equals(memoized.current.deps, deps)) {
 
-  if (!isSameDeps) {
-    resultRef.current = factory(); 
-    prevDepsRef.current = deps; 
+    memoized.current = { deps, value: factory() };
   }
-
-  return resultRef.current as T;
+  
+  return memoized.current.value;
 }
