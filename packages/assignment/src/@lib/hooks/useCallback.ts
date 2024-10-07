@@ -1,4 +1,5 @@
-import { DependencyList, useMemo, useRef } from "react"
+import { DependencyList } from "react"
+import { useMemo } from "./useMemo"
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
