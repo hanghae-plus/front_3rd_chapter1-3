@@ -1,6 +1,6 @@
-import { useRef } from '../hooks/useRef';
-import { shallowEquals } from '../equalities';
-import { ComponentType, FunctionComponent, createElement } from 'react';
+import { useRef } from "../hooks/useRef";
+import { shallowEquals } from "../equalities";
+import { ComponentType, FunctionComponent, createElement } from "react";
 
 export function memo<P extends object>(
   Component: ComponentType<P>,
@@ -20,7 +20,7 @@ export function memo<P extends object>(
 
     // 3. equals 함수를 사용하여 props 비교
     if (isUpdate) {
-      // // 4. props가 변경된 경우에만 새로운 렌더링 수행
+      // 4. props가 변경된 경우에만 새로운 렌더링 수행
       previousPropsRef.current = newProps;
       previousRenderedElementRef.current = createElement(Component, newProps);
     }

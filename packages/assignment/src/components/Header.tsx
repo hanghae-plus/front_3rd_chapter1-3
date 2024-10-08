@@ -1,14 +1,17 @@
-import { useAppContext } from '../@lib/hooks/useAppContext';
-import { renderLog } from '../utils';
+import { memo } from "../@lib";
+import { useAuthContext } from "../@lib/hooks/useAuthContext";
+import { useThemeContext } from "../@lib/hooks/useThemeContext";
+import { renderLog } from "../utils";
 
 // Header 컴포넌트
-export const Header: React.FC = () => {
-  renderLog('Header rendered');
-  const { theme, toggleTheme, user, login, logout } = useAppContext();
+export const Header: React.FC = memo(() => {
+  renderLog("Header rendered");
+  const { theme, toggleTheme } = useThemeContext();
+  const { user, login, logout } = useAuthContext();
 
   const handleLogin = () => {
     // 실제 애플리케이션에서는 사용자 입력을 받아야 합니다.
-    login('user@example.com', 'password');
+    login("user@example.com", "password");
   };
 
   return (
@@ -20,7 +23,7 @@ export const Header: React.FC = () => {
             onClick={toggleTheme}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
           >
-            {theme === 'light' ? '다크 모드' : '라이트 모드'}
+            {theme === "light" ? "다크 모드" : "라이트 모드"}
           </button>
           {user ? (
             <div className="flex items-center">
@@ -44,4 +47,4 @@ export const Header: React.FC = () => {
       </div>
     </header>
   );
-};
+});
