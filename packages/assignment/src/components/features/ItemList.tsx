@@ -30,7 +30,7 @@ const ItemList: React.FC<{ items: Item[] }> = memo(({ items }) => {
   );
 
   const averagePrice =
-    items.reduce((sum, item) => sum + item.price, 0) / items.length;
+    items.reduce((sum, item) => sum + item.price, 0) / items.length || 0;
 
   return (
     <div className="mt-8">
