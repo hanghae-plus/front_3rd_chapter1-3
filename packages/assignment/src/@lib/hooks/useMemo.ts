@@ -4,11 +4,7 @@ import { shallowEquals } from "../equalities";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-export function useMemo<T>(
-  factory: () => T,
-  deps: DependencyList,
-  equals = shallowEquals
-): T {
+export function useMemo<T>(factory: () => T, deps: DependencyList, equals = shallowEquals): T {
   const oldDeps = useRef<Readonly<DependencyList>>(deps);
   const memoized = useRef<T | null>(null);
 

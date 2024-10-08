@@ -1,20 +1,20 @@
-import { ComponentType } from "react";
+import { ComponentType, createElement } from "react";
 import { shallowEquals } from "../equalities";
-import { useRef, useMemo } from "../hooks";
+import { useMemo, useRef } from "../hooks";
 
-export function memo<P extends object>(
-  Component: ComponentType<P>,
-  equals = shallowEquals
-) {
-  return function MemoizedComponent(props: P) {
+export function memo<P extends object>(Component: ComponentType<P>, equals = shallowEquals) {
+  return (props: P) => {
     const oldProps = useRef<P | null>(null);
 
-    const needRender = useMemo(() => {
-      const isSame = equals(props, oldProps.current);
+    if (!equals(props, oldProps.current)) {
       oldProps.current = props;
-      return !isSame;
-    }, [props]);
+    }
 
-    return needRender ? <Component {...props} /> : null;
+    const MemoizedComponent = useMemo(() => {
+      return createElement(Component, oldProps.current);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [oldProps.current]);
+
+    return MemoizedComponent;
   };
 }
