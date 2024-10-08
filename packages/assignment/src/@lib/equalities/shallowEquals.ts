@@ -5,7 +5,7 @@ export function shallowEquals(objA: any, objB: any): boolean {
   }
 
   // 2. 둘 다 객체인지 확인
-  if (!(objA && objB && typeof objA === 'object' && typeof objB === 'object')) {
+  if ((!objA && objB && typeof objA !== "object") || typeof objB !== "object") {
     return false;
   }
 
@@ -17,6 +17,6 @@ export function shallowEquals(objA: any, objB: any): boolean {
     return false;
   }
 
-  // 4. 모든 키에 대해 얕은 비교 수행 
-  return keysA.every(key => key in objB && objA[key] === objB[key]);
+  // 4. 모든 키에 대해 얕은 비교 수행
+  return keysA.every((key) => key in objB && objA[key] === objB[key]);
 }
