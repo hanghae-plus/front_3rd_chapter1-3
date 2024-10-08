@@ -1,4 +1,17 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function shallowEquals(objA: any, objB: any): boolean {
-  return objA === objB;
+import { isObject, compareArrays, compareObjects } from '@/utils'
+
+export function shallowEquals(objA: unknown, objB: unknown): boolean {
+  if (objA === objB) {
+    return true
+  }
+
+  if (!isObject(objA) || !isObject(objB)) {
+    return false
+  }
+
+  if (Array.isArray(objA) && Array.isArray(objB)) {
+    return compareArrays(objA, objB, (a, b) => a === b)
+  }
+
+  return compareObjects(objA, objB, (a, b) => a === b)
 }
