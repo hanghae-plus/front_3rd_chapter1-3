@@ -11,6 +11,11 @@ export function shallowEquals(objA: any, objB: any): boolean {
     return objA === objB;
   }
 
+  // 유사배열 유무 비교
+  if (Array.isArray(objA) !== Array.isArray(objB)) {
+    return false;
+  }
+
   const keysA = Object.keys(objA);
   const keysB = Object.keys(objB);
 

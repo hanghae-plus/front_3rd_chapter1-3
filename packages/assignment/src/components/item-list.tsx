@@ -1,7 +1,20 @@
-export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
+import { useState } from "react";
+import { generateItems, renderLog } from "../utils";
+import { ThemeContext, useContextHook } from "../@lib/context";
+
+interface Item {
+  id: number;
+  name: string;
+  category: string;
+  price: number;
+}
+
+export const ItemList = () => {
   renderLog("ItemList rendered");
   const [filter, setFilter] = useState("");
-  const { theme } = useAppContext();
+  const { theme } = useContextHook({ context: ThemeContext, name: "Theme" });
+
+  const [items] = useState<Item[]>(generateItems(100));
 
   const filteredItems = items.filter(
     (item) =>
@@ -9,8 +22,7 @@ export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
       item.category.toLowerCase().includes(filter.toLowerCase())
   );
 
-  const averagePrice =
-    items.reduce((sum, item) => sum + item.price, 0) / items.length;
+  const averagePrice = items.reduce((sum, item) => sum + item.price, 0) / items.length;
 
   return (
     <div className="mt-8">
@@ -28,9 +40,7 @@ export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
           <li
             key={item.id}
             className={`p-2 rounded shadow ${
-              theme === "light"
-                ? "bg-white text-black"
-                : "bg-gray-700 text-white"
+              theme === "light" ? "bg-white text-black" : "bg-gray-700 text-white"
             }`}
           >
             {item.name} - {item.category} - {item.price.toLocaleString()}원
