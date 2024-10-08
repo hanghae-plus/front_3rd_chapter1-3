@@ -1,6 +1,6 @@
-import React, { useRef } from "react"; // React import
 import { shallowEquals } from "../equalities"; // equality check import
 import { ComponentType } from "react"; // ComponentType import
+import { useRef } from "../hooks";
 
 // memo 함수 정의
 export function memo<P extends object>(Component: ComponentType<P>, equals = shallowEquals) {
