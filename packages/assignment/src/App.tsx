@@ -1,11 +1,9 @@
-import React, { useState } from "react";
 import { generateItems } from "./utils";
-import { useMemo } from "./@lib";
 import { NotificationProvider, ThemeProvider, UserProvider } from "./providers";
 import { ComplexForm, Header, ItemList } from "./components";
 
 const App: React.FC = () => {
-	const [items] = useState(useMemo(() => generateItems(10000), []));
+	const items = generateItems(10000);
 
 	return (
 		<ThemeProvider>
