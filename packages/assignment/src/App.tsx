@@ -56,7 +56,7 @@ const App: React.FC = () => {
     );
   }, []);
 
-  const AuthConextValue: AuthContextType = useMemo(
+  const AuthContextValue: AuthContextType = useMemo(
     () => ({
       user,
       login,
@@ -84,7 +84,7 @@ const App: React.FC = () => {
 
   return (
     <ThemeContext.Provider value={ThemeContextValue}>
-      <AuthContext.Provider value={AuthConextValue}>
+      <AuthContext.Provider value={AuthContextValue}>
         <NotificationContext.Provider value={NotificationContextValue}>
           <div
             className={`min-h-screen ${
