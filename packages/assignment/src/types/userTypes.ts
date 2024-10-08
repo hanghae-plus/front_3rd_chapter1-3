@@ -3,9 +3,3 @@ export interface User {
 	name: string;
 	email: string;
 }
-
-export interface UserContextType {
-	user: User | null;
-	login: (email: string, password: string) => void;
-	logout: () => void;
-}

@@ -4,7 +4,11 @@ import { renderLog } from "../utils";
 import { useCallback, useMemo } from "../@lib";
 import { Item } from "../types";
 
-export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
+interface ItemListProps {
+	items: Item[];
+}
+
+export const ItemList: React.FC<ItemListProps> = ({ items }) => {
 	renderLog("ItemList rendered");
 	const { theme } = useTheme();
 

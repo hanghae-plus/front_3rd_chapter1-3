@@ -1,5 +1,11 @@
 import { createContext, useContext } from "react";
-import { NotificationContextType } from "../types";
+import { Notification } from "../types";
+
+interface NotificationContextType {
+	notifications: Notification[];
+	addNotification: (message: string, type: Notification["type"]) => void;
+	removeNotification: (id: number) => void;
+}
 
 export const NotificationContext = createContext<NotificationContextType | null>(null);
 

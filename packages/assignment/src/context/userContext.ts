@@ -1,5 +1,11 @@
 import { createContext, useContext } from "react";
-import { UserContextType } from "../types";
+import { User } from "../types";
+
+interface UserContextType {
+	user: User | null;
+	login: (email: string, password: string) => void;
+	logout: () => void;
+}
 
 export const UserContext = createContext<UserContextType | null>(null);
 
