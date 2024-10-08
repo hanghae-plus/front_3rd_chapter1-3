@@ -1,5 +1,5 @@
-import { shallowEquals } from "../equalities";
-import { ComponentType } from "react";
+import { shallowEquals } from '../equalities';
+import { ComponentType } from 'react';
 
 export function memo<P extends object>(
   Component: ComponentType<P>,

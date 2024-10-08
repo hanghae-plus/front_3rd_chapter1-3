@@ -10,9 +10,12 @@
     "preview": "vite preview",
     "test": "vitest",
     "test:basic": "vitest basic.test",
-    "test:advanced": "vitest advanced.test"
+    "test:advanced": "vitest advanced.test",
+    "format": "prettier --check --ignore-path .gitignore .",
+    "format:fix": "prettier --write --ignore-path .gitignore ."
   },
   "dependencies": {
+    "prettier": "^3.3.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
