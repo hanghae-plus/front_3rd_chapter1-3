@@ -20,9 +20,12 @@ export const NotificationSystem: FC = () => {
   return (
     <div className="fixed bottom-4 right-4 space-y-2">
       {notifications.map(({ id, type, message }) => (
-        <div key={id} className={`p-4 rounded shadow-lg text-white ${getNotificationColorClass(type)}`}>
+        <div
+          key={id}
+          className={`w-72 flex justify-between p-4 rounded shadow-lg text-white ${getNotificationColorClass(type)}`}
+        >
           {message}
-          <button onClick={() => removeNotification(id)} className="ml-4 text-white hover:text-gray-200">
+          <button onClick={() => removeNotification(id)} className="text-white hover:text-gray-200">
             닫기
           </button>
         </div>

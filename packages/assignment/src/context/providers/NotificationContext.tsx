@@ -1,7 +1,8 @@
 import { createContext, FC, PropsWithChildren, useEffect, useState } from 'react'
 import { useCallback, useMemo, useRef } from '@/@lib'
+import { STATUS } from '@/constants'
 
-type messageType = 'info' | 'success' | 'warning' | 'error'
+type messageType = (typeof STATUS)[keyof typeof STATUS]
 
 interface NotificationType {
   id: number
@@ -27,6 +28,7 @@ export const NotificationProvider: FC<PropsWithChildren> = ({ children }) => {
       message,
       type,
     }
+
     setNotifications((prev) => [...prev, newNotification])
 
     const timerId = window.setTimeout(() => {

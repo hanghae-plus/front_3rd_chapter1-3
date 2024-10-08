@@ -2,7 +2,7 @@ import { createContext, FC, PropsWithChildren, useState } from 'react'
 import { useCallback } from '@/@lib'
 import { THEME } from '@/constants'
 
-type ThemeType = 'light' | 'dark'
+type ThemeType = (typeof THEME)[keyof typeof THEME]
 
 interface ThemeContextType {
   theme: ThemeType
