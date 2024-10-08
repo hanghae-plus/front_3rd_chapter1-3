@@ -1,6 +1,35 @@
-import { isObject, compareArrays, compareObjects } from '@/utils'
+function isObject(obj: unknown): obj is Record<string, unknown> {
+  return typeof obj === 'object' && obj !== null
+}
 
-export function shallowEquals(objA: unknown, objB: unknown): boolean {
+function compareArrays(arrA: unknown[], arrB: unknown[], callback: (a: unknown, b: unknown) => boolean): boolean {
+  if (arrA.length !== arrB.length) {
+    return false
+  }
+
+  return arrA.every((item, index) => callback(item, arrB[index]))
+}
+
+function compareObjects(
+  objA: Record<string, unknown>,
+  objB: Record<string, unknown>,
+  callback: (a: unknown, b: unknown) => boolean
+): boolean {
+  const keysA = Object.keys(objA)
+  const keysB = Object.keys(objB)
+
+  if (keysA.length !== keysB.length) {
+    return false
+  }
+
+  return keysA.every((key) => key in objB && callback(objA[key], objB[key]))
+}
+
+function shallowEqualsFunction(a: unknown, b: unknown): boolean {
+  return a === b
+}
+
+export function shallowEquals(objA: unknown, objB: unknown, equals = shallowEqualsFunction): boolean {
   if (objA === objB) {
     return true
   }
@@ -10,8 +39,8 @@ export function shallowEquals(objA: unknown, objB: unknown): boolean {
   }
 
   if (Array.isArray(objA) && Array.isArray(objB)) {
-    return compareArrays(objA, objB, (a, b) => a === b)
+    return compareArrays(objA, objB, equals)
   }
 
-  return compareObjects(objA, objB, (a, b) => a === b)
+  return compareObjects(objA, objB, equals)
 }
