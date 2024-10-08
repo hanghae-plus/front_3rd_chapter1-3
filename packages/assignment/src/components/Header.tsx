@@ -1,6 +1,6 @@
 import { memo } from "../@lib";
-import { useAuthContext } from "../@lib/hooks/useAuthContext";
-import { useThemeContext } from "../@lib/hooks/useThemeContext";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useThemeContext } from "../hooks/useThemeContext";
 import { renderLog } from "../utils";
 
 // Header 컴포넌트

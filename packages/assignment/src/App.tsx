@@ -11,9 +11,9 @@ import { Header } from "./components/Header";
 import { ItemList } from "./components/ItemList";
 import { ComplexForm } from "./components/ComplexForm";
 import { NotificationSystem } from "./components/NotificationSystem";
-import { ThemeContext } from "./@lib/hooks/useThemeContext";
-import { AuthContext } from "./@lib/hooks/useAuthContext";
-import { NotificationContext } from "./@lib/hooks/useNotificationContext";
+import { ThemeContext } from "./hooks/useThemeContext";
+import { AuthContext } from "./hooks/useAuthContext";
+import { NotificationContext } from "./hooks/useNotificationContext";
 import { useMemo } from "./@lib";
 import { generateItems } from "./utils";
 
