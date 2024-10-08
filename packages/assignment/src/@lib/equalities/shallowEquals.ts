@@ -3,12 +3,14 @@ export function shallowEquals(objA: any, objB: any): boolean {
   if (typeof objA !== typeof objB) return false;
 
   if (typeof objA === "object" && !!objA && !!objB) {
-    const keysA = Object.keys(objA);
-    const keysB = Object.keys(objB);
+    if (Array.isArray(objA) !== Array.isArray(objB)) return false;
 
-    if (keysA.length !== keysB.length) return false;
+    const objAKeys = Object.keys(objA);
+    const objBKeys = Object.keys(objB);
 
-    return Object.keys(objA).every((key) => objA[key] === objB[key]);
+    if (objAKeys.length !== objBKeys.length) return false;
+
+    return objAKeys.every((key) => objA[key] === objB[key]);
   }
 
   return objA === objB;

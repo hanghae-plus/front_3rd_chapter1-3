@@ -3,6 +3,8 @@ export function deepEquals(objA: any, objB: any): boolean {
   if (typeof objA !== typeof objB) return false;
 
   if (typeof objA === "object" && !!objA && !!objB) {
+    if (Array.isArray(objA) !== Array.isArray(objB)) return false;
+
     const objAKeys = Object.keys(objA);
     const objBKeys = Object.keys(objB);
 
