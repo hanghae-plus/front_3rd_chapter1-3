@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import { useTheme } from '../../hooks';
 
-const Theme: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const Theme: React.FC<PropsWithChildren> = ({ children }) => {
   const { theme } = useTheme();
 
   return (
