@@ -1,4 +1,3 @@
-// import { useMemo, useRef } from '..';
 import { useMemo, useRef } from '..';
 import { shallowEquals } from '../equalities';
 import { ComponentType, createElement } from 'react';
@@ -13,7 +12,7 @@ export function memo<P extends object>(
   return (props: P) => {
     const ref = useRef<P | null>(null);
 
-    if (!ref.current || !equals(ref.current, props)) {
+    if (!equals(ref.current, props)) {
       ref.current = props;
     }
 
