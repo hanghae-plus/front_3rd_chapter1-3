@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import { Item } from "../models";
 import { renderLog } from "../utils";
-import { useAppContext } from "../context/AppContext";
+import { useTheme } from "../@lib/hooks/useTheme";
 
-export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
+export const ItemList: React.FC<{ items: Item[] }> = memo(({ items }) => {
   renderLog("ItemList rendered");
   const [filter, setFilter] = useState("");
-  const { theme } = useAppContext();
+  const { theme } = useTheme();
 
   const filteredItems = items.filter(
     (item) =>
@@ -47,4 +47,4 @@ export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
       )}
     </div>
   );
-};
+});
