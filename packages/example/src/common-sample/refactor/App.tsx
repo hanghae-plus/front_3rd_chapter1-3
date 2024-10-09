@@ -1,16 +1,16 @@
-import { memo, PropsWithChildren, useCallback, useMemo, useState } from 'react';
+import { memo, PropsWithChildren, useCallback, useMemo, useState } from "react";
 
-type NewsCategory = '정치' | '경제' | '사회' | '문화';
+type NewsCategory = "정치" | "경제" | "사회" | "문화";
 
 interface NewsItem {
   id: number;
   title: string;
-  category: NewsCategory
+  category: NewsCategory;
   likes: number;
   content: string;
 }
 
-const NEWS_CATEGORIES = ['정치', '경제', '사회', '문화'] as const;
+const NEWS_CATEGORIES = ["정치", "경제", "사회", "문화"] as const;
 
 const generateNewsData = (count: number): NewsItem[] => {
   return Array.from({ length: count }, (_, index) => ({
@@ -18,7 +18,9 @@ const generateNewsData = (count: number): NewsItem[] => {
     title: `뉴스 제목 ${index + 1}`,
     category: [...NEWS_CATEGORIES].sort(() => Math.random() - 0.5)[0],
     likes: Math.floor(Math.random() * 100),
-    content: `이것은 뉴스 ${index + 1}의 내용입니다. 실제 내용은 더 길 것입니다.`
+    content: `이것은 뉴스 ${
+      index + 1
+    }의 내용입니다. 실제 내용은 더 길 것입니다.`,
   }));
 };
 
@@ -31,85 +33,93 @@ const Header = memo(({ totalLikes }: { totalLikes: number }) => (
   </header>
 ));
 
-const SidebarItem = memo(({
-                            selected = false,
-                            onClick,
-                            children
-                          }: PropsWithChildren<{
-  selected?: boolean,
-  onClick?: () => void
-}>) => {
-  const className = selected
-    ? 'bg-blue-500 text-white hover:bg-blue-600'
-    : 'bg-gray-200 text-gray-800 hover:bg-gray-300';
+const SidebarItem = memo(
+  ({
+    selected = false,
+    onClick,
+    children,
+  }: PropsWithChildren<{
+    selected?: boolean;
+    onClick?: () => void;
+  }>) => {
+    const className = selected
+      ? "bg-blue-500 text-white hover:bg-blue-600"
+      : "bg-gray-200 text-gray-800 hover:bg-gray-300";
 
-  return (
-    <button
-      onClick={onClick}
-      className={`w-full mb-2 px-4 py-2 rounded ${className}`}
-    >
-      {children}
-    </button>
-  );
-});
-
-const Sidebar = memo(({
-                        items,
-                        value,
-                        change,
-                      }: {
-  items: (NewsCategory | null)[]
-  value: NewsCategory | null,
-  change: (category: NewsCategory | null) => void,
-}) => (
-  <aside className="w-64 bg-white p-4">
-    {items.map(item => (
-      <SidebarItem
-        key={item}
-        selected={value === item}
-        onClick={() => change(item)}
-      >
-        {item ?? '전체'}
-      </SidebarItem>
-    ))}
-  </aside>
-));
-
-const NewsCard = memo(({ item, onLike }: { item: NewsItem, onLike: (id: number) => void }) => (
-  <div className="bg-white p-4 mb-4 rounded shadow">
-    <h2 className="text-xl font-semibold mb-2">{item.title}</h2>
-    <p className="text-gray-600 mb-2">{item.content}</p>
-    <div className="flex justify-between items-center">
-      <span className="text-sm text-gray-500">{item.category}</span>
+    return (
       <button
-        onClick={() => onLike(item.id)}
-        className="px-3 py-1 bg-red-100 text-red-800 rounded hover:bg-red-200"
+        onClick={onClick}
+        className={`w-full mb-2 px-4 py-2 rounded ${className}`}
       >
-        좋아요 ({item.likes})
+        {children}
       </button>
-    </div>
-  </div>
-));
+    );
+  }
+);
 
-const NewsFeed = memo(({ news, onLike }: { news: NewsItem[], onLike: (id: number) => void }) => (
-  <main className="flex-1 p-4">
-    {news.map((item) => (
-      <NewsCard key={item.id} item={item} onLike={onLike}/>
-    ))}
-  </main>
-));
+const Sidebar = memo(
+  ({
+    items,
+    value,
+    change,
+  }: {
+    items: (NewsCategory | null)[];
+    value: NewsCategory | null;
+    change: (category: NewsCategory | null) => void;
+  }) => (
+    <aside className="w-64 bg-white p-4">
+      {items.map((item) => (
+        <SidebarItem
+          key={item}
+          selected={value === item}
+          onClick={() => change(item)}
+        >
+          {item ?? "전체"}
+        </SidebarItem>
+      ))}
+    </aside>
+  )
+);
+
+const NewsCard = memo(
+  ({ item, onLike }: { item: NewsItem; onLike: (id: number) => void }) => (
+    <div className="bg-white p-4 mb-4 rounded shadow">
+      <h2 className="text-xl font-semibold mb-2">{item.title}</h2>
+      <p className="text-gray-600 mb-2">{item.content}</p>
+      <div className="flex justify-between items-center">
+        <span className="text-sm text-gray-500">{item.category}</span>
+        <button
+          onClick={() => onLike(item.id)}
+          className="px-3 py-1 bg-red-100 text-red-800 rounded hover:bg-red-200"
+        >
+          좋아요 ({item.likes})
+        </button>
+      </div>
+    </div>
+  )
+);
+
+const NewsFeed = memo(
+  ({ news, onLike }: { news: NewsItem[]; onLike: (id: number) => void }) => (
+    <main className="flex-1 p-4">
+      {news.map((item) => (
+        <NewsCard key={item.id} item={item} onLike={onLike} />
+      ))}
+    </main>
+  )
+);
 
 const App = () => {
   const [news, setNews] = useState(newsItems);
   const [category, setCategory] = useState<NewsCategory | null>(null);
 
-  const filteredNews = useMemo(() =>
-      category ? news.filter(item => item.category === category) : news,
+  const filteredNews = useMemo(
+    () => (category ? news.filter((item) => item.category === category) : news),
     [news, category]
   );
 
-  const totalLikes = useMemo(() =>
-      news.reduce((sum, item) => sum + item.likes, 0),
+  const totalLikes = useMemo(
+    () => news.reduce((sum, item) => sum + item.likes, 0),
     [news]
   );
 
@@ -118,23 +128,25 @@ const App = () => {
   }, []);
 
   const likeFeed = useCallback((id: number) => {
-    setNews(prevNews => prevNews.map(item =>
-      item.id === id ? { ...item, likes: item.likes + 1 } : item
-    ));
+    setNews((prevNews) =>
+      prevNews.map((item) =>
+        item.id === id ? { ...item, likes: item.likes + 1 } : item
+      )
+    );
   }, []);
 
   const sidebarItems = useMemo(() => [null, ...NEWS_CATEGORIES], []);
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <Header totalLikes={totalLikes}/>
+      <Header totalLikes={totalLikes} />
       <div className="flex">
         <Sidebar
           items={sidebarItems}
           value={category}
           change={changeCategory}
         />
-        <NewsFeed news={filteredNews} onLike={likeFeed}/>
+        <NewsFeed news={filteredNews} onLike={likeFeed} />
       </div>
     </div>
   );
