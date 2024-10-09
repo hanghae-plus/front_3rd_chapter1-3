@@ -10,11 +10,11 @@ export function memo<P extends object>(
     const prevPropsRef = useRef<P | null>(null);
 
     // props가 변경되었는지 확인
-    const propsChanged =
-      prevPropsRef.current === null || !equals(prevPropsRef.current, props);
+    const isFirstRender = prevPropsRef.current === null;
+    const propsChanged = !equals(prevPropsRef.current, props);
 
     // props가 변경되었으면 prevPropsRef를 업데이트
-    if (propsChanged) {
+    if (propsChanged || isFirstRender) {
       prevPropsRef.current = props;
     }
 
