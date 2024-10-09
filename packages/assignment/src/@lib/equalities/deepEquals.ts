@@ -2,7 +2,7 @@ import { isObject } from "../../utils";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function deepEquals(objA: any, objB: any): boolean {
-  // 두 객체가 동일한 경우
+  // 두 값이 동일한 경우
   if (objA === objB) return true;
 
   // null 또는 객체가 아닌 경우
