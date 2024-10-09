@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { renderLog } from '../utils'
 import { useThemeContext } from '../contexts'
+import { memo } from '../@lib'
 
 interface Item {
 	id: number
@@ -9,7 +10,7 @@ interface Item {
 	price: number
 }
 
-export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
+export const ItemList: React.FC<{ items: Item[] }> = memo(({ items }) => {
 	renderLog('ItemList rendered')
 	const [filter, setFilter] = useState('')
 	const { theme } = useThemeContext()
@@ -50,3 +51,4 @@ export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
 		</div>
 	)
 }
+)

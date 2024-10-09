@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { renderLog } from '../utils'
 import { useNotificationContext } from '../contexts'
+import { memo } from '../@lib'
 
-export const ComplexForm: React.FC = () => {
+export const ComplexForm: React.FC = memo(() => {
 	renderLog('ComplexForm rendered')
 	const { addNotification } = useNotificationContext()
 	const [formData, setFormData] = useState({
@@ -84,4 +85,4 @@ export const ComplexForm: React.FC = () => {
 			</form>
 		</div>
 	)
-}
+})

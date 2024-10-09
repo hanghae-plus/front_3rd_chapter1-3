@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { generateItems } from './utils'
 import {
   ThemeProvider,
@@ -6,13 +6,14 @@ import {
   NotificationProvider,
   useThemeContext,
 } from './contexts'
+import { useMemo } from './@lib'
 
 // components
 import { ItemList, Header, ComplexForm, NotificationSystem } from './components'
 
 const AppContent: React.FC = () => {
   const { theme } = useThemeContext()
-  const [items] = useState(generateItems(10000))
+  const items = useMemo(() => generateItems(10000), [])
 
   return (
     <div

@@ -4,6 +4,7 @@ import {
   NotificationContextType,
 } from './NotificationContext'
 import { Notification } from '../../types'
+import { useCallback } from '../../@lib'
 
 interface NotificationProviderProps {
   children: ReactNode
@@ -14,14 +15,17 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
 }) => {
   const [notifications, setNotifications] = useState<Notification[]>([])
 
-  const addNotification = (message: string, type: Notification['type']) => {
-    const newNotification: Notification = {
-      id: Date.now(),
-      message,
-      type,
-    }
-    setNotifications((prev) => [...prev, newNotification])
-  }
+  const addNotification = useCallback(
+    (message: string, type: Notification['type']) => {
+      const newNotification: Notification = {
+        id: Date.now(),
+        message,
+        type,
+      }
+      setNotifications((prev) => [...prev, newNotification])
+    },
+    []
+  )
 
   const removeNotification = (id: number) => {
     setNotifications((prev) =>
