@@ -15,10 +15,9 @@ export function shallowEquals(objA: any, objB: any): boolean {
   if(keysA.length !== keysB.length) return false;
 
   // 4. 모든 키에 대해 얕은 비교 수행
-  for(let i=0; i < keysA.length; i++) {
-    const key = keysA[i]
+  for(let key of keysA) {
     if (objA[key] !== objB[key]) {
-      return false
+      return false;
     }
   }
 
