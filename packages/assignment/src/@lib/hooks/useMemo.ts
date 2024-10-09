@@ -2,11 +2,6 @@ import { DependencyList } from 'react';
 import { shallowEquals } from '../equalities';
 import { useRef } from './useRef';
 
-interface MemoCache<T> {
-    deps: DependencyList;
-    result: T;
-}
-
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -15,7 +10,7 @@ export function useMemo<T>(factory: () => T, deps: DependencyList, equals = shal
 
     //? 1. 이전 의존성과 결과를 저장할 ref 생성
 
-    const ref = useRef<MemoCache<T> | null>(null);
+    const ref = useRef<{ cashValue: T; deps: DependencyList } | null>(null);
 
     //? 2. 현재 의존성과 이전 의존성 비교
 
@@ -24,12 +19,11 @@ export function useMemo<T>(factory: () => T, deps: DependencyList, equals = shal
     const shouldUpdate = isFirstRender || hasDepsChanged;
 
     //? 3. 의존성이 변경된 경우 factory 함수 실행 및 결과 저장
-
     if (shouldUpdate) {
-        ref.current = { deps, result: factory() };
+        ref.current = { cashValue: factory(), deps };
     }
 
     //? 4. 메모이제이션된 값 반환
 
-    return ref.current!.result;
+    return ref.current!.cashValue;
 }
