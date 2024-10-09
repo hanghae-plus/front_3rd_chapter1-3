@@ -8,9 +8,12 @@ export function deepEquals(objA: any, objB: any): boolean {
 
   if((objA === null || objA === undefined) && (objB === null || objB === undefined))  
     return true;
-
-  const keyA = Object.keys(objA);
-  const keyB = Object.keys(objB);
+  
+  if(Array.isArray(objA) !== Array.isArray(objB))
+    return false;
+  
+  const keyA = Object.keys(objA || {}); // null 또는 undefined 객체에 대한 처리 
+  const keyB = Object.keys(objB || {});
 
  
   if(keyA.length !== keyB.length) return false;
