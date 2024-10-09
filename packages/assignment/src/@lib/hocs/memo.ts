@@ -4,23 +4,20 @@ import { useRef } from "../hooks";
 
 export function memo<P extends object>(
   Component: ComponentType<P>,
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   equals = shallowEquals
 ) {
   return (props: P) => {
     const propsRef = useRef<P>(null);
-    const RenderComponentRef = useRef<JSX.Element>(null);
+    const componentRef = useRef<JSX.Element>(null);
 
-    const isPropsEquals =
-      propsRef.current !== null && equals(propsRef.current, props);
+    const isPropsDiff =
+      propsRef.current === null || !equals(propsRef.current, props);
 
-    if (!isPropsEquals) {
+    if (isPropsDiff) {
       propsRef.current = props;
-      RenderComponentRef.current = createElement(Component, props);
+      componentRef.current = createElement(Component, props);
     }
 
-    return RenderComponentRef.current;
+    return componentRef.current;
   };
 }

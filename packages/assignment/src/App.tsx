@@ -7,7 +7,6 @@ import { ItemList } from "./features/prodcut/components/ItemList";
 import { ComplexForm } from "./features/survey/components/ComplexForm";
 import { generateItems } from "./utils";
 
-// 메인 App 컴포넌트
 const App: React.FC = () => {
   const { theme } = useThemeContext();
   const [itemList] = useState(generateItems(10000));
