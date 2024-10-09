@@ -34,7 +34,7 @@ interface ThemeContextType {
   toggleTheme: () => void;
 }
 
-interface UserContextType {
+interface AuthContextType {
   user: User | null;
   login: (email: string, password: string) => void;
   logout: () => void;
@@ -47,7 +47,7 @@ interface NotificationContextType {
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
-const UserContext = createContext<UserContextType | undefined>(undefined);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 const NotificationContext = createContext<NotificationContextType | undefined>(
   undefined
 );
@@ -83,7 +83,7 @@ const UserProvider: React.FC<PropsWithChildren> = ({ children }) => {
     addNotification("로그아웃되었습니다", "info");
   }, []);
   const value = useMemo(() => ({ user, login, logout }), [user, login, logout]);
-  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 const NotificationProvider: React.FC<PropsWithChildren> = ({ children }) => {
@@ -124,13 +124,13 @@ export const useTheme = () => {
   return context;
 };
 
-const useUser = () => {
-  const context = useContext(UserContext);
+export const useUser = () => {
+  const context = useContext(AuthContext);
   if (!context) throw new Error("useUser must be used within a UserProvider");
   return context;
 };
 
-const useNotification = () => {
+export const useNotification = () => {
   const context = useContext(NotificationContext);
   if (!context)
     throw new Error(
