@@ -6,7 +6,12 @@ export function deepEquals(objA: any, objB: any): boolean {
   }
 
   // 기본 타입인지 확인
-  if (objA == null || objB == null || typeof objA !== 'object' || typeof objB !== 'object') {
+  if (
+    objA == null ||
+    objB == null ||
+    typeof objA !== "object" ||
+    typeof objB !== "object"
+  ) {
     return false; // 둘 중 하나가 null이거나 객체가 아닌 경우
   }
 
