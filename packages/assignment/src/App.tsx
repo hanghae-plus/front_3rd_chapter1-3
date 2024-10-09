@@ -1,6 +1,6 @@
 import React, { useState, createContext, useContext } from "react";
 import { generateItems, renderLog } from "./utils";
-import { useMemo } from "./@lib";
+import { useMemo, useCallback } from "./@lib";
 // 타입 정의
 interface Item {
   id: number;
@@ -49,10 +49,10 @@ export const Header: React.FC = () => {
   renderLog("Header rendered");
   const { theme, toggleTheme, user, login, logout } = useAppContext();
 
-  const handleLogin = () => {
+  const handleLogin = useCallback(() => {
     // 실제 애플리케이션에서는 사용자 입력을 받아야 합니다.
     login("user@example.com", "password");
-  };
+  }, [login]);
 
   return (
     <header className="bg-gray-800 text-white p-4">
@@ -153,27 +153,36 @@ export const ComplexForm: React.FC = () => {
     preferences: [] as string[],
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    addNotification("폼이 성공적으로 제출되었습니다", "success");
-  };
+  const handleSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      addNotification("폼이 성공적으로 제출되었습니다", "success");
+    },
+    [addNotification]
+  );
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: name === "age" ? parseInt(value) || 0 : value,
-    }));
-  };
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+      setFormData((prev) => ({
+        ...prev,
+        [name]: name === "age" ? parseInt(value) || 0 : value,
+      }));
+    },
+    [setFormData]
+  );
 
-  const handlePreferenceChange = (preference: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      preferences: prev.preferences.includes(preference)
-        ? prev.preferences.filter((p) => p !== preference)
-        : [...prev.preferences, preference],
-    }));
-  };
+  const handlePreferenceChange = useCallback(
+    (preference: string) => {
+      setFormData((prev) => ({
+        ...prev,
+        preferences: prev.preferences.includes(preference)
+          ? prev.preferences.filter((p) => p !== preference)
+          : [...prev.preferences, preference],
+      }));
+    },
+    [setFormData]
+  );
 
   return (
     <div className="mt-8">
@@ -267,34 +276,40 @@ const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
-  const toggleTheme = () => {
+  const toggleTheme = useCallback(() => {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
-  };
+  }, [setTheme]);
 
-  const login = (email: string) => {
-    setUser({ id: 1, name: "홍길동", email });
-    addNotification("성공적으로 로그인되었습니다", "success");
-  };
+  const addNotification = useCallback(
+    (message: string, type: Notification["type"]) => {
+      const newNotification: Notification = {
+        id: Date.now(),
+        message,
+        type,
+      };
+      setNotifications((prev) => [...prev, newNotification]);
+    },
+    []
+  );
 
-  const logout = () => {
-    setUser(null);
-    addNotification("로그아웃되었습니다", "info");
-  };
-
-  const addNotification = (message: string, type: Notification["type"]) => {
-    const newNotification: Notification = {
-      id: Date.now(),
-      message,
-      type,
-    };
-    setNotifications((prev) => [...prev, newNotification]);
-  };
-
-  const removeNotification = (id: number) => {
+  const removeNotification = useCallback((id: number) => {
     setNotifications((prev) =>
       prev.filter((notification) => notification.id !== id)
     );
-  };
+  }, []);
+
+  const login = useCallback(
+    (email: string) => {
+      setUser({ id: 1, name: "홍길동", email });
+      addNotification("성공적으로 로그인되었습니다", "success");
+    },
+    [addNotification]
+  );
+
+  const logout = useCallback(() => {
+    setUser(null);
+    addNotification("로그아웃되었습니다", "info");
+  }, [addNotification]);
 
   const contextValue: AppContextType = {
     theme,
