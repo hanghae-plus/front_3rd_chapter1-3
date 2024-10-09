@@ -2,14 +2,13 @@ import { useState } from "react";
 import { useThemeContext } from "../contexts/theme/useThemeContext";
 import { renderLog } from "../utils";
 import { Item } from "../types";
+import { deepMemo } from "../@lib";
 
-export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
+export const ItemList: React.FC<{ items: Item[] }> = deepMemo(({ items }) => {
     renderLog("ItemList rendered");
     const [filter, setFilter] = useState("");
     const { theme } = useThemeContext();
-
     const filteredItems = items.filter((item) => item.name.toLowerCase().includes(filter.toLowerCase()) || item.category.toLowerCase().includes(filter.toLowerCase()));
-
     const averagePrice = items.reduce((sum, item) => sum + item.price, 0) / items.length;
 
     return (
@@ -27,4 +26,4 @@ export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
             {filteredItems.length > 100 && <p className="mt-4">...그 외 {filteredItems.length - 100}개 상품</p>}
         </div>
     );
-};
+});

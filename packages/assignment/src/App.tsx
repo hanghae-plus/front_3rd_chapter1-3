@@ -5,6 +5,7 @@ import { ThemeContainer } from "./components/layout/ThemeContainer";
 import { Header } from "./components/layout/Header";
 import { ItemList } from "./components/ItemList";
 import { ComplexForm } from "./components/ComplexForm";
+import { NotificationSystem } from "./components/NotificationSystem";
 
 // 메인 App 컴포넌트
 const App: React.FC = () => {
@@ -13,6 +14,7 @@ const App: React.FC = () => {
     return (
         <AppProvider>
             <ThemeContainer>
+                <NotificationSystem></NotificationSystem>
                 <Header />
                 <div className="container mx-auto px-4 py-8">
                     <div className="flex flex-col md:flex-row">
