@@ -1,4 +1,9 @@
-import React, { useState, createContext, useContext } from "react";
+import React, {
+  useState,
+  createContext,
+  useContext,
+  PropsWithChildren,
+} from "react";
 import { generateItems, renderLog } from "./utils";
 import { useMemo, useCallback } from "./@lib";
 
@@ -311,16 +316,31 @@ export const NotificationSystem: React.FC = () => {
   );
 };
 
-// 메인 App 컴포넌트
-const App: React.FC = () => {
-  const [theme, setTheme] = useState("light");
-  const [items] = useState(generateItems(10000));
-  const [user, setUser] = useState<User | null>(null);
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-
+const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
+  const [theme, setTheme] = useState<Theme>("light");
   const toggleTheme = useCallback(() => {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
-  }, [setTheme]);
+  }, []);
+  const value = useMemo(() => ({ theme, toggleTheme }), [theme, toggleTheme]);
+  return (
+    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+  );
+};
+
+const UserProvider: React.FC<PropsWithChildren> = ({ children }) => {
+  const [user, setUser] = useState<User | null>(null);
+  const login = useCallback((email: string) => {
+    setUser({ id: 1, name: "홍길동", email });
+  }, []);
+  const logout = useCallback(() => {
+    setUser(null);
+  }, []);
+  const value = useMemo(() => ({ user, login, logout }), [user, login, logout]);
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+};
+
+const NotificationProvider: React.FC<PropsWithChildren> = ({ children }) => {
+  const [notifications, setNotifications] = useState<Notification[]>([]);
 
   const addNotification = useCallback(
     (message: string, type: Notification["type"]) => {
@@ -340,51 +360,52 @@ const App: React.FC = () => {
     );
   }, []);
 
-  const login = useCallback(
-    (email: string) => {
-      setUser({ id: 1, name: "홍길동", email });
-      addNotification("성공적으로 로그인되었습니다", "success");
-    },
-    [addNotification]
+  const value = useMemo(
+    () => ({
+      notifications,
+      addNotification,
+      removeNotification,
+    }),
+    [notifications, addNotification, removeNotification]
   );
 
-  const logout = useCallback(() => {
-    setUser(null);
-    addNotification("로그아웃되었습니다", "info");
-  }, [addNotification]);
+  return (
+    <NotificationContext.Provider value={value}>
+      {children}
+    </NotificationContext.Provider>
+  );
+};
 
-  const contextValue: AppContextType = {
-    theme,
-    toggleTheme,
-    user,
-    login,
-    logout,
-    notifications,
-    addNotification,
-    removeNotification,
-  };
+// 메인 App 컴포넌트
+const App: React.FC = () => {
+  const [theme, _] = useState("light");
+  const [items] = useState(generateItems(10000));
 
   return (
-    <AppContext.Provider value={contextValue}>
-      <div
-        className={`min-h-screen ${
-          theme === "light" ? "bg-gray-100" : "bg-gray-900 text-white"
-        }`}
-      >
-        <Header />
-        <div className="container mx-auto px-4 py-8">
-          <div className="flex flex-col md:flex-row">
-            <div className="w-full md:w-1/2 md:pr-4">
-              <ItemList items={items} />
+    <ThemeProvider>
+      <UserProvider>
+        <NotificationProvider>
+          <div
+            className={`min-h-screen ${
+              theme === "light" ? "bg-gray-100" : "bg-gray-900 text-white"
+            }`}
+          >
+            <Header />
+            <div className="container mx-auto px-4 py-8">
+              <div className="flex flex-col md:flex-row">
+                <div className="w-full md:w-1/2 md:pr-4">
+                  <ItemList items={items} />
+                </div>
+                <div className="w-full md:w-1/2 md:pl-4">
+                  <ComplexForm />
+                </div>
+              </div>
             </div>
-            <div className="w-full md:w-1/2 md:pl-4">
-              <ComplexForm />
-            </div>
+            <NotificationSystem />
           </div>
-        </div>
-        <NotificationSystem />
-      </div>
-    </AppContext.Provider>
+        </NotificationProvider>
+      </UserProvider>
+    </ThemeProvider>
   );
 };
 
