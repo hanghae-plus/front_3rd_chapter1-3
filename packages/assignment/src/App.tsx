@@ -1,7 +1,8 @@
 import React, { useState, createContext, useContext } from "react";
 import { generateItems, renderLog } from "./utils";
 import { useMemo, useCallback } from "./@lib";
-// 타입 정의
+
+type Theme = "light" | "dark";
 interface Item {
   id: number;
   name: string;
@@ -19,6 +20,23 @@ interface Notification {
   id: number;
   message: string;
   type: "info" | "success" | "warning" | "error";
+}
+
+interface ThemeContextType {
+  theme: Theme;
+  toggleTheme: () => void;
+}
+
+interface UserContextType {
+  user: User | null;
+  login: (email: string, password: string) => void;
+  logout: () => void;
+}
+
+interface NotificationContextType {
+  notifications: Notification[];
+  addNotification: (message: string, type: Notification["type"]) => void;
+  removeNotification: (id: number) => void;
 }
 
 // AppContext 타입 정의
