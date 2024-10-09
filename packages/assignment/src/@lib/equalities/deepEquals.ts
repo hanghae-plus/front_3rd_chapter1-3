@@ -1,13 +1,12 @@
+import { isObject } from "../../utils";
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function deepEquals(objA: any, objB: any): boolean {
   // 두 객체가 동일한 경우
   if (objA === objB) return true;
 
-  // null 또는 undefined인 경우
-  if (objA == null || objB == null) return false;
-
-  // 객체가 아닌 경우
-  if (typeof objA !== "object" || typeof objB !== "object") return false;
+  // null 또는 객체가 아닌 경우
+  if (!isObject(objA) || !isObject(objB)) return false;
 
   // 배열 비교
   if (Array.isArray(objA) && Array.isArray(objB)) {
