@@ -1,8 +1,8 @@
 import React, { ReactNode } from "react";
-import { useApp } from "../context";
+import { useTheme } from "../context";
 
 export const MainLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const { theme } = useApp();
+  const { theme } = useTheme();
   return (
     <div
       className={`min-h-screen ${
