@@ -5,30 +5,12 @@ import ItemList from "../components/ItemList";
 import NotificationSystem from "../components/NotificationSystem";
 import { useTheme } from "../context/ThemeContext";
 import { generateItems } from "../utils";
-import { useNotification } from "../context/NotificationContext";
-import { useUser } from "../context/UserContext";
-import { useMemo, useCallback } from "../@lib";
+import { useMemo } from "../@lib";
 
-// 메인 App 컴포넌트
 const MainLayout: React.FC = () => {
-  const count = 10000; // count를 변수로 정의
+  const count = 10000;
   const items = useMemo(() => generateItems(count), [count]);
   const { theme } = useTheme();
-  const { login, logout } = useUser();
-  const { addNotification } = useNotification();
-
-  const handleLogin = useCallback(
-    (email: string, password: string) => {
-      login(email, password);
-      addNotification("성공적으로 로그인되었습니다", "success");
-    },
-    [login, addNotification]
-  );
-
-  const handleLogout = useCallback(() => {
-    logout();
-    addNotification("로그아웃되었습니다", "info");
-  }, [logout, addNotification]);
 
   return (
     <div
@@ -36,7 +18,7 @@ const MainLayout: React.FC = () => {
         theme === "light" ? "bg-gray-100" : "bg-gray-900 text-white"
       }`}
     >
-      <Header onLogin={handleLogin} onLogout={handleLogout} />
+      <Header />
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row">
           <div className="w-full md:w-1/2 md:pr-4">

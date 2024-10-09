@@ -6,6 +6,7 @@ import React, {
   ReactNode,
 } from "react";
 import { Notification } from "../types";
+import { useMemo } from "../@lib";
 
 interface NotificationContextType {
   notifications: Notification[];
@@ -13,9 +14,9 @@ interface NotificationContextType {
   removeNotification: (id: number) => void;
 }
 
-const NotificationContext = createContext<NotificationContextType | undefined>(
-  undefined
-);
+export const NotificationContext = createContext<
+  NotificationContextType | undefined
+>(undefined);
 
 export const NotificationProvider: React.FC<{ children: ReactNode }> = ({
   children,
@@ -36,10 +37,17 @@ export const NotificationProvider: React.FC<{ children: ReactNode }> = ({
     );
   }, []);
 
+  const value = useMemo(
+    () => ({
+      notifications,
+      addNotification,
+      removeNotification,
+    }),
+    [notifications, addNotification, removeNotification]
+  );
+
   return (
-    <NotificationContext.Provider
-      value={{ notifications, addNotification, removeNotification }}
-    >
+    <NotificationContext.Provider value={value}>
       {children}
     </NotificationContext.Provider>
   );

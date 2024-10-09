@@ -3,19 +3,14 @@ import { useTheme } from "../context/ThemeContext";
 import { useUser } from "../context/UserContext";
 import { renderLog } from "../utils";
 
-interface Props {
-  onLogin: (email: string, password: string) => void;
-  onLogout: () => void;
-}
-
-const Header: React.FC<Props> = ({ onLogin, onLogout }: Props) => {
+const Header: React.FC = () => {
   renderLog("Header rendered");
   const { theme, toggleTheme } = useTheme();
-  const { user } = useUser();
+  const { user, login, logout } = useUser();
 
   const handleLogin = () => {
     // 실제 애플리케이션에서는 사용자 입력을 받아야 합니다.
-    onLogin("user@example.com", "password");
+    login("user@example.com", "password");
   };
 
   return (
@@ -33,7 +28,7 @@ const Header: React.FC<Props> = ({ onLogin, onLogout }: Props) => {
             <div className="flex items-center">
               <span className="mr-2">{user.name}님 환영합니다!</span>
               <button
-                onClick={onLogout}
+                onClick={logout}
                 className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
               >
                 로그아웃

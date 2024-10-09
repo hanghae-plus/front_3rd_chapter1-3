@@ -1,6 +1,13 @@
-import React, { createContext, ReactNode, useContext, useState } from "react";
+import React, {
+  createContext,
+  ReactNode,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
 import { useCallback } from "../@lib";
 import { User } from "../types";
+import { useNotification } from "./NotificationContext";
 
 interface UserContextType {
   user: User | null;
@@ -13,23 +20,22 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const UserProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  const { addNotification } = useNotification();
   const [user, setUser] = useState<User | null>(null);
 
   const login = useCallback((email: string) => {
     setUser({ id: 1, name: "홍길동", email });
-    // addNotification("성공적으로 로그인되었습니다", "success");
+    addNotification("성공적으로 로그인되었습니다", "success");
   }, []);
 
   const logout = useCallback(() => {
     setUser(null);
-    // addNotification("로그아웃되었습니다", "info");
+    addNotification("로그아웃되었습니다", "info");
   }, []);
 
-  return (
-    <UserContext.Provider value={{ user, login, logout }}>
-      {children}
-    </UserContext.Provider>
-  );
+  const value = useMemo(() => ({ user, login, logout }), [user, login, logout]);
+
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
 
 export const useUser = () => {

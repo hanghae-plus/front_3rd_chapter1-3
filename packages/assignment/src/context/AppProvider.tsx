@@ -7,9 +7,9 @@ const AppProviders: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   return (
     <ThemeProvider>
-      <UserProvider>
-        <NotificationProvider>{children}</NotificationProvider>
-      </UserProvider>
+      <NotificationProvider>
+        <UserProvider>{children}</UserProvider>
+      </NotificationProvider>
     </ThemeProvider>
   );
 };
