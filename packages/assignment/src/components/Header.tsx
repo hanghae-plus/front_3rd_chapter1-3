@@ -1,6 +1,7 @@
 import { memo } from "../@lib"
 import { useTheme, useUser } from "../hooks"
 import { renderLog } from "../utils"
+import { LoginForm } from "./LoginForm"
 
 export const Header: React.FC = memo(() => {
   renderLog("Header rendered")
@@ -31,12 +32,7 @@ export const Header: React.FC = memo(() => {
               </button>
             </div>
           ) : (
-            <button
-              onClick={handleLogin}
-              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-            >
-              로그인
-            </button>
+            <LoginForm />
           )}
         </div>
       </div>
