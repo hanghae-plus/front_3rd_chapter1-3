@@ -7,12 +7,27 @@ export function shallowEquals(objA: any, objB: any): boolean {
   }
 
   // 2. 둘 중 하나라도 객체가 아닌 경우 처리
-  
+  if(typeof objA !== 'object' || typeof objB !== 'object' || objA === null || objB === null){
+    return false;
+  }
 
   // 3. 객체의 키 개수가 다른 경우 처리
+  const keysA = Object.keys(objA);
+  const keysB = Object.keys(objB);
+
+  console.log('keysA : ', keysA);
+  console.log('keysB : ', keysB );
+
+  if(keysA.length !== keysB.length){
+    return false;
+  }
 
   // 4. 모든 키에 대해 얕은 비교 수행
-
-  // 이 부분을 적절히 수정하세요.
-  return objA === objB;
+  for (let key of keysA) {
+    if (!objB.hasOwnProperty(key) || objA[key] !== objB[key]) {
+      return false;
+    }
+  }
+  
+  return true;
 }
