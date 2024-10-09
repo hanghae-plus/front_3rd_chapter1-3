@@ -1,2 +1,2 @@
-export * from "./deepMemo";
-export * from "./memo";
+export { deepMemo } from './deepMemo';
+export { memo } from './memo';
