@@ -4,7 +4,11 @@ export function shallowEquals(objA: any, objB: any): boolean {
         return true;
     }
 
-    if (typeof objA !== "object" || objA === null || typeof objB !== "object" || objB === null) {
+    if (typeof objA !== "object" || typeof objB !== "object") {
+        return false;
+    }
+
+    if (objA === null || objB === null) {
         return false;
     }
 
