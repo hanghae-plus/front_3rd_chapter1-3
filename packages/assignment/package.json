@@ -11,7 +11,8 @@
     "test": "vitest",
     "test:basic": "vitest basic.test",
     "test:advanced": "vitest advanced.test",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
     "react": "^18.3.1",

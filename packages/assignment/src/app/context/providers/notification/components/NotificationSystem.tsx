@@ -1,24 +1,28 @@
 import { renderLog } from "@/utils";
 import { useNotificationContext } from "../useNotificationContext";
 
-// NotificationSystem 컴포넌트
+const NotificationTypeStyles = {
+  success: "bg-green-500",
+  error: "bg-red-500",
+  warning: "bg-yellow-500",
+  info: "bg-blue-500",
+};
+
 export function NotificationSystem() {
   renderLog("NotificationSystem rendered");
   const { notifications, removeNotification } = useNotificationContext();
 
   return (
-    <div className="fixed bottom-4 right-4 space-y-2">
+    <div
+      className="fixed bottom-4 right-4 space-y-2"
+      data-testid="notification-system"
+    >
       {notifications.map((notification) => (
         <div
           key={notification.id}
           className={`p-4 rounded shadow-lg ${
-            notification.type === "success"
-              ? "bg-green-500"
-              : notification.type === "error"
-              ? "bg-red-500"
-              : notification.type === "warning"
-              ? "bg-yellow-500"
-              : "bg-blue-500"
+            NotificationTypeStyles[notification.type] ||
+            NotificationTypeStyles.info
           } text-white`}
         >
           {notification.message}

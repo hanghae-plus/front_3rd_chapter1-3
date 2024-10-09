@@ -15,7 +15,6 @@ export function shallowEquals(objA: unknown, objB: unknown): boolean {
   }
 
   // 3. 객체의 키 개수가 다른 경우 처리
-
   const _objA = objA as Record<string, unknown>;
   const _objB = objB as Record<string, unknown>;
 

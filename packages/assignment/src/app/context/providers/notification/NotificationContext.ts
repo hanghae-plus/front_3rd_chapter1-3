@@ -1,11 +1,11 @@
 import { createContext } from "react";
 
-type AlertType = "info" | "success" | "warning" | "error";
+type NotificationType = "info" | "success" | "warning" | "error";
 
 interface Notification {
   id: number;
   message: string;
-  type: AlertType;
+  type: NotificationType;
 }
 
 export interface NotificationContextType {

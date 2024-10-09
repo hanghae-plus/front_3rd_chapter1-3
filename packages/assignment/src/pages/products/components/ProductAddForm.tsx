@@ -45,6 +45,7 @@ export default function ProductAddForm() {
           onChange={handleInputChange}
           placeholder="이름"
           className="w-full p-2 border border-gray-300 rounded text-black"
+          aria-label="name"
         />
         <input
           type="email"
@@ -53,6 +54,7 @@ export default function ProductAddForm() {
           onChange={handleInputChange}
           placeholder="이메일"
           className="w-full p-2 border border-gray-300 rounded text-black"
+          aria-label="email"
         />
         <input
           type="number"
@@ -61,6 +63,7 @@ export default function ProductAddForm() {
           onChange={handleInputChange}
           placeholder="나이"
           className="w-full p-2 border border-gray-300 rounded text-black"
+          aria-label="age"
         />
         <div className="space-x-4">
           {["독서", "운동", "음악", "여행"].map((pref) => (

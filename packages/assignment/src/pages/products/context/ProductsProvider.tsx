@@ -57,7 +57,7 @@ export const ProductsProvider = ({ children }: ProductsProviderProps) => {
   );
 
   return (
-    <ProductsContext.Provider value={values}>
+    <ProductsContext.Provider value={values} data-testid="products-provider">
       {children}
     </ProductsContext.Provider>
   );

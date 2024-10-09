@@ -3,11 +3,11 @@ import { useCallback, useMemo } from "@/@lib";
 import { useNotificationContext } from "@/app/context";
 import { UserContext, UserContextType } from "./UserContext";
 
-type ThemeProviderProps = {
+type UserProviderProps = {
   children: React.ReactNode;
 };
 
-export const UserProvider = ({ children }: ThemeProviderProps) => {
+export const UserProvider = ({ children }: UserProviderProps) => {
   const { addNotification } = useNotificationContext();
   const [user, setUser] = useState<UserContextType["user"] | null>(null);
 
