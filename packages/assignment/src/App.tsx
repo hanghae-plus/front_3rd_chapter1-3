@@ -316,12 +316,18 @@ const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
 const UserProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const login = useCallback((email: string) => {
-    setUser({ id: 1, name: "홍길동", email });
-  }, []);
+  const { addNotification } = useNotification();
+  const login = useCallback(
+    (email: string) => {
+      setUser({ id: 1, name: "홍길동", email });
+      addNotification("성공적으로 로그인되었습니다", "success");
+    },
+    [addNotification]
+  );
   const logout = useCallback(() => {
     setUser(null);
-  }, []);
+    addNotification("성공적으로 로그아웃되었습니다", "success");
+  }, [addNotification]);
   const value = useMemo(() => ({ user, login, logout }), [user, login, logout]);
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
@@ -369,8 +375,8 @@ const App: React.FC = () => {
 
   return (
     <ThemeProvider>
-      <UserProvider>
-        <NotificationProvider>
+      <NotificationProvider>
+        <UserProvider>
           <Header />
           <div className="container mx-auto px-4 py-8">
             <div className="flex flex-col md:flex-row">
@@ -383,8 +389,8 @@ const App: React.FC = () => {
             </div>
           </div>
           <NotificationSystem />
-        </NotificationProvider>
-      </UserProvider>
+        </UserProvider>
+      </NotificationProvider>
     </ThemeProvider>
   );
 };
