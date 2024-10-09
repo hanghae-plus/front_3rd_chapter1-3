@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { useTheme } from "../App";
+import useTheme from "../provider/theme/useTheme";
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const { theme } = useTheme();
