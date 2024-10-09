@@ -13,11 +13,11 @@ export function useMemo<T>(
   // 직접 작성한 useRef를 통해서 만들어보세요! 이게 제일 중요합니다.
 
   // 1. 이전 의존성과 결과를 저장할 ref 생성
-  let depsRef = useRef<DependencyList | undefined>(undefined);
-  let factoryRef = useRef<T | undefined>(undefined);
+  let depsRef = useRef<DependencyList | null>(null);
+  let factoryRef = useRef<T | null>(null);
 
   // 2. 현재 의존성과 이전 의존성 비교
-  if (depsRef.current === undefined || !equals(deps, depsRef.current)) {
+  if (depsRef.current === null || !equals(deps, depsRef.current)) {
     depsRef.current = deps;
     factoryRef.current = factory();
   }
