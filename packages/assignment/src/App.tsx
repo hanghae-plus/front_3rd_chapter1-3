@@ -1,5 +1,7 @@
 import React, { useState, createContext, useContext } from 'react';
 import { generateItems, renderLog } from './utils';
+import { useCallback,useDeepMemo,useMemo,useRef} from './@lib/hooks';
+import {memo,deepMemo} from './@lib/hocs';
 
 // 타입 정의
 interface Item {
@@ -38,6 +40,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 // 커스텀 훅: useAppContext
 const useAppContext = () => {
   const context = useContext(AppContext);
+  console.log(AppContext)
   if (context === undefined) {
     throw new Error('useAppContext must be used within an AppProvider');
   }
@@ -45,9 +48,9 @@ const useAppContext = () => {
 };
 
 // Header 컴포넌트
-export const Header: React.FC = () => {
+export const Header: React.FC <{ theme: string }> = memo(({ theme }) => {
   renderLog('Header rendered');
-  const { theme, toggleTheme, user, login, logout } = useAppContext();
+  const { toggleTheme, user, login, logout } = useAppContext();
 
   const handleLogin = () => {
     // 실제 애플리케이션에서는 사용자 입력을 받아야 합니다.
@@ -74,13 +77,13 @@ export const Header: React.FC = () => {
       </div>
     </header>
   );
-};
+});
 
 // ItemList 컴포넌트
-export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
+export const ItemList: React.FC<{ items: Item[], theme: string }> = memo(({ items, theme }) => {
   renderLog('ItemList rendered');
   const [filter, setFilter] = useState('');
-  const { theme } = useAppContext();
+  // const { theme } = useAppContext();
 
   const filteredItems = items.filter(item =>
     item.name.toLowerCase().includes(filter.toLowerCase()) ||
@@ -110,7 +113,7 @@ export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
       {filteredItems.length > 100 && <p className="mt-4">...그 외 {filteredItems.length - 100}개 상품</p>}
     </div>
   );
-};
+});
 
 // ComplexForm 컴포넌트
 export const ComplexForm: React.FC = () => {
@@ -268,11 +271,12 @@ const App: React.FC = () => {
   return (
     <AppContext.Provider value={contextValue}>
       <div className={`min-h-screen ${theme === 'light' ? 'bg-gray-100' : 'bg-gray-900 text-white'}`}>
-        <Header />
+        {/* theme prop을 전달 */}
+        <Header theme={theme} />
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col md:flex-row">
             <div className="w-full md:w-1/2 md:pr-4">
-              <ItemList items={items} />
+            <ItemList items={items} theme={theme} />
             </div>
             <div className="w-full md:w-1/2 md:pl-4">
               <ComplexForm />

@@ -13,7 +13,8 @@ export function useMemo<T>(
 ): T {
   // 1. 이전 의존성과 결과를 저장할 ref 생성
   const ref = useRef<{ deps: DependencyList; result: T } | null>(null);
-
+ 
+  
   // 2. 현재 의존성과 이전 의존성 비교
   if (ref.current === null || !equals(ref.current.deps, deps)) {
     // 이전값과 현재값 비교
