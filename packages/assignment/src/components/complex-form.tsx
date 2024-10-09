@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import { NotificationContext, useContextHook } from "../@lib/context";
 import { renderLog } from "../utils";
 
-export const ComplexForm = () => {
+export const ComplexForm = memo(() => {
   renderLog("ComplexForm rendered");
   const { addNotification } = useContextHook({
     context: NotificationContext,
@@ -87,4 +87,4 @@ export const ComplexForm = () => {
       </form>
     </div>
   );
-};
+});

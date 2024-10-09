@@ -1,3 +1,4 @@
+import { UserProvider } from "../@lib/context";
 import { ThemeContext, ThemeContextType } from "../@lib/context/theme-context";
 import { useContextHook } from "../@lib/context/useContextHook";
 import { ComplexForm } from "./complex-form";
@@ -9,7 +10,9 @@ export const LayoutApp = () => {
   const { theme } = useContextHook<ThemeContextType>({ context: ThemeContext, name: "Theme" });
   return (
     <div className={`min-h-screen ${theme === "light" ? "bg-gray-100" : "bg-gray-900 text-white"}`}>
-      <Header />
+      <UserProvider>
+        <Header />
+      </UserProvider>
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row">
           <div className="w-full md:w-1/2 md:pr-4">

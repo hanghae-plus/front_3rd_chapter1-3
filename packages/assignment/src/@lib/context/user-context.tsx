@@ -1,6 +1,7 @@
 import { createContext, PropsWithChildren, useState } from "react";
 import { useContextHook } from "./useContextHook";
 import { NotificationContext } from "./notification-context";
+import { useMemo } from "../hooks";
 
 export interface UserType {
   id: number;
@@ -33,5 +34,10 @@ export const UserProvider: React.FC<PropsWithChildren> = ({ children }) => {
     addNotification("로그아웃되었습니다", "info");
   };
 
-  return <UserContext.Provider value={{ user, login, logout }}>{children}</UserContext.Provider>;
+  const userContextMemo = useMemo(() => {
+    return { user, login, logout };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  return <UserContext.Provider value={userContextMemo}>{children}</UserContext.Provider>;
 };

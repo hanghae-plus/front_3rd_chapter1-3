@@ -1,7 +1,8 @@
+import { memo } from "react";
 import { NotificationContext, useContextHook } from "../@lib/context";
 import { renderLog } from "../utils";
 
-export const NotificationSystem = () => {
+export const NotificationSystem = memo(() => {
   renderLog("NotificationSystem rendered");
   const { notifications, removeNotification } = useContextHook({
     context: NotificationContext,
@@ -34,4 +35,4 @@ export const NotificationSystem = () => {
       ))}
     </div>
   );
-};
+});

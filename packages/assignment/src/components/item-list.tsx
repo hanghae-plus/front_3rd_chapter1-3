@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useMemo } from "../@lib";
 import { generateItems, renderLog } from "../utils";
 import { ThemeContext, useContextHook } from "../@lib/context";
 
@@ -14,7 +15,9 @@ export const ItemList = () => {
   const [filter, setFilter] = useState("");
   const { theme } = useContextHook({ context: ThemeContext, name: "Theme" });
 
-  const [items] = useState<Item[]>(generateItems(100));
+  const items: Item[] = useMemo(() => {
+    return generateItems(100);
+  }, []);
 
   const filteredItems = items.filter(
     (item) =>

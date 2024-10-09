@@ -1,7 +1,8 @@
+import { memo } from "../@lib";
 import { ThemeContext, useContextHook, UserContext } from "../@lib/context";
 import { renderLog } from "../utils";
 
-export const Header = () => {
+export const Header = memo(() => {
   renderLog("Header rendered");
   const { theme, toggleTheme } = useContextHook({ context: ThemeContext, name: "Theme" });
   const { user, login, logout } = useContextHook({ context: UserContext, name: "User" });
@@ -44,4 +45,4 @@ export const Header = () => {
       </div>
     </header>
   );
-};
+});
