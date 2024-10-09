@@ -1,6 +1,6 @@
 import React, { useState, createContext, useContext } from "react";
 import { generateItems, renderLog } from "./utils";
-
+import { useMemo } from "./@lib";
 // 타입 정의
 interface Item {
   id: number;
@@ -95,14 +95,20 @@ export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
   const [filter, setFilter] = useState("");
   const { theme } = useAppContext();
 
-  const filteredItems = items.filter(
-    (item) =>
-      item.name.toLowerCase().includes(filter.toLowerCase()) ||
-      item.category.toLowerCase().includes(filter.toLowerCase())
+  const filteredItems = useMemo(
+    () =>
+      items.filter(
+        (item) =>
+          item.name.toLowerCase().includes(filter.toLowerCase()) ||
+          item.category.toLowerCase().includes(filter.toLowerCase())
+      ),
+    [items, filter]
   );
 
-  const averagePrice =
-    items.reduce((sum, item) => sum + item.price, 0) / items.length;
+  const averagePrice = useMemo(
+    () => items.reduce((sum, item) => sum + item.price, 0) / items.length,
+    [items]
+  );
 
   return (
     <div className="mt-8">
