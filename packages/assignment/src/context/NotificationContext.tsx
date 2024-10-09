@@ -1,6 +1,7 @@
 // context/NotificationContext.tsx
 import React, { createContext, useState, ReactNode } from "react";
 import { Notification } from "../models";
+import { useCallback, useMemo } from "../@lib";
 
 interface NotificationContextType {
   notifications: Notification[];
@@ -17,20 +18,30 @@ export const NotificationProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
-  const addNotification = (message: string, type: Notification["type"]) => {
-    setNotifications((prev) => [...prev, { id: Date.now(), message, type }]);
-  };
+  const addNotification = useCallback(
+    (message: string, type: Notification["type"]) => {
+      setNotifications((prev) => [...prev, { id: Date.now(), message, type }]);
+    },
+    []
+  );
 
-  const removeNotification = (id: number) => {
+  const removeNotification = useCallback((id: number) => {
     setNotifications((prev) =>
       prev.filter((notification) => notification.id !== id)
     );
-  };
+  }, []);
+
+  const contextValue = useMemo(
+    () => ({
+      notifications,
+      addNotification,
+      removeNotification,
+    }),
+    [notifications, addNotification, removeNotification]
+  );
 
   return (
-    <NotificationContext.Provider
-      value={{ notifications, addNotification, removeNotification }}
-    >
+    <NotificationContext.Provider value={contextValue}>
       {children}
     </NotificationContext.Provider>
   );

@@ -1,12 +1,13 @@
 import React from "react";
 import { generateItems } from "./utils";
-import { Header } from "./components/Header";
 import { ItemList } from "./components/ItemList";
-import { ComplexForm } from "./components/ComplexForm";
-import { NotificationSystem } from "./components/NotificationSystem";
+
 import { ThemeProvider } from "./context/ThemeContext";
 import { UserProvider } from "./context/userContext";
 import { NotificationProvider } from "./context/NotificationContext";
+import Header from "./components/Header";
+import ComplexForm from "./components/ComplexForm";
+import NotificationSystem from "./components/NotificationSystem";
 
 // 메인 App 컴포넌트
 const App: React.FC = () => {
@@ -14,8 +15,8 @@ const App: React.FC = () => {
 
   return (
     <ThemeProvider>
-      <UserProvider>
-        <NotificationProvider>
+      <NotificationProvider>
+        <UserProvider>
           <div className="min-h-screen">
             <Header />
             <div className="container mx-auto px-4 py-8">
@@ -30,8 +31,8 @@ const App: React.FC = () => {
             </div>
           </div>
           <NotificationSystem />
-        </NotificationProvider>
-      </UserProvider>
+        </UserProvider>
+      </NotificationProvider>
     </ThemeProvider>
   );
 };
