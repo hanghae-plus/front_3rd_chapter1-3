@@ -1,0 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+export function isObject(value: any) {
+  return typeof value === 'object' && value !== null;
+}
