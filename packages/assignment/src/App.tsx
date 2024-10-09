@@ -6,7 +6,7 @@ import { NotificationProvider } from "./context/NotificationContext";
 import Header from "./components/Header";
 import ComplexForm from "./components/ComplexForm";
 import NotificationSystem from "./components/NotificationSystem";
-import { UserProvider } from "./context/userContext";
+import { UserProvider } from "./context/UserContext";
 
 // 메인 App 컴포넌트
 const App: React.FC = () => {

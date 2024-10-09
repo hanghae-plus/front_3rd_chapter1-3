@@ -1,4 +1,3 @@
-// context/UserContext.tsx
 import React, { createContext, useState } from "react";
 import { User } from "../models";
 import { useNotification } from "../@lib/hooks/useNotification";
