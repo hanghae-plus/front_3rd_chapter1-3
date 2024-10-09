@@ -1,5 +1,6 @@
 import { shallowEquals } from "../equalities";
 import { ComponentType } from "react";
+import { useRef } from "../hooks";
 
 export function memo<P extends object>(
   Component: ComponentType<P>,
@@ -8,5 +9,15 @@ export function memo<P extends object>(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   equals = shallowEquals
 ) {
-  return Component;
+
+  return function MemoizedComponent(props: P){
+    const prevProps = useRef<P | null>(null);
+
+    if(!equals(props, prevProps.current)){
+      prevProps.current = props;
+    }
+   
+   return Component;
+  }
+ 
 }
