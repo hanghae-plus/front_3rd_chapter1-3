@@ -94,7 +94,8 @@ const useNotification = () => {
 // Header 컴포넌트
 export const Header: React.FC = () => {
   renderLog("Header rendered");
-  const { theme, toggleTheme, user, login, logout } = useAppContext();
+  const { theme, toggleTheme } = useTheme();
+  const { user, login, logout } = useUser();
 
   const handleLogin = useCallback(() => {
     // 실제 애플리케이션에서는 사용자 입력을 받아야 합니다.
@@ -140,7 +141,7 @@ export const Header: React.FC = () => {
 export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
   renderLog("ItemList rendered");
   const [filter, setFilter] = useState("");
-  const { theme } = useAppContext();
+  const { theme } = useTheme();
 
   const filteredItems = useMemo(
     () =>
@@ -192,7 +193,7 @@ export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
 // ComplexForm 컴포넌트
 export const ComplexForm: React.FC = () => {
   renderLog("ComplexForm rendered");
-  const { addNotification } = useAppContext();
+  const { addNotification } = useNotification();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -286,7 +287,7 @@ export const ComplexForm: React.FC = () => {
 // NotificationSystem 컴포넌트
 export const NotificationSystem: React.FC = () => {
   renderLog("NotificationSystem rendered");
-  const { notifications, removeNotification } = useAppContext();
+  const { notifications, removeNotification } = useNotification();
 
   return (
     <div className="fixed bottom-4 right-4 space-y-2">
