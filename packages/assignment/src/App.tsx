@@ -52,6 +52,9 @@ interface AppContextType {
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
+const ThemeContext = createContext<ThemeContextType | null>(null);
+const UserContext = createContext<UserContextType | null>(null);
+const NotificationContext = createContext<NotificationContextType | null>(null);
 
 // 커스텀 훅: useAppContext
 const useAppContext = () => {
