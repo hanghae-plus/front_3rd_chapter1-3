@@ -1,12 +1,17 @@
 import React, { useState } from 'react'
 import { generateItems } from './utils'
-import { AppProvider, useAppContext } from './contexts'
+import {
+  ThemeProvider,
+  UserProvider,
+  NotificationProvider,
+  useThemeContext,
+} from './contexts'
 
 // components
 import { ItemList, Header, ComplexForm, NotificationSystem } from './components'
 
 const AppContent: React.FC = () => {
-  const { theme } = useAppContext()
+  const { theme } = useThemeContext()
   const [items] = useState(generateItems(10000))
 
   return (
@@ -32,9 +37,13 @@ const AppContent: React.FC = () => {
 // 메인 App 컴포넌트
 const App: React.FC = () => {
   return (
-    <AppProvider>
-      <AppContent />
-    </AppProvider>
+    <ThemeProvider>
+      <NotificationProvider>
+        <UserProvider>
+          <AppContent />
+        </UserProvider>
+      </NotificationProvider>
+    </ThemeProvider>
   )
 }
 

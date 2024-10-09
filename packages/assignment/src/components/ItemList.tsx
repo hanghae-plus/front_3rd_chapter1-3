@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { renderLog } from '../utils'
-import { useAppContext } from '../contexts'
+import { useThemeContext } from '../contexts'
 
 interface Item {
 	id: number
@@ -12,7 +12,7 @@ interface Item {
 export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
 	renderLog('ItemList rendered')
 	const [filter, setFilter] = useState('')
-	const { theme } = useAppContext()
+	const { theme } = useThemeContext()
 
 	const filteredItems = items.filter(
 		(item) =>
