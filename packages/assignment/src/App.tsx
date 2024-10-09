@@ -65,6 +65,27 @@ const useAppContext = () => {
   return context;
 };
 
+const useTheme = () => {
+  const context = useContext(ThemeContext);
+  if (!context) throw new Error("useTheme must be used within a ThemeProvider");
+  return context;
+};
+
+const useUser = () => {
+  const context = useContext(UserContext);
+  if (!context) throw new Error("useUser must be used within a UserProvider");
+  return context;
+};
+
+const useNotification = () => {
+  const context = useContext(NotificationContext);
+  if (!context)
+    throw new Error(
+      "useNotification must be used within a NotificationProvider"
+    );
+  return context;
+};
+
 // Header 컴포넌트
 export const Header: React.FC = () => {
   renderLog("Header rendered");
