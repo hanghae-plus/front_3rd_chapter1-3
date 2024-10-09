@@ -9,5 +9,5 @@ export function useCallback<T extends (...args: any[]) => any>(
   deps: DependencyList
 ): T {
   // 직접 작성한 useMemo를 통해서 만들어보세요.
-  return useMemo(() => factory, deps) as T;
+  return useMemo(() => factory, deps) as T; //() => factory와 같은 함수 래핑은 클로저를 활용하여 factory에 대한 참조를 유지
 }
