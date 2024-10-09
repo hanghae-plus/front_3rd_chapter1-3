@@ -3,14 +3,19 @@ import { deepEquals } from '../equalities';
 import { useRef } from './useRef';
 
 export function useDeepMemo<T>(factory: () => T, deps: DependencyList): T {
-  const prevDeps = useRef<DependencyList | null>(null);
-  const memoized = useRef<T | null>(null);
+  const prev = useRef<{
+    deps: DependencyList | null;
+    result: T | null;
+  }>({
+    deps: null,
+    result: null,
+  });
 
-  if (!prevDeps.current || !deepEquals(prevDeps.current, deps)) {
-    memoized.current = factory();
+  if (!prev.current.deps || !deepEquals(prev.current.deps, deps)) {
+    prev.current.result = factory();
   }
 
-  prevDeps.current = deps;
+  prev.current.deps = deps;
 
-  return memoized.current as T;
+  return prev.current.result as T;
 }
