@@ -11,8 +11,3 @@ export function useCallback<T extends (...args: any[]) => any>(
   // 직접 작성한 useMemo를 통해서 만들어보세요.
   return useMemo(() => factory, deps);
 }
-
-// export function useCallback<T extends (...args: any[]) => any>(factory: T, deps: DependencyList): T {
-//   // useMemo를 사용하여 factory 함수를 메모이제이션
-//   return useMemo(() => factory, deps);
-// }

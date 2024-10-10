@@ -10,7 +10,6 @@ interface Item {
 }
 
 // ItemList 컴포넌트
-
 export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
   renderLog("ItemList rendered");
   const [filter, setFilter] = useState("");
