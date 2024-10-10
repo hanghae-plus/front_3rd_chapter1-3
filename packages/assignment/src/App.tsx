@@ -74,16 +74,12 @@ export const Header: React.FC = () => {
   renderLog('Header rendered');
   const { user, login, logout } = useUserContext();
   const { theme, toggleTheme } = useThemeContext();
-  const { addNotification } = useNotificationContext();
-
   const handleLogin = () => {
     // 실제 애플리케이션에서는 사용자 입력을 받아야 합니다.
     login('user@example.com', 'password');
-    addNotification('성공적으로 로그인되었습니다', 'success');
   };
   const handleLogout = () => {
     logout();
-    addNotification('로그아웃되었습니다', 'info');
   };
 
   return (
@@ -288,15 +284,23 @@ const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
 };
 
 const UserProvider: React.FC<PropsWithChildren> = ({ children }) => {
+  const { addNotification } = useNotificationContext();
   const [user, setUser] = useState<User | null>(null);
-  const login = useCallback((email: string) => {
-    setUser({ id: 1, name: '홍길동', email });
-  }, []);
+  const login = useCallback(
+    (email: string) => {
+      setUser({ id: 1, name: '홍길동', email });
+      addNotification('성공적으로 로그인되었습니다', 'success');
+    },
+    [addNotification]
+  );
 
   const logout = useCallback(() => {
     setUser(null);
-  }, []);
+    addNotification('로그아웃되었습니다', 'info');
+  }, [addNotification]);
+
   const value = useMemo(() => ({ user, login, logout }), [user, login, logout]);
+
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
 
