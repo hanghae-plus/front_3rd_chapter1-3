@@ -1,8 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function deepEquals(objA: any, objB: any): boolean {
-  if (typeof objA !== typeof objB) return false;
-
   if (objA === objB) return true;
+
+  if (typeof objA !== typeof objB) return false;
 
   if (Array.isArray(objA)) {
     if (!Array.isArray(objB)) return false;

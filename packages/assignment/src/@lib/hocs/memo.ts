@@ -1,10 +1,10 @@
-import { shallowEquals } from "../equalities";
 import {
   Component,
   ComponentType,
   FunctionComponent,
   ReactElement,
 } from "react";
+import { shallowEquals } from "@/@lib/equalities";
 
 export function memo<P extends object>(
   Component: ComponentType<P>,

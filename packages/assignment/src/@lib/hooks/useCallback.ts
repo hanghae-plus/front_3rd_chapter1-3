@@ -1,12 +1,12 @@
 import { DependencyList } from "react";
-import { useMemo } from "./useMemo";
+import { useMemo } from "@/@lib/hooks/useMemo";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-explicit-any
 export function useCallback<T extends (...args: any[]) => any>(
-	factory: T,
-	deps: DependencyList
+  factory: T,
+  deps: DependencyList
 ): T {
-	return useMemo(() => ((...args) => factory(...args)) as T, deps);
+  return useMemo(() => ((...args) => factory(...args)) as T, deps);
 }
