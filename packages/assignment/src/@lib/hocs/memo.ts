@@ -11,12 +11,10 @@ export function memo<P extends object>(
   return (props: P) => {
     if (prevProps === null || !equals(prevProps, props)) {
       memoizedComponent = createElement(Component, props);
-    } else if (memoizedComponent === null) {
-      memoizedComponent = createElement(Component, props);
     }
 
     prevProps = props;
 
-    return memoizedComponent;
+    return memoizedComponent as React.ReactElement<P>;
   };
 }
