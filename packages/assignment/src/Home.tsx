@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { generateItems } from "./utils";
 import { ComplexForm, Header, ItemList, NotificationSystem } from "./components";
-import Layout from "./Layout";
+import Theme from "./Layout";
 
 const Home = () => {
   const [items] = useState(generateItems(10000));
 
   return (
-    <Layout>
+    <Theme>
       <Header />
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row">
@@ -20,7 +20,7 @@ const Home = () => {
         </div>
       </div>
       <NotificationSystem />
-    </Layout>
+    </Theme>
   );
 };
 

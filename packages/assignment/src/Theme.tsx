@@ -1,7 +1,7 @@
 import { FC, PropsWithChildren } from "react";
 import { useThemeContext } from "./@lib";
 
-const Layout: FC<PropsWithChildren> = ({ children }) => {
+const Theme: FC<PropsWithChildren> = ({ children }) => {
   const { theme } = useThemeContext();
 
   return (
@@ -9,4 +9,4 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
   );
 };
 
-export default Layout;
+export default Theme;
