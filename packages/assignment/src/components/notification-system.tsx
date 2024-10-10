@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo } from "../@lib";
 import { NotificationContext, useContextHook } from "../@lib/context";
 import { renderLog } from "../utils";
 
