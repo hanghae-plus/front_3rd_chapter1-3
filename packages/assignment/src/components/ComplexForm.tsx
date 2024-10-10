@@ -1,5 +1,4 @@
 import { FC, useState } from 'react'
-import { useCallback } from '@/@lib'
 import { useNotificationContext } from '@/context/hooks'
 import { renderLog } from '@/utils'
 import { STATUS } from '@/constants'
@@ -34,22 +33,22 @@ export const ComplexForm: FC = () => {
     addNotification(SUBMIT_MESSAGE, STATUS.SUCCESS)
   }
 
-  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({
       ...prev,
       [name]: name === 'age' ? parseInt(value) || 0 : value,
     }))
-  }, [])
+  }
 
-  const handlePreferenceChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePreferenceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
       ...prev,
       preferences: prev.preferences.includes(e.target.value)
         ? prev.preferences.filter((p) => p !== e.target.value)
         : [...prev.preferences, e.target.value],
     }))
-  }, [])
+  }
 
   return (
     <div className="mt-8">

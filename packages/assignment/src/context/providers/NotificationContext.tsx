@@ -24,6 +24,13 @@ export const NotificationProvider: FC<PropsWithChildren> = ({ children }) => {
   const [notifications, setNotifications] = useState<NotificationType[]>([])
   const timersRef = useRef<{ [key: number]: number }>({})
 
+  useEffect(() => {
+    const currentTimers = { ...timersRef.current }
+    return () => {
+      Object.values(currentTimers).forEach((timer) => clearTimeout(timer))
+    }
+  }, [])
+
   const addNotification = useCallback((message: string, type: NotificationType['type']) => {
     const newNotification: NotificationType = {
       id: Date.now(),
@@ -46,13 +53,6 @@ export const NotificationProvider: FC<PropsWithChildren> = ({ children }) => {
     if (timersRef.current[id]) {
       clearTimeout(timersRef.current[id])
       delete timersRef.current[id]
-    }
-  }, [])
-
-  useEffect(() => {
-    const currentTimers = { ...timersRef.current }
-    return () => {
-      Object.values(currentTimers).forEach((timer) => clearTimeout(timer))
     }
   }, [])
 

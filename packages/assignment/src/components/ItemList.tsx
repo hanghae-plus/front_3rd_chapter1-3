@@ -1,6 +1,6 @@
 import { FC, useState } from 'react'
 import { renderLog } from '@/utils'
-import { useCallback, useMemo } from '@/@lib'
+import { useMemo } from '@/@lib'
 import { useThemeContext } from '@/context/hooks'
 import { THEME } from '@/constants'
 
@@ -32,9 +32,9 @@ export const ItemList: FC<{ items: ItemProps[] }> = ({ items }) => {
   const averagePrice = useMemo(() => items.reduce((sum, item) => sum + item.price, 0) / items.length, [items])
   const themeClass = theme === THEME.LIGHT ? 'bg-white text-black' : 'bg-gray-700 text-white'
 
-  const handleFilterChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFilter(e.target.value)
-  }, [])
+  }
 
   return (
     <div className="mt-8">
