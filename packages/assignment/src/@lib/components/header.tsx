@@ -1,19 +1,17 @@
 import { renderLog } from '../../utils';
-import { useNotification, useTheme, useUser } from '../hooks';
+import { useTheme, useUser } from '../hooks';
 
 export const Header = () => {
   renderLog('Header rendered');
   const { theme, toggleTheme } = useTheme();
   const { user, login, logout } = useUser();
-  const { addNotification } = useNotification();
+
   const handleLogin = () => {
     login('user@example.com', 'password', 29);
-    addNotification('로그인 하였습니다.', 'success');
   };
 
   const handleLogout = () => {
     logout();
-    addNotification('로그아웃 하였습니다.', 'info');
   };
 
   return (

@@ -12,9 +12,9 @@ export interface Item {
 const AppProvider: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <ThemeProvider>
-      <UserProvider>
-        <NotificationProvider>{children}</NotificationProvider>
-      </UserProvider>
+      <NotificationProvider>
+        <UserProvider>{children} </UserProvider>
+      </NotificationProvider>
     </ThemeProvider>
   );
 };
