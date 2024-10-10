@@ -6,7 +6,6 @@ import { useCallback, useMemo } from './@lib';
 // 2. 타입 정의
 type Theme = 'light' | 'dark';
 
-
 interface Item {
   id: number;
   name: string;
@@ -27,7 +26,6 @@ interface Notification {
 }
 
 // 3. AppContext 타입 정의
-
 interface ThemeContextType {
   theme: Theme;
   toggleTheme: () => void;
@@ -46,7 +44,6 @@ interface NotificationContextType {
 }
 
 // 4. createContext 만들고
-// const AppContext = createContext<AppContextType | undefined>(undefined);
 const ThemeContext = createContext<ThemeContextType | null>(null);
 const UserContext = createContext<UserContextType | null>(null);
 const NotificationContext = createContext<NotificationContextType | null>(null);
@@ -62,7 +59,6 @@ const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const value = useMemo(() => ({ theme, toggleTheme }), [theme, toggleTheme]);
   return <ThemeContext.Provider value={value}> { children } </ThemeContext.Provider>
 };
-
 
 
 const UserProvider: React.FC<PropsWithChildren> = ({ children }) => {
@@ -83,8 +79,6 @@ const UserProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   return <UserContext.Provider value={value}> {children} </UserContext.Provider>
 ;}
-
-
 
 
 const NotificationProvider: React.FC<PropsWithChildren> = ({ children }) => {
@@ -111,10 +105,7 @@ const NotificationProvider: React.FC<PropsWithChildren> = ({ children }) => {
 }
 
 
-
-
 // 6. 커스텀 훅: useAppContext
-
 const useTheme = () => {
   const context = useContext(ThemeContext);
   if (!context) throw new Error('useTheme must be used within a ThemeProvider');
@@ -132,7 +123,6 @@ const useNottification = () => {
   if (!context) throw new Error('useNotification must be used within a NotificationProvider')
   return context;
 }
-
 
 
 // Header 컴포넌트

@@ -7,7 +7,6 @@ export function shallowEquals(objA: any, objB: any): boolean {
   // 2. 둘 중 하나라도 객체가 아닌 경우 처리
   if(typeof objA !== 'object' || typeof objB !== 'object') return false;
 
-  
   const keysA = Object.keys(objA);
   const keysB = Object.keys(objB);
 
