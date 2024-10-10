@@ -1,5 +1,10 @@
-import { shallowEquals } from "../equalities";
-import { ComponentType } from "react";
+import {
+  Component,
+  ComponentType,
+  FunctionComponent,
+  ReactElement,
+} from "react";
+import { shallowEquals } from "@/@lib/equalities";
 
 export function memo<P extends object>(
   Component: ComponentType<P>,
@@ -8,5 +13,20 @@ export function memo<P extends object>(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   equals = shallowEquals
 ) {
-  return Component;
+  let previousProps: any = null;
+  let previousComponent: ReactElement | null = null;
+
+  return function (currentProps: any) {
+    if (previousProps !== null && equals(previousProps, currentProps)) {
+      return previousComponent;
+    }
+
+    previousProps = currentProps;
+
+    if (typeof Component === "function") {
+      previousComponent = (Component as FunctionComponent)(currentProps);
+    }
+
+    return previousComponent;
+  };
 }
