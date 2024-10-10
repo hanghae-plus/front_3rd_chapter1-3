@@ -1,4 +1,11 @@
-import React, { createContext, useContext, useState, useCallback, useMemo, PropsWithChildren } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useMemo,
+  PropsWithChildren,
+} from 'react';
 
 // 타입 정의
 type Theme = 'light' | 'dark';
@@ -57,10 +64,12 @@ const NotificationContext = createContext<NotificationContextType | null>(null);
 const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [theme, setTheme] = useState<Theme>('light');
   const toggleTheme = useCallback(() => {
-    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
   }, []);
   const value = useMemo(() => ({ theme, toggleTheme }), [theme, toggleTheme]);
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+  return (
+    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+  );
 };
 
 const UserProvider: React.FC<PropsWithChildren> = ({ children }) => {
@@ -80,23 +89,32 @@ const NewsProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [category, setCategory] = useState<NewsCategory | null>(null);
 
   const addNews = useCallback((newNews: Omit<NewsItem, 'id' | 'likes'>) => {
-    setNews(prev => [...prev, { ...newNews, id: Date.now(), likes: 0 }]);
+    setNews((prev) => [...prev, { ...newNews, id: Date.now(), likes: 0 }]);
   }, []);
 
   const likeNews = useCallback((id: number) => {
-    setNews(prev => prev.map(item =>
-      item.id === id ? { ...item, likes: item.likes + 1 } : item
-    ));
+    setNews((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, likes: item.likes + 1 } : item
+      )
+    );
   }, []);
 
-  const filteredNews = useMemo(() =>
-      category ? news.filter(item => item.category === category) : news,
+  const filteredNews = useMemo(
+    () => (category ? news.filter((item) => item.category === category) : news),
     [news, category]
   );
 
-  const value = useMemo(() => ({
-    news, addNews, likeNews, filteredNews, setCategory
-  }), [news, addNews, likeNews, filteredNews, setCategory]);
+  const value = useMemo(
+    () => ({
+      news,
+      addNews,
+      likeNews,
+      filteredNews,
+      setCategory,
+    }),
+    [news, addNews, likeNews, filteredNews, setCategory]
+  );
 
   return <NewsContext.Provider value={value}>{children}</NewsContext.Provider>;
 };
@@ -105,18 +123,27 @@ const NotificationProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
   const addNotification = useCallback((message: string) => {
-    setNotifications(prev => [...prev, { id: Date.now(), message }]);
+    setNotifications((prev) => [...prev, { id: Date.now(), message }]);
   }, []);
 
   const removeNotification = useCallback((id: number) => {
-    setNotifications(prev => prev.filter(notif => notif.id !== id));
+    setNotifications((prev) => prev.filter((notif) => notif.id !== id));
   }, []);
 
-  const value = useMemo(() => ({
-    notifications, addNotification, removeNotification
-  }), [notifications, addNotification, removeNotification]);
+  const value = useMemo(
+    () => ({
+      notifications,
+      addNotification,
+      removeNotification,
+    }),
+    [notifications, addNotification, removeNotification]
+  );
 
-  return <NotificationContext.Provider value={value}>{children}</NotificationContext.Provider>;
+  return (
+    <NotificationContext.Provider value={value}>
+      {children}
+    </NotificationContext.Provider>
+  );
 };
 
 // 커스텀 훅
@@ -140,7 +167,10 @@ const useNews = () => {
 
 const useNotification = () => {
   const context = useContext(NotificationContext);
-  if (!context) throw new Error('useNotification must be used within a NotificationProvider');
+  if (!context)
+    throw new Error(
+      'useNotification must be used within a NotificationProvider'
+    );
   return context;
 };
 
@@ -151,19 +181,35 @@ const Header = () => {
   const { notifications } = useNotification();
 
   return (
-    <header className={`p-4 ${theme === 'light' ? 'bg-blue-600 text-white' : 'bg-gray-800 text-gray-200'}`}>
-      <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-2xl font-bold">뉴스 피드</h1>
-        <div className="flex items-center space-x-4">
-          <button onClick={toggleTheme} className="px-3 py-1 rounded bg-gray-200 text-gray-800">
+    <header
+      className={`p-4 ${
+        theme === 'light'
+          ? 'bg-blue-600 text-white'
+          : 'bg-gray-800 text-gray-200'
+      }`}
+    >
+      <div className='container mx-auto flex justify-between items-center'>
+        <h1 className='text-2xl font-bold'>뉴스 피드</h1>
+        <div className='flex items-center space-x-4'>
+          <button
+            onClick={toggleTheme}
+            className='px-3 py-1 rounded bg-gray-200 text-gray-800'
+          >
             {theme === 'light' ? '다크 모드' : '라이트 모드'}
           </button>
           {user && <span>{user.name}님 환영합니다</span>}
-          {user && <button onClick={logout} className="px-3 py-1 rounded bg-red-500 text-white">로그아웃</button>}
-          <div className="relative">
-            <span className="cursor-pointer">🔔</span>
+          {user && (
+            <button
+              onClick={logout}
+              className='px-3 py-1 rounded bg-red-500 text-white'
+            >
+              로그아웃
+            </button>
+          )}
+          <div className='relative'>
+            <span className='cursor-pointer'>🔔</span>
             {notifications.length > 0 && (
-              <span className="absolute top-0 right-0 -mt-1 -mr-1 px-2 py-1 text-xs bg-red-500 text-white rounded-full">
+              <span className='absolute top-0 right-0 -mt-1 -mr-1 px-2 py-1 text-xs bg-red-500 text-white rounded-full'>
                 {notifications.length}
               </span>
             )}
@@ -185,22 +231,27 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className='space-y-4'>
       <input
-        type="text"
+        type='text'
         value={name}
         onChange={(e) => setName(e.target.value)}
-        placeholder="이름"
-        className="w-full p-2 border rounded"
+        placeholder='이름'
+        className='w-full p-2 border rounded'
       />
       <input
-        type="email"
+        type='email'
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        placeholder="이메일"
-        className="w-full p-2 border rounded"
+        placeholder='이메일'
+        className='w-full p-2 border rounded'
       />
-      <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded">로그인</button>
+      <button
+        type='submit'
+        className='w-full p-2 bg-blue-500 text-white rounded'
+      >
+        로그인
+      </button>
     </form>
   );
 };
@@ -210,14 +261,18 @@ const NewsItem = React.memo(({ item }: { item: NewsItem }) => {
   const { theme } = useTheme();
 
   return (
-    <div className={`p-4 mb-4 rounded shadow ${theme === 'light' ? 'bg-white' : 'bg-gray-700 text-gray-200'}`}>
-      <h2 className="text-xl font-semibold mb-2">{item.title}</h2>
-      <p className="mb-2">{item.content}</p>
-      <div className="flex justify-between items-center">
-        <span className="text-sm text-gray-500">{item.category}</span>
+    <div
+      className={`p-4 mb-4 rounded shadow ${
+        theme === 'light' ? 'bg-white' : 'bg-gray-700 text-gray-200'
+      }`}
+    >
+      <h2 className='text-xl font-semibold mb-2'>{item.title}</h2>
+      <p className='mb-2'>{item.content}</p>
+      <div className='flex justify-between items-center'>
+        <span className='text-sm text-gray-500'>{item.category}</span>
         <button
           onClick={() => likeNews(item.id)}
-          className="px-3 py-1 bg-red-100 text-red-800 rounded hover:bg-red-200"
+          className='px-3 py-1 bg-red-100 text-red-800 rounded hover:bg-red-200'
         >
           좋아요 ({item.likes})
         </button>
@@ -231,7 +286,7 @@ const NewsList = () => {
 
   return (
     <div>
-      {filteredNews.map(item => (
+      {filteredNews.map((item) => (
         <NewsItem key={item.id} item={item} />
       ))}
     </div>
@@ -240,15 +295,21 @@ const NewsList = () => {
 
 const CategoryFilter = () => {
   const { setCategory } = useNews();
-  const categories: (NewsCategory | 'all')[] = ['all', '정치', '경제', '사회', '문화'];
+  const categories: (NewsCategory | 'all')[] = [
+    'all',
+    '정치',
+    '경제',
+    '사회',
+    '문화',
+  ];
 
   return (
-    <div className="mb-4 space-x-2">
-      {categories.map(cat => (
+    <div className='mb-4 space-x-2'>
+      {categories.map((cat) => (
         <button
           key={cat}
           onClick={() => setCategory(cat === 'all' ? null : cat)}
-          className="px-3 py-1 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
+          className='px-3 py-1 bg-gray-200 text-gray-800 rounded hover:bg-gray-300'
         >
           {cat}
         </button>
@@ -273,31 +334,36 @@ const AddNewsForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 mb-8">
+    <form onSubmit={handleSubmit} className='space-y-4 mb-8'>
       <input
-        type="text"
+        type='text'
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        placeholder="제목"
-        className="w-full p-2 border rounded"
+        placeholder='제목'
+        className='w-full p-2 border rounded'
       />
       <textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}
-        placeholder="내용"
-        className="w-full p-2 border rounded"
+        placeholder='내용'
+        className='w-full p-2 border rounded'
       />
       <select
         value={category}
         onChange={(e) => setCategory(e.target.value as NewsCategory)}
-        className="w-full p-2 border rounded"
+        className='w-full p-2 border rounded'
       >
-        <option value="정치">정치</option>
-        <option value="경제">경제</option>
-        <option value="사회">사회</option>
-        <option value="문화">문화</option>
+        <option value='정치'>정치</option>
+        <option value='경제'>경제</option>
+        <option value='사회'>사회</option>
+        <option value='문화'>문화</option>
       </select>
-      <button type="submit" className="w-full p-2 bg-green-500 text-white rounded">뉴스 추가</button>
+      <button
+        type='submit'
+        className='w-full p-2 bg-green-500 text-white rounded'
+      >
+        뉴스 추가
+      </button>
     </form>
   );
 };
@@ -306,12 +372,15 @@ const NotificationList = () => {
   const { notifications, removeNotification } = useNotification();
 
   return (
-    <div className="fixed top-16 right-4 w-64 space-y-2">
-      {notifications.map(notif => (
-        <div key={notif.id} className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 relative">
+    <div className='fixed top-16 right-4 w-64 space-y-2'>
+      {notifications.map((notif) => (
+        <div
+          key={notif.id}
+          className='bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 relative'
+        >
           <button
             onClick={() => removeNotification(notif.id)}
-            className="absolute top-0 right-0 mt-1 mr-1 text-yellow-700 hover:text-yellow-900"
+            className='absolute top-0 right-0 mt-1 mr-1 text-yellow-700 hover:text-yellow-900'
           >
             &times;
           </button>
@@ -328,12 +397,12 @@ const App = () => {
       <UserProvider>
         <NewsProvider>
           <NotificationProvider>
-            <div className="min-h-screen bg-gray-100">
+            <div className='min-h-screen bg-gray-100'>
               <Header />
-              <div className="container mx-auto py-8">
+              <div className='container mx-auto py-8'>
                 <CategoryFilter />
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  <div className="md:col-span-2">
+                <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
+                  <div className='md:col-span-2'>
                     <NewsList />
                   </div>
                   <div>
