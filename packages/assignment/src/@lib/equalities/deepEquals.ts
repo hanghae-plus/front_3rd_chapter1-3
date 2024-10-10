@@ -1,4 +1,4 @@
-import { checkReferenceEquality, checkEmptyValues, comparePrimitiveValues, areBothObjects } from "../../utils";
+import { checkReferenceEquality, checkEmptyValues, comparePrimitiveValues, isBothObjects } from "../utils";
 
 /**
  * @description 두 객체의 깊은 비교를 수행하는 함수입니다. 객체의 중첩된 속성 값까지 비교하여 동일한 객체인지 확인합니다.
@@ -11,7 +11,7 @@ export function deepEquals(objA: unknown, objB: unknown, visited = new WeakMap<o
   if (checkReferenceEquality(objA, objB)) return true; // 참조가 같으면 true 반환
   if (comparePrimitiveValues(objA, objB)) return true; // 기본 타입 값 비교
   if (checkEmptyValues(objA, objB)) return false; // 비어 있는 값 확인
-  if (!areBothObjects(objA, objB)) return objA === objB; // 객체 확인 (객체가 아니면 값 자체 비교)
+  if (!isBothObjects(objA, objB)) return objA === objB; // 객체 확인 (객체가 아니면 값 자체 비교)
 
   if (visited.has(objA as object) && visited.has(objB as object)) return true; // 순환 참조 확인
   visited.set(objA as object, objB as object);
