@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useNotification } from "../hooks"
 import { renderLog } from "../utils"
-import { memo } from "../@lib"
+import { memo, useCallback } from "../@lib"
 import { FormData } from "../types"
 
 const CategoryContent = ({
@@ -51,14 +51,14 @@ export const ComplexForm: React.FC = memo(() => {
     }))
   }
 
-  const handlePreferenceChange = (preference: string) => {
+  const handlePreferenceChange = useCallback((preference: string) => {
     setFormData((prev) => ({
       ...prev,
       preferences: prev.preferences.includes(preference)
         ? prev.preferences.filter((p) => p !== preference)
         : [...prev.preferences, preference],
     }))
-  }
+  }, [])
 
   return (
     <div className="mt-8">

@@ -8,11 +8,6 @@ export const Header: React.FC = memo(() => {
   const { theme, toggleTheme } = useTheme()
   const { user, login, logout } = useUser()
 
-  const handleLogin = () => {
-    // 실제 애플리케이션에서는 사용자 입력을 받아야 합니다.
-    login("user@example.com")
-  }
-
   return (
     <header className="bg-gray-800 text-white p-4">
       <div className="container mx-auto flex justify-between items-center">
