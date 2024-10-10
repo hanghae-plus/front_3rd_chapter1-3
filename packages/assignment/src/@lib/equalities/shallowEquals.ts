@@ -8,13 +8,7 @@ export function shallowEquals(objA: any, objB: any): boolean {
   // null 또는 객체가 아닌 경우
   if (!isObject(objA) || !isObject(objB)) return false;
 
-  // 배열 비교
-  if (Array.isArray(objA) && Array.isArray(objB)) {
-    if (objA.length !== objB.length) return false;
-    return objA.every((value, index) => value === objB[index]);
-  }
-
-  // 객체 비교
+  // 객체 비교 (배열도 포함)
   const keysA = Object.keys(objA);
   const keysB = Object.keys(objB);
 

@@ -8,16 +8,7 @@ export function deepEquals(objA: any, objB: any): boolean {
   // null 또는 객체가 아닌 경우
   if (!isObject(objA) || !isObject(objB)) return false;
 
-  // 배열 비교
-  if (Array.isArray(objA) && Array.isArray(objB)) {
-    if (objA.length !== objB.length) return false;
-    for (let i = 0; i < objA.length; i++) {
-      if (!deepEquals(objA[i], objB[i])) return false;
-    }
-    return true;
-  }
-
-  // 객체 비교
+  // 객체 비교 (배열도 포함)
   const keysA = Object.keys(objA);
   const keysB = Object.keys(objB);
 
