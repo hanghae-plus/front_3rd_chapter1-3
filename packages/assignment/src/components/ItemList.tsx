@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
+import { useMemo } from '../@lib';
 import { useTheme } from '../context';
 import { Item } from '../types';
 import { renderLog } from '../utils';
