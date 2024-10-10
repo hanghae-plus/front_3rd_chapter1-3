@@ -23,3 +23,9 @@ export const keys = <T extends object>(obj: T): Array<keyof T> =>
 export const has = <T extends object>(obj: T, key: keyof T): boolean => {
   return Object.prototype.hasOwnProperty.call(obj, key);
 };
+
+export const isArray = <T>(value: unknown): value is T[] => {
+  return Array.isArray(value);
+};
+
+export const isNull = (value: unknown) => value === null;
