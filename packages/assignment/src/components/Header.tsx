@@ -67,7 +67,7 @@ const Header: React.FC = memo(() => {
                   name="name"
                   value={loginInfo.name}
                   onChange={handleInputChange}
-                  placeholder="로그인 이름"
+                  placeholder="사용자 이름"
                   style={{ marginRight: '5px' }}
                   className="p-2 border border-gray-300 rounded text-black"
                 />
