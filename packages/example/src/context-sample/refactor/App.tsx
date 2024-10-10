@@ -174,7 +174,7 @@ const Header = () => {
   );
 };
 
-const LoginForm = () => {
+const LoginForm = React.memo(() => {
   const { login } = useUser();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -203,7 +203,7 @@ const LoginForm = () => {
       <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded">로그인</button>
     </form>
   );
-};
+});
 
 const NewsItem = React.memo(({ item }: { item: NewsItem }) => {
   const { likeNews } = useNews();
