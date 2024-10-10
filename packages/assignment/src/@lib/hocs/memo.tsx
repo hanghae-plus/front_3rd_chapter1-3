@@ -8,5 +8,15 @@ export function memo<P extends object>(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   equals = shallowEquals
 ) {
-  return Component;
+  let prevProps: P | null = null;
+  let prevResult: JSX.Element | null = null;
+
+  return (props: P): JSX.Element => {
+    if (!prevProps || !equals(prevProps, props)) {
+      prevProps = props;
+      prevResult = <Component {...props} />;
+    }
+
+    return prevResult as JSX.Element;
+  };
 }
