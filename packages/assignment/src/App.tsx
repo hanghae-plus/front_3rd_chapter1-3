@@ -2,11 +2,11 @@ import { FC, useState } from 'react'
 import { generateItems } from '@/utils'
 import { ItemList, ComplexForm, AppLayout, Header } from '@/components'
 
-const ITEM_COUNT = 10000
+const ITEM_TOTAL_COUNT = 10000
 
 // 메인 App 컴포넌트
 const App: FC = () => {
-  const [items] = useState(generateItems(ITEM_COUNT))
+  const [items] = useState(generateItems(ITEM_TOTAL_COUNT))
 
   return (
     <AppLayout>

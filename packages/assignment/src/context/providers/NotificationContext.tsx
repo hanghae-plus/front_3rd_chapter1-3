@@ -16,6 +16,8 @@ interface NotificationContextType {
   removeNotification: (id: number) => void
 }
 
+const HIDE_DELAY = 2000
+
 export const NotificationContext = createContext<NotificationContextType | null>(null)
 
 export const NotificationProvider: FC<PropsWithChildren> = ({ children }) => {
@@ -34,7 +36,7 @@ export const NotificationProvider: FC<PropsWithChildren> = ({ children }) => {
     const timerId = window.setTimeout(() => {
       setNotifications((prev) => prev.filter((notification) => notification.id !== newNotification.id))
       delete timersRef.current[newNotification.id]
-    }, 2000)
+    }, HIDE_DELAY)
 
     timersRef.current[newNotification.id] = timerId
   }, [])

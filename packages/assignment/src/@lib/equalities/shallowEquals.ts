@@ -25,11 +25,11 @@ function compareObjects(
   return keysA.every((key) => key in objB && callback(objA[key], objB[key]))
 }
 
-function shallowEqualsFunction(a: unknown, b: unknown): boolean {
+function handleShallowEquals(a: unknown, b: unknown): boolean {
   return a === b
 }
 
-export function shallowEquals(objA: unknown, objB: unknown, equals = shallowEqualsFunction): boolean {
+export function shallowEquals(objA: unknown, objB: unknown, equals = handleShallowEquals): boolean {
   if (objA === objB) {
     return true
   }
