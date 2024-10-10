@@ -6,6 +6,8 @@ export function compareObjects(
 ): boolean {
   if (objA === objB) return true;
 
+  if (objA === null || objB === null) return false;
+
   if (!isBothObjects(objA, objB)) {
     return false;
   }
