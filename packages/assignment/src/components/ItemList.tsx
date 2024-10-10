@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { useMemo } from '../@lib';
+import { memo, useMemo } from '../@lib';
 import { useTheme } from '../context';
-import { Item } from '../types';
+import { Item, Theme } from '../types';
 import { renderLog } from '../utils';
 
 type Props = {
   items: Item[];
 };
 // ItemList 컴포넌트
-export function ItemList(props: Props) {
+function ItemList(props: Props) {
   renderLog('ItemList rendered');
   const { items } = props;
 
@@ -45,7 +45,7 @@ export function ItemList(props: Props) {
         {filteredItems.slice(0, 100).map((item) => (
           <li
             key={item.id}
-            className={`p-2 rounded shadow ${theme === 'light' ? 'bg-white text-black' : 'bg-gray-700 text-white'}`}
+            className={`p-2 rounded shadow ${theme === Theme.Light ? 'bg-white text-black' : 'bg-gray-700 text-white'}`}
           >
             {item.name} - {item.category} - {item.price.toLocaleString()}원
           </li>
@@ -57,3 +57,5 @@ export function ItemList(props: Props) {
     </div>
   );
 }
+
+export default memo(ItemList);

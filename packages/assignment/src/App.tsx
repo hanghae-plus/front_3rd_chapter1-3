@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import ComplexForm from './components/ComplexForm';
 import Header from './components/Header';
-import { ItemList } from './components/ItemList';
+import ItemList from './components/ItemList';
 import NotificationSystem from './components/NotificationSystem';
 import {
   ContentWrapper,
