@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { generateItems } from "./utils";
 import { ComplexForm, Header, ItemList, NotificationSystem } from "./components";
-import Theme from "./Layout";
+import Theme from "./Theme";
 
 const Home = () => {
   const [items] = useState(generateItems(10000));
