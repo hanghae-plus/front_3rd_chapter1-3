@@ -1,6 +1,6 @@
 import { createContext, PropsWithChildren, useContext, useState } from "react";
 import { useCallback, useMemo } from "../hooks";
-import NotificationSystem from "../components/NotificationSystem";
+import NotificationSystem from "../../components/NotificationSystem";
 
 interface Notification {
   id: number;
