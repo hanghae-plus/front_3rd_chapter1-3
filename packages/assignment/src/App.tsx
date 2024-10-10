@@ -19,11 +19,11 @@ import {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 const NotiContext = createContext<NotiContextType | undefined>(undefined);
 const UserContext = createContext<UserContextType | undefined>(undefined);
+
 const ThemeProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [theme, setTheme] = useState("light");
 
   const toggleTheme = useCallback(() => {
-    console.log("toggleTheme");
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
   }, []);
 
@@ -185,7 +185,8 @@ export const Header: React.FC = () => {
 export const ItemList: React.FC = memo(() => {
   renderLog("ItemList rendered");
 
-  const [items] = useState(generateItems(10000));
+  const memoizedItems = useMemo(() => generateItems(10000), []);
+  const [items] = useState(memoizedItems);
   const [filter, setFilter] = useState("");
   const { theme } = useThemeContext();
 
@@ -199,8 +200,10 @@ export const ItemList: React.FC = memo(() => {
     [items, filter]
   );
 
-  const averagePrice =
-    items.reduce((sum, item) => sum + item.price, 0) / items.length;
+  const averagePrice = useMemo(
+    () => items.reduce((sum, item) => sum + item.price, 0) / items.length,
+    [items]
+  );
 
   return (
     <div className="mt-8">
@@ -235,7 +238,7 @@ export const ItemList: React.FC = memo(() => {
 });
 
 // ComplexForm 컴포넌트
-export const ComplexForm: React.FC = () => {
+export const ComplexForm: React.FC = memo(() => {
   renderLog("ComplexForm rendered");
   const { addNotification } = useNotiContext();
   const [formData, setFormData] = useState({
@@ -317,10 +320,10 @@ export const ComplexForm: React.FC = () => {
       </form>
     </div>
   );
-};
+});
 
 // NotificationSystem 컴포넌트
-export const NotificationSystem: React.FC = () => {
+export const NotificationSystem: React.FC = memo(() => {
   renderLog("NotificationSystem rendered");
   const { notifications, removeNotification } = useNotiContext();
 
@@ -350,9 +353,9 @@ export const NotificationSystem: React.FC = () => {
       ))}
     </div>
   );
-};
+});
 const Content: React.FC = () => {
-  const theme = "light";
+  const { theme } = useThemeContext();
   return (
     <div
       className={`min-h-screen ${
