@@ -11,17 +11,15 @@ export function useMemo<T>(
   equals = shallowEquals
 ): T {
   // 직접 작성한 useRef를 통해서 만들어보세요.
-  const prevDepsRef = useRef<DependencyList>([]);
-  const resultRef = useRef<T | null>(null);
+  const ref = useRef<{ factory: T | null; deps: DependencyList | null }>({
+    factory: null,
+    deps: null,
+  });
 
-  // 2. 현재 의존성과 이전 의존성 비교
-  const depsChanged = !equals(prevDepsRef.current, deps);
-
-  if (depsChanged) {
-    resultRef.current = factory();
-    prevDepsRef.current = deps;
+  if (!ref.current.deps || !equals(deps, ref.current.deps)) {
+    ref.current.factory = factory();
+    ref.current.deps = deps;
   }
 
-  // 4. 메모이제이션된 값 반환
-  return resultRef.current!;
+  return ref.current.factory as T;
 }
