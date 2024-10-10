@@ -182,7 +182,7 @@ export const Header: React.FC = () => {
 };
 
 // ItemList 컴포넌트
-export const ItemList: React.FC = memo(() => {
+export const ItemList: React.FC = () => {
   renderLog("ItemList rendered");
 
   const memoizedItems = useMemo(() => generateItems(10000), []);
@@ -235,10 +235,10 @@ export const ItemList: React.FC = memo(() => {
       )}
     </div>
   );
-});
+};
 
 // ComplexForm 컴포넌트
-export const ComplexForm: React.FC = memo(() => {
+export const ComplexForm: React.FC = () => {
   renderLog("ComplexForm rendered");
   const { addNotification } = useNotiContext();
   const [formData, setFormData] = useState({
@@ -320,10 +320,10 @@ export const ComplexForm: React.FC = memo(() => {
       </form>
     </div>
   );
-});
+};
 
 // NotificationSystem 컴포넌트
-export const NotificationSystem: React.FC = memo(() => {
+export const NotificationSystem: React.FC = () => {
   renderLog("NotificationSystem rendered");
   const { notifications, removeNotification } = useNotiContext();
 
@@ -353,15 +353,24 @@ export const NotificationSystem: React.FC = memo(() => {
       ))}
     </div>
   );
-});
-const Content: React.FC = () => {
+};
+const ThemeContainer = ({ children }: PropsWithChildren) => {
   const { theme } = useThemeContext();
+
   return (
     <div
       className={`min-h-screen ${
         theme === "light" ? "bg-gray-100" : "bg-gray-900 text-white"
       }`}
     >
+      {children}
+    </div>
+  );
+};
+
+const Content: React.FC = () => {
+  return (
+    <ThemeContainer>
       <Header />
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row">
@@ -374,7 +383,7 @@ const Content: React.FC = () => {
         </div>
       </div>
       <NotificationSystem />
-    </div>
+    </ThemeContainer>
   );
 };
 // 메인 App 컴포넌트
