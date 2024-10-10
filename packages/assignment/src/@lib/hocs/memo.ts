@@ -12,15 +12,10 @@ export function memo<P extends object>(
     let memoizedResult: JSX.Element | null = null;
 
     return function (props: P) {
-        console.log('prevProps: ', prevProps);
-        console.log('props: ', props);
-
         // propsCompareFn을 사용하여 이전 props와 현재 props를 비교
         if (prevProps === null || equals(prevProps, props) === false) {
-            console.log('Props changed, re-rendering');
             memoizedResult = createElement(Component, props);
         } else {
-            console.log('Props unchanged, using memoized result');
         }
         prevProps = props;
         return memoizedResult;
