@@ -1,12 +1,20 @@
-import { shallowEquals } from "../equalities";
-import { ComponentType } from "react";
+import { shallowEquals } from '../equalities';
+import { ComponentType, createElement } from 'react';
 
 export function memo<P extends object>(
   Component: ComponentType<P>,
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  equals = shallowEquals
+  equals: (prevProps: P, nextProps: P) => boolean = shallowEquals,
 ) {
-  return Component;
+  let prevProps: P | null = null;
+  let memoizedComponent: React.ReactElement<P> | null = null;
+
+  return (props: P) => {
+    if (prevProps === null || !equals(prevProps, props)) {
+      memoizedComponent = createElement(Component, props);
+    }
+
+    prevProps = props;
+
+    return memoizedComponent as React.ReactElement<P>;
+  };
 }
