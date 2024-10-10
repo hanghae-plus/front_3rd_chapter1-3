@@ -1,5 +1,12 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useContext,
+  useState,
+} from "react";
 import { useNotificationContext } from "./NotificationProvider";
+import { useMemo } from "../@lib";
 
 interface User {
   id: number;
@@ -27,22 +34,27 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const { addNotification } = useNotificationContext();
 
-  const login = (email: string) => {
-    setUser({ id: 1, name: "홍길동", email });
-    addNotification("성공적으로 로그인되었습니다", "success");
-  };
+  const login = useCallback(
+    (email: string) => {
+      setUser({ id: 1, name: "홍길동", email });
+      addNotification("성공적으로 로그인되었습니다", "success");
+    },
+    [addNotification]
+  );
 
-  const logout = () => {
+  const logout = useCallback(() => {
     setUser(null);
     addNotification("로그아웃되었습니다", "info");
-  };
+  }, [addNotification]);
 
-  const contextValue: AuthContextType = {
-    user,
-    login,
-    logout,
-  };
-
+  const contextValue = useMemo(
+    () => ({
+      user,
+      login,
+      logout,
+    }),
+    [user, login, logout]
+  );
   return (
     <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
   );
