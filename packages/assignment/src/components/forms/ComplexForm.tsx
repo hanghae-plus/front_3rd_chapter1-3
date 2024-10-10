@@ -15,29 +15,42 @@ export const ComplexForm: React.FC = React.memo(() => {
     });
 
     const handleSubmit = useCallback(
-        (...args: unknown[]) => {
-            const e = args[0] as React.FormEvent;
+        (e: React.FormEvent<HTMLFormElement>) => {
             e.preventDefault();
             addNotification('폼이 성공적으로 제출되었습니다', 'success');
         },
         [addNotification]
     );
 
-    const handleInputChange = useCallback((...args: unknown[]) => {
-        const e = args[0] as React.ChangeEvent<HTMLInputElement>;
+    const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: name === 'age' ? parseInt(value) || 0 : value,
-        }));
+        setFormData((prev) => {
+            if (name === 'age') {
+                const ageValue = parseInt(value) || 0;
+                if (prev.age === ageValue) return prev;
+                return { ...prev, age: ageValue };
+            }
+            if (prev.name === value) return prev;
+            return { ...prev, [name]: value };
+        });
     }, []);
 
-    const handlePreferenceChange = useCallback((...args: unknown[]) => {
-        const preference = args[0] as string;
-        setFormData((prev) => ({
-            ...prev,
-            preferences: prev.preferences.includes(preference) ? prev.preferences.filter((p) => p !== preference) : [...prev.preferences, preference],
-        }));
+    const handlePreferenceChange = useCallback((preference: string) => {
+        setFormData((prev) => {
+            const isPreferenceSelected = prev.preferences.includes(preference);
+
+            if (isPreferenceSelected) {
+                return {
+                    ...prev,
+                    preferences: prev.preferences.filter((p) => p !== preference),
+                };
+            } else {
+                return {
+                    ...prev,
+                    preferences: [...prev.preferences, preference],
+                };
+            }
+        });
     }, []);
 
     const preferences = useMemo(() => ['독서', '운동', '음악', '여행'], []);
