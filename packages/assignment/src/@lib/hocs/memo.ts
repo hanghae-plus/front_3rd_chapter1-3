@@ -10,6 +10,8 @@ export function memo<P extends object>(
   return (props: P) => {
     // 1. 이전 props를 저장할 ref 생성
     const prevPropsRef = useRef<P | undefined>(undefined);
+    const prevRenderResultRef = useRef<React.ReactElement | null>(null);
+
     const prevProps = prevPropsRef.current;
 
     // 2. props가 변경되었는지 확인
@@ -18,10 +20,14 @@ export function memo<P extends object>(
     // 3. props가 변경된 경우에만 리렌더링
     if (shouldUpdate) {
       prevPropsRef.current = props; // 현재 props를 저장
-      return React.createElement(Component, props);
+
+      const newRenderResult = React.createElement(Component, props);
+      prevRenderResultRef.current = newRenderResult;
+
+      return newRenderResult;
     }
 
     // props가 변경되지 않으면 리렌더링하지 않음
-    return null;
+    return prevRenderResultRef.current;
   };
 }
