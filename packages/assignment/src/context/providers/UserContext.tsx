@@ -1,6 +1,6 @@
 import { createContext, FC, PropsWithChildren, useState } from 'react'
 import { useCallback, useMemo } from '@/@lib'
-import { useNotification } from '@/context/hooks'
+import { useNotificationContext } from '@/context/hooks'
 import { STATUS } from '@/constants'
 
 interface UserType {
@@ -15,15 +15,15 @@ interface UserContextType {
   logout: () => void
 }
 
-export const UserContext = createContext<UserContextType | null>(null)
-
 const USER_ID = 1
 const LOGIN_MESSAGE = '성공적으로 로그인되었습니다'
 const LOGOUT_MESSAGE = '로그아웃되었습니다'
 
+export const UserContext = createContext<UserContextType | null>(null)
+
 export const UserProvider: FC<PropsWithChildren> = ({ children }) => {
   const [user, setUser] = useState<UserType | null>(null)
-  const { addNotification } = useNotification()
+  const { addNotification } = useNotificationContext()
 
   const login = useCallback(
     (name: string, email: string) => {

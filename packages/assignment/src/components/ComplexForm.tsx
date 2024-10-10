@@ -1,6 +1,6 @@
 import { FC, useState } from 'react'
 import { useCallback } from '@/@lib'
-import { useNotification } from '@/context/hooks'
+import { useNotificationContext } from '@/context/hooks'
 import { renderLog } from '@/utils'
 import { STATUS } from '@/constants'
 
@@ -21,7 +21,7 @@ const formFields = [
 
 export const ComplexForm: FC = () => {
   renderLog('ComplexForm rendered')
-  const { addNotification } = useNotification()
+  const { addNotification } = useNotificationContext()
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',

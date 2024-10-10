@@ -1,10 +1,10 @@
 import { FC, useState } from 'react'
 import { renderLog } from '@/utils'
-import { memo, useCallback, useMemo } from '@/@lib'
-import { useTheme } from '@/context/hooks'
+import { useCallback, useMemo } from '@/@lib'
+import { useThemeContext } from '@/context/hooks'
 import { THEME } from '@/constants'
 
-interface ItemType {
+interface ItemProps {
   id: number
   name: string
   category: string
@@ -13,9 +13,9 @@ interface ItemType {
 
 const MAX_ITEMS = 100
 
-export const ItemList: FC<{ items: ItemType[] }> = memo(({ items }) => {
+export const ItemList: FC<{ items: ItemProps[] }> = ({ items }) => {
   renderLog('ItemList rendered')
-  const { theme } = useTheme()
+  const { theme } = useThemeContext()
 
   const [filter, setFilter] = useState('')
 
@@ -57,4 +57,4 @@ export const ItemList: FC<{ items: ItemType[] }> = memo(({ items }) => {
       {filteredItems.length > MAX_ITEMS && <p className="mt-4">...그 외 {filteredItems.length - MAX_ITEMS}개 상품</p>}
     </div>
   )
-})
+}

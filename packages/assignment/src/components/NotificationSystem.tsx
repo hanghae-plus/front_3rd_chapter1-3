@@ -1,12 +1,12 @@
 import { STATUS } from '@/constants'
-import { useNotification } from '@/context/hooks'
+import { useNotificationContext } from '@/context/hooks'
 import { renderLog } from '@/utils'
 import { FC } from 'react'
 
 export const NotificationSystem: FC = () => {
   renderLog('NotificationSystem rendered')
 
-  const { notifications, removeNotification } = useNotification()
+  const { notifications, removeNotification } = useNotificationContext()
 
   const notificationColorMap: Record<string, string> = {
     [STATUS.SUCCESS]: 'bg-green-500',

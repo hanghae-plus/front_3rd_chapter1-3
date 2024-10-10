@@ -1,12 +1,12 @@
 import { THEME } from '@/constants'
-import { useTheme, useUser } from '@/context/hooks'
+import { useThemeContext, useUserContext } from '@/context/hooks'
 import { renderLog } from '@/utils'
 import { FC } from 'react'
 
 export const Header: FC = () => {
   renderLog('Header rendered')
-  const { theme, toggleTheme } = useTheme()
-  const { user, login, logout } = useUser()
+  const { theme, toggleTheme } = useThemeContext()
+  const { user, login, logout } = useUserContext()
 
   const handleLogin = () => {
     // 실제 애플리케이션에서는 사용자 입력을 받아야 합니다.
