@@ -1,12 +1,22 @@
 import { shallowEquals } from "../equalities";
-import { ComponentType } from "react";
+import { createElement, FunctionComponent } from "react";
+import { useRef } from "../hooks";
 
 export function memo<P extends object>(
-  Component: ComponentType<P>,
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  Component: FunctionComponent<P>,
   equals = shallowEquals
 ) {
-  return Component;
+  const MemoizedComponent = (newProps: P) => {
+    const prevPropsRef = useRef<P | null>(null);
+    const prevComponentRef = useRef<React.ReactNode>(null);
+
+    if (!equals(prevPropsRef.current, newProps)) {
+      prevPropsRef.current = newProps;
+      prevComponentRef.current = createElement(Component, newProps);
+    }
+
+    return prevComponentRef.current!;
+  };
+
+  return MemoizedComponent;
 }
