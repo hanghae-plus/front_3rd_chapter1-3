@@ -11,15 +11,15 @@ export function useMemo<T>(
   equals: (a: DependencyList, b: DependencyList) => boolean = shallowEquals // 기본값 설정
 ): T {
   const ref = useRef<{
-    value: T | undefined;
-    deps: DependencyList | undefined;
+    value: T | null;
+    deps: DependencyList | null;
   }>({
-    value: undefined,
-    deps: undefined,
+    value: null,
+    deps: null,
   });
 
   // 의존성이 변경되었는지 확인
-  const isFirstRender = ref.current.deps === undefined;
+  const isFirstRender = ref.current.deps === null;
   const hasChanged = !equals(ref.current.deps || [], deps);
 
   // 의존성이 변경되었거나 첫 렌더링일 때 factory를 호출
