@@ -1,5 +1,6 @@
 import React, { useState, createContext, useContext } from 'react';
 import { generateItems, renderLog } from './utils';
+import { memo, useCallback, useMemo } from './@lib';
 
 // 타입 정의
 interface Item {
@@ -45,14 +46,14 @@ const useAppContext = () => {
 };
 
 // Header 컴포넌트
-export const Header: React.FC = () => {
+export const Header: React.FC = memo(() => {
   renderLog('Header rendered');
   const { theme, toggleTheme, user, login, logout } = useAppContext();
 
-  const handleLogin = () => {
+  const handleLogin = useCallback(() => {
     // 실제 애플리케이션에서는 사용자 입력을 받아야 합니다.
     login('user@example.com', 'password');
-  };
+  }, [login]);
 
   return (
     <header className="bg-gray-800 text-white p-4">
@@ -74,20 +75,24 @@ export const Header: React.FC = () => {
       </div>
     </header>
   );
-};
+});
 
 // ItemList 컴포넌트
-export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
+export const ItemList: React.FC<{ items: Item[] }> = memo(({ items }) => {
   renderLog('ItemList rendered');
   const [filter, setFilter] = useState('');
   const { theme } = useAppContext();
 
-  const filteredItems = items.filter(item =>
-    item.name.toLowerCase().includes(filter.toLowerCase()) ||
-    item.category.toLowerCase().includes(filter.toLowerCase())
-  );
+  const filteredItems = useMemo(() => {
+    return items.filter(item =>
+      item.name.toLowerCase().includes(filter.toLowerCase()) ||
+      item.category.toLowerCase().includes(filter.toLowerCase())
+    );
+  }, [items, filter]);
 
-  const averagePrice = items.reduce((sum, item) => sum + item.price, 0) / items.length;
+  const averagePrice = useMemo(() => {
+    return items.reduce((sum, item) => sum + item.price, 0) / items.length;
+  }, [items]);
 
   return (
     <div className="mt-8">
@@ -110,7 +115,8 @@ export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
       {filteredItems.length > 100 && <p className="mt-4">...그 외 {filteredItems.length - 100}개 상품</p>}
     </div>
   );
-};
+}
+);
 
 // ComplexForm 컴포넌트
 export const ComplexForm: React.FC = () => {
@@ -202,11 +208,10 @@ export const NotificationSystem: React.FC = () => {
   return (
     <div className="fixed bottom-4 right-4 space-y-2">
       {notifications.map(notification => (
-        <div key={notification.id} className={`p-4 rounded shadow-lg ${
-          notification.type === 'success' ? 'bg-green-500' :
-            notification.type === 'error' ? 'bg-red-500' :
-              notification.type === 'warning' ? 'bg-yellow-500' : 'bg-blue-500'
-        } text-white`}>
+        <div key={notification.id} className={`p-4 rounded shadow-lg ${notification.type === 'success' ? 'bg-green-500' :
+          notification.type === 'error' ? 'bg-red-500' :
+            notification.type === 'warning' ? 'bg-yellow-500' : 'bg-blue-500'
+          } text-white`}>
           {notification.message}
           <button
             onClick={() => removeNotification(notification.id)}
