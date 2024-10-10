@@ -1,6 +1,6 @@
 import { ReactNode, useState } from 'react';
 import { User } from '../types';
-import { useCallback } from '../@lib';
+import { useCallback, useMemo } from '../@lib';
 import { AuthContext, useNotification } from '../contexts';
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
@@ -16,12 +16,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     },
     [addNotification]
   );
+
   const logout = useCallback(() => {
     setUser(null);
     addNotification('로그아웃되었습니다', 'info');
   }, [addNotification]);
 
-  const value = { user, login, logout };
+  const value = useMemo(() => ({ user, login, logout }), [user]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

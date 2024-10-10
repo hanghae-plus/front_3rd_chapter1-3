@@ -19,7 +19,7 @@ export interface Notification {
 
 export interface ThemeContextType {
   theme: string;
-  toggleTheme: (theme: 'light' | 'dark') => void;
+  toggleTheme: () => void;
 }
 
 export interface AuthContextType {
