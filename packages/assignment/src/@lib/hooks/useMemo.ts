@@ -13,7 +13,7 @@ export function useMemo<T>(
   const prevDeps = useRef<DependencyList | null>(null);
   const result = useRef<T | null>(null);
 
-  if (!prevDeps.current || !equals(deps, prevDeps.current)) {
+  if (prevDeps.current === null || !equals(deps, prevDeps.current)) {
     prevDeps.current = deps;
     result.current = factory();
   }
