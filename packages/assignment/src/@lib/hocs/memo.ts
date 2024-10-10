@@ -1,5 +1,6 @@
 import { shallowEquals } from '../equalities';
 import { ComponentType, createElement } from 'react';
+import { useRef } from '../hooks';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -8,21 +9,17 @@ export function memo<P extends object>(
   Component: ComponentType<P>,
   equals = shallowEquals
 ) {
-  // 1. 이전 props를 저장할 ref 생성
-  let prevProps: P | null = null;
-  // 2. 메모이제이션된 컴포넌트 생성
-  let memoizedComponent = createElement(Component);
-
   return (props: P) => {
-    // 3. equals 함수를 사용하여 props 비교
-    const isChanged = prevProps ? !equals(prevProps, props) : true;
+    const prevComponet = useRef<JSX.Element | null>(null);
+    const prevProps = useRef<P | null>(null);
 
-    if (isChanged) {
-      // 4. props가 변경된 경우에만 새로운 렌더링 수행
-      memoizedComponent = createElement(Component, props);
-      prevProps = props;
+    if (prevProps.current !== null && equals(prevProps.current, props)) {
+      return prevComponet.current;
     }
 
-    return memoizedComponent;
+    prevProps.current = props;
+    prevComponet.current = createElement(Component, props);
+
+    return prevComponet.current;
   };
 }
