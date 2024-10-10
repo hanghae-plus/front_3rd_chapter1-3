@@ -1,15 +1,6 @@
-import { ThemeContext, ThemeProvider } from "../context/ThemeContext";
-import { UserContext, UserProvider } from "../context/UserContext";
-import {
+export { ThemeContext, ThemeProvider } from "../context/ThemeContext";
+export { UserContext, UserProvider } from "../context/UserContext";
+export {
   NotificationContext,
   NotificationProvider,
 } from "../context/NotificationContext";
-
-export {
-  ThemeContext,
-  ThemeProvider,
-  UserContext,
-  UserProvider,
-  NotificationContext,
-  NotificationProvider,
-};

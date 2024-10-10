@@ -1,4 +1,2 @@
-import { generateItems } from "./generateItems";
-import { renderLog } from "./renderLog";
-
-export { generateItems, renderLog };
+export { generateItems } from "./generateItems";
+export { renderLog } from "./renderLog";
