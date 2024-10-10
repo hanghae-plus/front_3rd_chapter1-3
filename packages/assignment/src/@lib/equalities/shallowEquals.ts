@@ -22,6 +22,7 @@ export function shallowEquals(objA: any, objB: any): boolean {
 
   // 4. 모든 키에 대해 얕은 비교 수행
   for (const [aKey, aValue] of Object.entries(objA)) {
+    // objB에 objA의 속성이 없거나 값이 다르면 false
     if (!(aKey in objB)) {
       return false;
     }
