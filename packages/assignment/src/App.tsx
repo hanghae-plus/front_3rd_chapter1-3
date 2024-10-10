@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { generateItems } from "./utils";
 import { ThemeProvider, UserProvider, NotificationProvider } from "./context";
 import {
@@ -9,7 +9,7 @@ import {
 } from "./components";
 
 const App: React.FC = () => {
-  const [items] = useState(generateItems(10000));
+  const items = generateItems(10000);
 
   return (
     <ThemeProvider>
