@@ -1,14 +1,19 @@
-import React from 'react';
 import { renderLog } from '../../utils';
-import { useTheme, useUser } from '../hooks';
+import { useNotification, useTheme, useUser } from '../hooks';
 
-export const Header: React.FC = () => {
+export const Header = () => {
   renderLog('Header rendered');
   const { theme, toggleTheme } = useTheme();
   const { user, login, logout } = useUser();
-
+  const { addNotification } = useNotification();
   const handleLogin = () => {
     login('user@example.com', 'password', 29);
+    addNotification('로그인 하였습니다.', 'success');
+  };
+
+  const handleLogout = () => {
+    logout();
+    addNotification('로그아웃 하였습니다.', 'info');
   };
 
   return (
@@ -26,7 +31,7 @@ export const Header: React.FC = () => {
             <div className='flex items-center'>
               <span className='mr-2'>{user.name}님 환영합니다!</span>
               <button
-                onClick={logout}
+                onClick={handleLogout}
                 className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
               >
                 로그아웃

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { renderLog } from '../../utils';
-import { useNotification } from '../hooks';
+import { useNotification, useUser } from '../hooks';
 
 export const ComplexForm: React.FC = () => {
   renderLog('ComplexForm rendered');
   const { addNotification } = useNotification();
+  const { login } = useUser();
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -14,6 +16,7 @@ export const ComplexForm: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    login(formData.name, formData.email, formData.age);
     addNotification('폼이 성공적으로 제출되었습니다', 'success');
   };
 
