@@ -9,6 +9,14 @@ export function shallowEquals(objA: any, objB: any): boolean {
   if (typeof objA !== 'object' || objA === null || typeof objB !== 'object' || objB === null) {
     return false;
   }
+
+  // 배열 처리
+  const isArrayA = Array.isArray(objA);
+  const isArrayB = Array.isArray(objB);
+
+  if (isArrayA !== isArrayB) {
+    return false;
+  }
   // 3. 객체의 키 개수가 다른 경우 처리
   const keysA = Object.keys(objA);
   const keysB = Object.keys(objB);
