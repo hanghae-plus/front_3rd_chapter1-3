@@ -1,5 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function deepEquals(objA: any, objB: any): boolean {
+  if (objA === objB) return true
+
   if (objA === null || objB === null) {
     return objA === objB
   }
@@ -26,10 +28,7 @@ export function deepEquals(objA: any, objB: any): boolean {
     }
 
     for (let key of keysA) {
-      if (
-        !objB.hasOwnProperty(key) ||
-        JSON.stringify(objA[key]) !== JSON.stringify(objB[key])
-      ) {
+      if (!objB.hasOwnProperty(key) || JSON.stringify(objA[key]) !== JSON.stringify(objB[key])) {
         return false
       }
     }

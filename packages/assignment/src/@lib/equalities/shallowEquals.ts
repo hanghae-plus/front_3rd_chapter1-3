@@ -2,14 +2,14 @@ import { J } from "vitest/dist/chunks/reporters.DAfKSDh5.js"
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function shallowEquals(objA: any, objB: any): boolean {
+  if (objA === objB) return true
+
   // null 비교
   if (objA === null || objB === null) {
     return objA === objB
   }
 
   if (typeof objA === "object" && typeof objB === "object") {
-    console.log("object")
-
     // 배열 비교
     if (Array.isArray(objA) && Array.isArray(objB)) {
       // 길이가 다르면 false
