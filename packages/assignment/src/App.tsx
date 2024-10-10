@@ -2,7 +2,7 @@ import React, {
   createContext,
   useContext,
   useState,
-  PropsWithChildren
+  PropsWithChildren,
 } from "react";
 import { useMemo, useCallback } from "./@lib";
 import { generateItems, renderLog } from "./utils";
@@ -52,19 +52,19 @@ const UserContext = createContext<UserContextType | null>(null);
 const NotificationContext = createContext<NotificationContextType | null>(null);
 
 // useContext 정의
-export const useTheme = () => {
+const useTheme = () => {
   const context = useContext(ThemeContext);
   if (!context) throw new Error("useTheme must be used within a ThemeProvider");
   return context;
 };
 
-export const useUser = () => {
+const useUser = () => {
   const context = useContext(UserContext);
   if (!context) throw new Error("useUser must be used within a UserProvider");
   return context;
 };
 
-export const useNotification = () => {
+const useNotification = () => {
   const context = useContext(NotificationContext);
   if (!context)
     throw new Error(
@@ -122,7 +122,7 @@ const NotificationProvider: React.FC<PropsWithChildren> = ({ children }) => {
     () => ({
       notifications,
       addNotification,
-      removeNotification
+      removeNotification,
     }),
     [notifications, addNotification, removeNotification]
   );
@@ -235,7 +235,7 @@ export const ComplexForm: React.FC = () => {
     name: "",
     email: "",
     age: 0,
-    preferences: [] as string[]
+    preferences: [] as string[],
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -247,7 +247,7 @@ export const ComplexForm: React.FC = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: name === "age" ? parseInt(value) || 0 : value
+      [name]: name === "age" ? parseInt(value) || 0 : value,
     }));
   };
 
@@ -256,7 +256,7 @@ export const ComplexForm: React.FC = () => {
       ...prev,
       preferences: prev.preferences.includes(preference)
         ? prev.preferences.filter((p) => p !== preference)
-        : [...prev.preferences, preference]
+        : [...prev.preferences, preference],
     }));
   };
 
@@ -347,39 +347,7 @@ export const NotificationSystem: React.FC = () => {
 
 // 메인 App 컴포넌트
 const App: React.FC = () => {
-  const [theme, setTheme] = useState("light");
   const [items] = useState(generateItems(10000));
-  const [user, setUser] = useState<User | null>(null);
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-
-  const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
-  };
-
-  const login = (email: string) => {
-    setUser({ id: 1, name: "홍길동", email });
-    addNotification("성공적으로 로그인되었습니다", "success");
-  };
-
-  const logout = () => {
-    setUser(null);
-    addNotification("로그아웃되었습니다", "info");
-  };
-
-  const addNotification = (message: string, type: Notification["type"]) => {
-    const newNotification: Notification = {
-      id: Date.now(),
-      message,
-      type
-    };
-    setNotifications((prev) => [...prev, newNotification]);
-  };
-
-  const removeNotification = (id: number) => {
-    setNotifications((prev) =>
-      prev.filter((notification) => notification.id !== id)
-    );
-  };
 
   return (
     <ThemeProvider>
