@@ -1,17 +1,21 @@
-import { memo } from "../@lib";
-import { useAuthContext } from "../hooks/useAuthContext";
-import { useThemeContext } from "../hooks/useThemeContext";
-import { renderLog } from "../utils";
+import { memo } from '../../@lib';
+import { renderLog } from '../../utils';
+import { useAuth } from '../../hooks/useAuth';
+import { useTheme } from '../../hooks/useTheme';
 
 // Header 컴포넌트
 export const Header: React.FC = memo(() => {
-  renderLog("Header rendered");
-  const { theme, toggleTheme } = useThemeContext();
-  const { user, login, logout } = useAuthContext();
+  renderLog('Header rendered');
+  const { theme, toggleTheme } = useTheme();
+  const { user, login, logout } = useAuth();
 
   const handleLogin = () => {
     // 실제 애플리케이션에서는 사용자 입력을 받아야 합니다.
-    login("user@example.com", "password");
+    login('user@example.com', 'password');
+  };
+
+  const handleLogout = () => {
+    logout();
   };
 
   return (
@@ -23,13 +27,13 @@ export const Header: React.FC = memo(() => {
             onClick={toggleTheme}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
           >
-            {theme === "light" ? "다크 모드" : "라이트 모드"}
+            {theme === 'light' ? '다크 모드' : '라이트 모드'}
           </button>
           {user ? (
             <div className="flex items-center">
               <span className="mr-2">{user.name}님 환영합니다!</span>
               <button
-                onClick={logout}
+                onClick={handleLogout}
                 className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
               >
                 로그아웃

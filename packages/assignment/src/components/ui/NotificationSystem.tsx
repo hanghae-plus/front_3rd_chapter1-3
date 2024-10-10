@@ -1,11 +1,11 @@
-import { memo } from "../@lib";
-import { useNotificationContext } from "../hooks/useNotificationContext";
-import { renderLog } from "../utils";
+import { memo } from '../../@lib';
+import { useNotification } from '../../hooks/useNotification';
+import { renderLog } from '../../utils';
 
 // NotificationSystem 컴포넌트
 export const NotificationSystem: React.FC = memo(() => {
-  renderLog("NotificationSystem rendered");
-  const { notifications, removeNotification } = useNotificationContext();
+  renderLog('NotificationSystem rendered');
+  const { notifications, removeNotification } = useNotification();
 
   return (
     <div className="fixed bottom-4 right-4 space-y-2">
@@ -13,13 +13,13 @@ export const NotificationSystem: React.FC = memo(() => {
         <div
           key={notification.id}
           className={`p-4 rounded shadow-lg ${
-            notification.type === "success"
-              ? "bg-green-500"
-              : notification.type === "error"
-              ? "bg-red-500"
-              : notification.type === "warning"
-              ? "bg-yellow-500"
-              : "bg-blue-500"
+            notification.type === 'success'
+              ? 'bg-green-500'
+              : notification.type === 'error'
+              ? 'bg-red-500'
+              : notification.type === 'warning'
+              ? 'bg-yellow-500'
+              : 'bg-blue-500'
           } text-white`}
         >
           {notification.message}

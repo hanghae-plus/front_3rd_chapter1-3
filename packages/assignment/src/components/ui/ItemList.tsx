@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { renderLog } from "../utils";
-import { Item } from "../types";
-import { memo } from "../@lib";
-import { useThemeContext } from "../hooks/useThemeContext";
+import React, { useState } from 'react';
+import { renderLog } from '../../utils';
+import { Item } from '../../types';
+import { memo } from '../../@lib';
+import { useTheme } from '../../hooks/useTheme';
 
 // ItemList 컴포넌트
 export const ItemList: React.FC<{ items: Item[] }> = memo(
   ({ items }: { items: Item[] }) => {
-    renderLog("ItemList rendered");
-    const [filter, setFilter] = useState("");
-    const { theme } = useThemeContext();
+    renderLog('ItemList rendered');
+    const [filter, setFilter] = useState('');
+    const { theme } = useTheme();
 
     const filteredItems = items.filter(
       (item) =>
@@ -38,10 +38,11 @@ export const ItemList: React.FC<{ items: Item[] }> = memo(
         <ul className="space-y-2">
           {filteredItems.slice(0, 100).map((item) => (
             <li
+              key={item.id}
               className={`p-2 rounded shadow ${
-                theme === "light"
-                  ? "bg-white text-black"
-                  : "bg-gray-700 text-white"
+                theme === 'light'
+                  ? 'bg-white text-black'
+                  : 'bg-gray-700 text-white'
               }`}
             >
               {item.name} - {item.category} - {item.price.toLocaleString()}원

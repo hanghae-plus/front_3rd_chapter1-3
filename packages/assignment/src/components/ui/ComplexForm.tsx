@@ -1,28 +1,28 @@
-import React, { memo, useState } from "react";
-import { renderLog } from "../utils";
-import { useNotificationContext } from "../hooks/useNotificationContext";
+import React, { memo, useState } from 'react';
+import { renderLog } from '../../utils';
+import { useNotification } from '../../hooks/useNotification';
 
 // ComplexForm 컴포넌트
 export const ComplexForm: React.FC = memo(() => {
-  renderLog("ComplexForm rendered");
-  const { addNotification } = useNotificationContext();
+  renderLog('ComplexForm rendered');
+  const { addNotification } = useNotification();
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
+    name: '',
+    email: '',
     age: 0,
     preferences: [] as string[],
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    addNotification("폼이 성공적으로 제출되었습니다", "success");
+    addNotification('폼이 성공적으로 제출되었습니다', 'success');
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: name === "age" ? parseInt(value) || 0 : value,
+      [name]: name === 'age' ? parseInt(value) || 0 : value,
     }));
   };
 
@@ -64,7 +64,7 @@ export const ComplexForm: React.FC = memo(() => {
           className="w-full p-2 border border-gray-300 rounded text-black"
         />
         <div className="space-x-4">
-          {["독서", "운동", "음악", "여행"].map((pref) => (
+          {['독서', '운동', '음악', '여행'].map((pref) => (
             <label key={pref} className="inline-flex items-center">
               <input
                 type="checkbox"
