@@ -1,5 +1,5 @@
 import { memo } from "../@lib";
-import { useNotificationContext } from "../notificationContext";
+import { useNotificationContext } from "../context/notificationContext";
 import { renderLog } from "../utils";
 
 // NotificationSystem 컴포넌트

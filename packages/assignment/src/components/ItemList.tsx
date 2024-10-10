@@ -1,16 +1,12 @@
 import { useState } from "react";
-import { renderLog } from "../utils";
+import { generateItems, renderLog } from "../utils";
 import { useThemeContext } from "../context/themeContext";
+import { useMemo } from "../@lib/hooks/useMemo";
 
-interface Item {
-  id: number;
-  name: string;
-  category: string;
-  price: number;
-}
 // ItemList 컴포넌트
-export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
+export const ItemList: React.FC = () => {
   renderLog("ItemList rendered");
+  const items = useMemo(() => generateItems(10000), []);
   const [filter, setFilter] = useState("");
   const { theme } = useThemeContext();
 
