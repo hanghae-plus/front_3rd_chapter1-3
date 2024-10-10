@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import userEvent from "@testing-library/user-event";
+import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import App from '../App';
 import * as utils from '../utils';
@@ -8,14 +8,13 @@ const renderLogMock = vi.spyOn(utils, 'renderLog');
 const generateItemsSpy = vi.spyOn(utils, 'generateItems');
 
 describe('최적화된 App 컴포넌트 테스트', () => {
-
   beforeEach(() => {
     renderLogMock.mockClear();
     generateItemsSpy.mockClear();
   });
 
   it('초기 렌더링 시 모든 컴포넌트가 한 번씩 렌더링되어야 한다', () => {
-    render(<App/>);
+    render(<App />);
     expect(renderLogMock).toHaveBeenCalledWith('Header rendered');
     expect(renderLogMock).toHaveBeenCalledWith('ItemList rendered');
     expect(renderLogMock).toHaveBeenCalledWith('ComplexForm rendered');
@@ -24,7 +23,7 @@ describe('최적화된 App 컴포넌트 테스트', () => {
   });
 
   it('테마 변경 시 Header, ItemList만 리렌더링되어야 한다', async () => {
-    render(<App/>);
+    render(<App />);
     renderLogMock.mockClear();
 
     const themeButton = await screen.findByText(/다크 모드|라이트 모드/);
@@ -36,7 +35,7 @@ describe('최적화된 App 컴포넌트 테스트', () => {
   });
 
   it('로그인/로그아웃 시 Header, ComplexForm, NotificationSystem만 리렌더링되어야 한다', async () => {
-    render(<App/>);
+    render(<App />);
     renderLogMock.mockClear();
 
     const loginButton = await screen.findByText('로그인');
@@ -59,7 +58,7 @@ describe('최적화된 App 컴포넌트 테스트', () => {
   });
 
   it('아이템 검색 시 ItemList만 리렌더링되어야 한다', async () => {
-    render(<App/>);
+    render(<App />);
     renderLogMock.mockClear();
 
     const searchInput = await screen.findByPlaceholderText('상품 검색...');
@@ -70,7 +69,7 @@ describe('최적화된 App 컴포넌트 테스트', () => {
   });
 
   it('폼 입력 시 ComplexForm만 리렌더링되어야 한다', async () => {
-    render(<App/>);
+    render(<App />);
     renderLogMock.mockClear();
 
     const nameInput = await screen.findByPlaceholderText('이름');
@@ -81,7 +80,7 @@ describe('최적화된 App 컴포넌트 테스트', () => {
   });
 
   it('알림 추가 및 닫기시 ComplexForm, NotificationSystem만 리렌더링되어야 한다', async () => {
-    render(<App/>);
+    render(<App />);
     renderLogMock.mockClear();
 
     const submitButton = await screen.findByText('제출');
@@ -102,7 +101,7 @@ describe('최적화된 App 컴포넌트 테스트', () => {
   });
 
   it('여러 작업을 연속으로 수행해도 각 컴포넌트는 필요한 경우에만 리렌더링되어야 한다', async () => {
-    render(<App/>);
+    render(<App />);
     renderLogMock.mockClear();
 
     // 테마 변경
@@ -160,4 +159,3 @@ describe('최적화된 App 컴포넌트 테스트', () => {
     expect(generateItemsSpy).toHaveBeenCalledTimes(1);
   });
 });
-
