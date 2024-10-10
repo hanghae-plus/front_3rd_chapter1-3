@@ -1,9 +1,9 @@
-import { useThemeContext } from "../contexts/theme";
-import { useUserContext } from "../contexts/user";
+import { memo } from "../@lib";
+import { useThemeContext, useUserContext } from "../hooks";
 import { renderLog } from "../utils";
 
 // Header 컴포넌트
-export const Header: React.FC = () => {
+export const Header: React.FC = memo(() => {
   renderLog("Header rendered");
   const { theme, toggleTheme } = useThemeContext();
   const { user, login, logout } = useUserContext();
@@ -46,4 +46,4 @@ export const Header: React.FC = () => {
       </div>
     </header>
   );
-};
+});

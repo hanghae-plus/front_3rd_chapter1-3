@@ -1,12 +1,7 @@
-import { createContext, useContext } from "react";
+import { useContext } from "react";
+import { ThemeContext } from "../contexts";
 
-interface IThemeContext {
-  theme: string;
-  toggleTheme: () => void;
-}
-
-export const ThemeContext = createContext<IThemeContext | undefined>(undefined);
-
+// Consumer
 export const useThemeContext = () => {
   const context = useContext(ThemeContext);
   if (context === undefined) {
