@@ -37,16 +37,17 @@ interface UserContextType {
   login: (email: string, password: string) => void;
   logout: () => void;
 }
-interface NotificationContextType {
-  notifications: Notification[];
+interface NotificationActionContextType {
   addNotification: (message: string, type: Notification["type"]) => void;
   removeNotification: (id: number) => void;
 }
+
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 const UserContext = createContext<UserContextType | undefined>(undefined);
-const NotificationContext = createContext<NotificationContextType | undefined>(
-  undefined
-);
+const NotificationActionContext = createContext<
+  NotificationActionContextType | undefined
+>(undefined);
+const NotificationStateContext = createContext<Notification[]>([]);
 
 const useTheme = () => {
   const context = useContext(ThemeContext);
@@ -64,11 +65,21 @@ const useUser = () => {
   return context;
 };
 
-const useNotification = () => {
-  const context = useContext(NotificationContext);
-  if (!context) {
+const useNotificationAction = () => {
+  const context = useContext(NotificationActionContext);
+  if (context === undefined) {
     throw new Error(
-      "useNotification must be used within a NotificationProvider"
+      "useNotificationContext must be used within an NotificationpActionProvider"
+    );
+  }
+  return context;
+};
+
+const useNotificationState = () => {
+  const context = useContext(NotificationStateContext);
+  if (context === undefined) {
+    throw new Error(
+      "useNotificationContext must be used within an NotificationpStateProvider"
     );
   }
   return context;
@@ -76,7 +87,7 @@ const useNotification = () => {
 
 export const Header: React.FC = () => {
   renderLog("Header rendered");
-  const { addNotification } = useNotification();
+  const { addNotification } = useNotificationAction();
   const { user, login, logout } = useUser();
   const { theme, toggleTheme } = useTheme();
 
@@ -172,7 +183,8 @@ const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
 
 export const ComplexForm: React.FC = () => {
   renderLog("ComplexForm rendered");
-  const { addNotification } = useNotification();
+  useNotificationState();
+  const { addNotification } = useNotificationAction();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -256,7 +268,8 @@ export const ComplexForm: React.FC = () => {
 
 export const NotificationSystem: React.FC = () => {
   renderLog("NotificationSystem rendered");
-  const { notifications, removeNotification } = useNotification();
+  const notifications = useNotificationState();
+  const { removeNotification } = useNotificationAction();
 
   return (
     <div className="fixed bottom-4 right-4 space-y-2">
@@ -339,15 +352,17 @@ const NotificationProvider: React.FC<PropsWithChildren> = ({ children }) => {
     );
   }, []);
 
-  const value = useMemo(
-    () => ({ notifications, addNotification, removeNotification }),
-    [notifications, addNotification, removeNotification]
+  const actionValue = useMemo(
+    () => ({ addNotification, removeNotification }),
+    [addNotification, removeNotification]
   );
 
   return (
-    <NotificationContext.Provider value={value}>
-      {children}
-    </NotificationContext.Provider>
+    <NotificationStateContext.Provider value={notifications}>
+      <NotificationActionContext.Provider value={actionValue}>
+        {children}
+      </NotificationActionContext.Provider>
+    </NotificationStateContext.Provider>
   );
 };
 
