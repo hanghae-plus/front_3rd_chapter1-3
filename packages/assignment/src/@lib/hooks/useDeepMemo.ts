@@ -6,6 +6,6 @@ import { deepEquals } from '../equalities';
 // @ts-ignore
 
 export function useDeepMemo<T>(factory: () => T, deps: DependencyList): T {
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	return useMemo(factory, deps, deepEquals);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  return useMemo(factory, deps, deepEquals);
 }

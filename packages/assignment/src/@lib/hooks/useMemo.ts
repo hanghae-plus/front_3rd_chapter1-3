@@ -6,13 +6,13 @@ import { useRef } from './useRef';
 // @ts-ignore
 
 export function useMemo<T>(factory: () => T, deps: DependencyList, equals = shallowEquals): T {
-	const currentValue = useRef<T | null>(null);
-	const prevDeps = useRef<DependencyList | null>(null);
+  const currentValue = useRef<T | null>(null);
+  const prevDeps = useRef<DependencyList | null>(null);
 
-	if (currentValue.current === null || !equals(deps, prevDeps.current)) {
-		currentValue.current = factory();
-		prevDeps.current = deps;
-	}
+  if (currentValue.current === null || !equals(deps, prevDeps.current)) {
+    currentValue.current = factory();
+    prevDeps.current = deps;
+  }
 
-	return currentValue.current as T;
+  return currentValue.current as T;
 }
