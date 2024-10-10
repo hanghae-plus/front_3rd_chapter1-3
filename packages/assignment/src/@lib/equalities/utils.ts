@@ -5,12 +5,7 @@ export function compareObjects(
   compareValues: (a: any, b: any) => boolean
 ): boolean {
   if (objA === objB) return true;
-
-  if (objA === null || objB === null) return false;
-
-  if (!isBothObjects(objA, objB)) {
-    return false;
-  }
+  if (!isBothObjects(objA, objB)) return false;
 
   const mapA = new Map(Object.entries(objA));
   const mapB = new Map(Object.entries(objB));
@@ -25,5 +20,6 @@ export function compareObjects(
 }
 
 function isBothObjects(objA: any, objB: any): boolean {
+  if (objA === null || objB === null) return false;
   return typeof objA === "object" && typeof objB === "object";
 }
