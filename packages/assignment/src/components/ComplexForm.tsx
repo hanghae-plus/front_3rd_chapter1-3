@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { useAppContext } from "../App";
 import { renderLog } from "../utils";
+import { useNotificationContext } from "../notificationContext";
+// import { memo } from "../@lib";
 
 // ComplexForm 컴포넌트
 export const ComplexForm: React.FC = () => {
   renderLog("ComplexForm rendered");
-  const { addNotification } = useAppContext();
+  const { addNotification } = useNotificationContext();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
