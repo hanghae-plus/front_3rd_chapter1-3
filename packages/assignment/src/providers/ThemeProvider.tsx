@@ -32,15 +32,7 @@ const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   );
 
   return (
-    <ThemeContext.Provider value={themeValue}>
-      <div
-        className={`min-h-screen ${
-          theme === "light" ? "bg-gray-100" : "bg-gray-900 text-white"
-        }`}
-      >
-        {children}
-      </div>
-    </ThemeContext.Provider>
+    <ThemeContext.Provider value={themeValue}>{children}</ThemeContext.Provider>
   );
 };
 
