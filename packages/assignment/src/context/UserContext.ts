@@ -12,7 +12,7 @@ interface UserContextType {
     logout: () => void;
 }
 
-const UserContext = createContext<UserContextType | undefined>(undefined);
+const UserContext = createContext<UserContextType | null>(null);
 
 export const useUserContext = () => {
     const context = useContext(UserContext);

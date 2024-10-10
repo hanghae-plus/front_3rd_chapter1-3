@@ -12,7 +12,7 @@ interface NotificationContextType {
     removeNotification: (id: number) => void;
 }
 
-const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
+const NotificationContext = createContext<NotificationContextType | null>(null);
 
 export const useNotificationContext = () => {
     const context = useContext(NotificationContext);

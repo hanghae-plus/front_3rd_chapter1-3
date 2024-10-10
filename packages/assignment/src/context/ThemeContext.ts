@@ -5,7 +5,7 @@ interface ThemeContextType {
     toggleTheme: () => void;
 }
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+const ThemeContext = createContext<ThemeContextType | null>(null);
 
 export const useThemeContext = () => {
     const context = useContext(ThemeContext);
