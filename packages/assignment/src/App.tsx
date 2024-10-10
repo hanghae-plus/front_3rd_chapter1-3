@@ -1,37 +1,7 @@
 import React, { useState, createContext, useContext } from 'react';
 import { generateItems, renderLog } from './utils';
-
-// 타입 정의
-interface Item {
-  id: number;
-  name: string;
-  category: string;
-  price: number;
-}
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-}
-
-interface Notification {
-  id: number;
-  message: string;
-  type: 'info' | 'success' | 'warning' | 'error';
-}
-
-// AppContext 타입 정의
-interface AppContextType {
-  theme: string;
-  toggleTheme: () => void;
-  user: User | null;
-  login: (email: string, password: string) => void;
-  logout: () => void;
-  notifications: Notification[];
-  addNotification: (message: string, type: Notification['type']) => void;
-  removeNotification: (id: number) => void;
-}
+import { Item, User, Notification, AppContextType } from './types';
+import { AuthProvider, NotificationProvider, ThemeProvider } from './providers';
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
@@ -302,26 +272,30 @@ const App: React.FC = () => {
   };
 
   return (
-    <AppContext.Provider value={contextValue}>
-      <div
-        className={`min-h-screen ${
-          theme === 'light' ? 'bg-gray-100' : 'bg-gray-900 text-white'
-        }`}
-      >
-        <Header />
-        <div className="container mx-auto px-4 py-8">
-          <div className="flex flex-col md:flex-row">
-            <div className="w-full md:w-1/2 md:pr-4">
-              <ItemList items={items} />
+    <ThemeProvider>
+      <NotificationProvider>
+        <AuthProvider>
+          <div
+            className={`min-h-screen ${
+              theme === 'light' ? 'bg-gray-100' : 'bg-gray-900 text-white'
+            }`}
+          >
+            <Header />
+            <div className="container mx-auto px-4 py-8">
+              <div className="flex flex-col md:flex-row">
+                <div className="w-full md:w-1/2 md:pr-4">
+                  <ItemList items={items} />
+                </div>
+                <div className="w-full md:w-1/2 md:pl-4">
+                  <ComplexForm />
+                </div>
+              </div>
             </div>
-            <div className="w-full md:w-1/2 md:pl-4">
-              <ComplexForm />
-            </div>
+            <NotificationSystem />
           </div>
-        </div>
-        <NotificationSystem />
-      </div>
-    </AppContext.Provider>
+        </AuthProvider>
+      </NotificationProvider>
+    </ThemeProvider>
   );
 };
 
