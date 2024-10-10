@@ -14,9 +14,7 @@ export const Layout: React.FC<LayoutProps> = React.memo(({ children }) => {
     >
       <Header />
       <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-col md:flex-row">
-          <div className="flex flex-col md:flex-row w-full">{children}</div>
-        </div>
+        <div className="flex flex-col md:flex-row">{children}</div>
       </div>
       <NotificationSystem />
     </div>

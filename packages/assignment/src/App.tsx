@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { generateItems } from "./utils";
-import { ThemeProvider, UserProvider, NotificationProvider } from "./context";
+import { ThemeProvider, UserProvider, NotificationProvider } from "./providers";
 import { AppContent } from "./AppContent";
 import { Layout } from "./components/Layout";
 
