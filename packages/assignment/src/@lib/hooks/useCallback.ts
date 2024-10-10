@@ -1,9 +1,20 @@
-import { DependencyList } from "react";
+import {DependencyList} from "react";
+import {useRef} from "./useRef.ts";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-// eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-explicit-any
 export function useCallback<T extends (...args: any[]) => any>(factory: T, deps: DependencyList): T {
-  // 직접 작성한 useMemo를 통해서 만들어보세요.
-  return ((...args) => factory(...args)) as T
+    const previousDepsRef = useRef<DependencyList | null>(null)
+    const previousFactoryRef = useRef<T | null>(null)
+
+    const shouldUpdate = previousDepsRef.current === null || !previousDepsRef.current.every((value, index) => value === deps[index])
+
+    if (shouldUpdate) {
+        previousFactoryRef.current = factory
+        previousDepsRef.current = deps
+    }
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    return previousFactoryRef.current
 }
