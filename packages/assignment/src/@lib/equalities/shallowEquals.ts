@@ -1,4 +1,32 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// shallowEquals 함수는 두 값의 얕은 비교를 수행합니다.
 export function shallowEquals(objA: any, objB: any): boolean {
-  return objA === objB;
+
+
+    const typeOfA = typeof objA
+    const typeOfB = typeof objB
+
+    // 2. 둘 중 하나라도 객체가 아닌 경우 처리
+    if (typeOfA !== typeOfB) return false
+
+    // 3. 객체, 배열의 키 개수가 다른 경우 처리
+    // 배열과 객체 모두 자료형이 'object'이다. (원시타입이 아니면 'object')
+    if (typeOfA === 'object' && !!objA && !!objB) {
+        const keysA = Object.keys(objA);
+        const keysB = Object.keys(objB);
+
+        // key의 갯수가 다를 경우
+        if (keysA.length !== keysB.length) return false
+
+        // 4. 모든 키에 대해 얕은 비교 수행
+        for (const key of keysA) {
+            if (objA[key] !== objB[key]) {
+                return false;
+            }
+        }
+
+        return true
+    }
+
+    // 1. 두 값이 정확히 같은지 확인 (참조가 같은 경우) : 원시 타입 비교
+    return objA === objB
 }
