@@ -1,5 +1,5 @@
-import { createContext, useContext } from 'react';
 import { Notification } from '../types';
+import { createTypedContext } from '../utils';
 
 export type NotificationContextType = {
   notifications: Notification[];
@@ -7,12 +7,5 @@ export type NotificationContextType = {
   removeNotification: (id: number) => void;
 };
 
-export const NotificationContext = createContext<
-  NotificationContextType | undefined
->(undefined);
-
-export const useNotification = () => {
-  const context = useContext(NotificationContext);
-  if (!context) throw new Error('NotificationProvider 안에서 쓰기!');
-  return context;
-};
+export const { context: NotificationContext, useContext: useNotification } =
+  createTypedContext<NotificationContextType>();

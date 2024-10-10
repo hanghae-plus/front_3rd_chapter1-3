@@ -1,5 +1,5 @@
-import { createContext, useContext } from 'react';
 import { User } from '../types';
+import { createTypedContext } from '../utils';
 
 export type UserContextType = {
   user: User | null;
@@ -7,12 +7,5 @@ export type UserContextType = {
   logout: () => void;
 };
 
-export const UserContext = createContext<UserContextType | undefined>(
-  undefined
-);
-
-export const useUser = () => {
-  const context = useContext(UserContext);
-  if (!context) throw new Error('UserProvider 안에서 쓰기!');
-  return context;
-};
+export const { context: UserContext, useContext: useUser } =
+  createTypedContext<UserContextType>();
