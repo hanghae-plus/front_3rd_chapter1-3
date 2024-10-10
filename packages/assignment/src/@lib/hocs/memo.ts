@@ -6,7 +6,7 @@ export function memo<P extends object>(
   Component: ComponentType<P>,
   equals = shallowEquals
 ) {
-  const MemoizedComponent = (props: P) => {
+  return (props: P) => {
     const prevPropsRef = useRef<P | null>(null);
 
     // props가 변경되었는지 확인
@@ -21,6 +21,4 @@ export function memo<P extends object>(
     // 변경된 경우에만 컴포넌트를 리렌더링
     return propsChanged ? createElement(Component, props) : null;
   };
-
-  return MemoizedComponent;
 }
