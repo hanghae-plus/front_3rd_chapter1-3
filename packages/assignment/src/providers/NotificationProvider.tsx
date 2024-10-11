@@ -1,7 +1,6 @@
 import { PropsWithChildren, useState } from "react";
 import { useCallback, useMemo } from "../@lib";
 import { NotificationContext } from "../context";
-import { NotificationSystem } from "../components";
 import { Notification } from "../types";
 
 export const NotificationProvider: React.FC<PropsWithChildren> = ({ children }) => {
@@ -29,10 +28,5 @@ export const NotificationProvider: React.FC<PropsWithChildren> = ({ children }) 
 		[notifications, addNotification, removeNotification]
 	);
 
-	return (
-		<NotificationContext.Provider value={value}>
-			<NotificationSystem />
-			{children}
-		</NotificationContext.Provider>
-	);
+	return <NotificationContext.Provider value={value}>{children}</NotificationContext.Provider>;
 };

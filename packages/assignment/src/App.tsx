@@ -1,6 +1,6 @@
 import { generateItems } from "./utils";
 import { NotificationProvider, ThemeProvider, UserProvider } from "./providers";
-import { ComplexForm, Header, ItemList } from "./components";
+import { ComplexForm, Header, ItemList, NotificationSystem } from "./components";
 
 const App: React.FC = () => {
 	const items = generateItems(10000);
@@ -8,6 +8,8 @@ const App: React.FC = () => {
 	return (
 		<ThemeProvider>
 			<NotificationProvider>
+				<NotificationSystem />
+
 				<UserProvider>
 					<Header />
 					<div className="container mx-auto px-4 py-8">
