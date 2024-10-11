@@ -42,13 +42,10 @@ const objectEquals = (objA: any, objB: any): boolean => {
         return false;
     }
 
-    let result = false;
     Object.keys(objA).forEach((key) => {
-        result = objA[key] === objB[key]
-        if (objA[key] instanceof Object && objB[key] instanceof Object) {
-            result = deepEquals(objA[key], objB[key]);
+        if(!deepEquals(objA[key], objB[key])){
+            return false;
         }
     });
-
-    return result;
+    return true;
 }
