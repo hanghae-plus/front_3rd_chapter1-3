@@ -1,5 +1,5 @@
 import React, { useState, ReactNode } from 'react';
-import { useMemo } from '../@lib/hooks/useMemo'
+import { useMemo, useCallback } from '../@lib'
 import NotificationContext from '../context/NotificationContext'
 import { NotificationType } from '../types/type';
 
@@ -14,14 +14,14 @@ import { NotificationType } from '../types/type';
 export const NotificationProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [notifications, setNotifications] = useState<NotificationType[]>([]);
 
-  const addNotification = (message: string, type: NotificationType['type']) => {
+  const addNotification = useCallback((message: string, type: NotificationType['type']) => {
     const newNotification: NotificationType = { id: Date.now(), message, type };
     setNotifications(prev => [...prev, newNotification]);
-  };
+  }, []);
 
-  const removeNotification = (id: number) => {
+  const removeNotification = useCallback((id: number) => {
     setNotifications(prev => prev.filter(notification => notification.id !== id));
-  };
+  }, []);
 
   //useMemo를 사용하여 알림 목록의 변화에 따라 컨텍스트 값을 재계산
   const value = useMemo(() => ({ notifications, addNotification, removeNotification }), [notifications]); 
