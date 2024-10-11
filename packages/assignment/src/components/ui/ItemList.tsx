@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { renderLog } from '../../utils';
 import { Item } from '../../types';
 import { memo } from '../../@lib';
-import { useTheme } from '../../hooks/useTheme';
+import { useTheme } from '../../hooks';
 
 // ItemList 컴포넌트
 export const ItemList: React.FC<{ items: Item[] }> = memo(

@@ -1,6 +1,6 @@
 import React, { memo, useState } from 'react';
 import { renderLog } from '../../utils';
-import { useNotification } from '../../hooks/useNotification';
+import { useNotification } from '../../hooks';
 
 // ComplexForm 컴포넌트
 export const ComplexForm: React.FC = memo(() => {

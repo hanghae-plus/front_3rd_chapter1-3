@@ -1,5 +1,5 @@
 import { memo } from '../../@lib';
-import { useNotification } from '../../hooks/useNotification';
+import { useNotification } from '../../hooks';
 import { renderLog } from '../../utils';
 
 // NotificationSystem 컴포넌트
