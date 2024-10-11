@@ -1,13 +1,13 @@
-import React from 'react';
-import { ThemeProvider } from './provider/ThemeProvider'
-import { UserProvider } from './provider/UserProvider'
-import { NotificationProvider } from './provider/NotificationProvider'
-import { Header } from './components/Header';
-import { ItemList } from './components/ItemList';
-import { ComplexForm } from './components/ComplexForm';
-import { NotificationSystem } from './components/NotificationSystem';
-import { ThemeComponent } from './components/ThemeComponent';
-import { generateItems } from './utils';
+import React from "react";
+import { ThemeProvider, UserProvider, NotificationProvider } from "./provider";
+import {
+  Header,
+  ItemList,
+  ComplexForm,
+  NotificationSystem,
+  ThemeComponent,
+} from "./components";
+import { generateItems } from "./utils";
 
 const App: React.FC = () => {
   const items = generateItems(10000);

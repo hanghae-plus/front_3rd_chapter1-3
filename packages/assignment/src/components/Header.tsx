@@ -1,7 +1,6 @@
 import React from 'react';
 import { memo } from '../@lib';
-import { useTheme} from '../hooks/useTheme'
-import { useUser } from '../hooks/useUser'
+import { useTheme, useUser } from "../hooks";
 import { renderLog } from '../utils';
 
 /**
