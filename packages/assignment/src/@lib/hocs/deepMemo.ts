@@ -1,4 +1,4 @@
-import { deepEquals } from "../equalities/index.ts";
+import { deepEquals } from "../equalities";
 import { ComponentType } from "react";
 import { memo } from "./memo.ts";
 
