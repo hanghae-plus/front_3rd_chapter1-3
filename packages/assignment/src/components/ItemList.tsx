@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { renderLog } from "../utils";
 import { useThemeContext } from "../providers/ThemeProvider";
+import { useMemo } from "../@lib";
 
 interface Item {
   id: number;
@@ -14,14 +15,14 @@ export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
   const [filter, setFilter] = useState("");
   const { theme } = useThemeContext();
 
-  const filteredItems = items.filter(
+  const filteredItems = useMemo(() => items.filter(
     (item) =>
       item.name.toLowerCase().includes(filter.toLowerCase()) ||
       item.category.toLowerCase().includes(filter.toLowerCase())
-  );
+  ),[items, filter])
 
   const averagePrice =
-    items.reduce((sum, item) => sum + item.price, 0) / items.length;
+    useMemo(() => items.reduce((sum, item) => sum + item.price, 0) / items.length,[])
 
   return (
     <div className="mt-8">
