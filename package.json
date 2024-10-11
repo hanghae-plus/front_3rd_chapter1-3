@@ -12,5 +12,8 @@
   "private": true,
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "@vitest/ui": "^2.1.2"
+  }
 }
