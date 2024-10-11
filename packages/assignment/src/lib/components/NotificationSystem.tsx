@@ -1,7 +1,7 @@
 // NotificationSystem 컴포넌트
 
-import { renderLog } from "../utils";
-import { useNotifi } from "../@lib/provider/NotificationProvider";
+import { renderLog } from "../../utils";
+import { useNotifi } from "../provider/NotificationProvider";
 
 export const NotificationSystem: React.FC = () => {
   const { notifications, removeNotification } = useNotifi();

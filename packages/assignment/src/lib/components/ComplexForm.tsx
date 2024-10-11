@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useNotifi } from "../@lib/provider/NotificationProvider";
-import { renderLog } from "../utils";
-import { useCallback } from "../@lib/hooks";
+import { useNotifi } from "../provider/NotificationProvider";
+import { renderLog } from "../../utils";
+import { useCallback } from "../hooks";
 
 // ComplexForm 컴포넌트
 export const ComplexForm: React.FC = () => {

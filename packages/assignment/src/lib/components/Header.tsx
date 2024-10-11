@@ -1,8 +1,8 @@
-import { renderLog } from "../utils";
-import { memo } from "../@lib/hocs";
-import { useCallback } from "../@lib/hooks";
-import { useTheme } from "../@lib/provider/ThemeProvider";
-import { useUser } from "../@lib/provider/UserProvider";
+import { renderLog } from "../../utils";
+import { memo } from "../hocs";
+import { useCallback } from "../hooks";
+import { useTheme } from "../provider/ThemeProvider";
+import { useUser } from "../provider/UserProvider";
 
 const Header: React.FC = memo(() => {
   renderLog('Header rendered');

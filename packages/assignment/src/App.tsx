@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { generateItems } from './utils';
-import { ThemeProvider } from './@lib/provider/ThemeProvider';
-import { UserProvider } from './@lib/provider/UserProvider';
-import { NotifiProvider } from './@lib/provider/NotificationProvider';
-import ItemList from './components/ItemList'
-import Header from './components/Header'
-import ComplexForm from './components/ComplexForm'
+import { ThemeProvider } from './lib/provider/ThemeProvider';
+import { UserProvider } from './lib/provider/UserProvider';
+import { NotifiProvider } from './lib/provider/NotificationProvider';
+import ItemList from './lib/components/ItemList'
+import Header from './lib/components/Header'
+import ComplexForm from './lib/components/ComplexForm'
 
 
 // 메인 App 컴포넌트

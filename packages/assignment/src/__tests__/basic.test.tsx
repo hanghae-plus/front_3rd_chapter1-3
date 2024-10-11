@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { deepEquals, deepMemo, memo, shallowEquals, useCallback, useDeepMemo, useMemo, useRef } from '../@lib';
+import { deepEquals, deepMemo, memo, shallowEquals, useCallback, useDeepMemo, useMemo, useRef } from '../lib';
 import { act, fireEvent, render } from "@testing-library/react";
 import React, { forwardRef, useImperativeHandle, useState } from "react";
 
