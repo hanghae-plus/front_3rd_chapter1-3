@@ -1,6 +1,13 @@
 import { useNotification } from "../context";
 import { renderLog } from "../utils";
 
+const notificationColors = {
+	info: "bg-blue-500",
+	success: "bg-green-500",
+	error: "bg-red-500",
+	warning: "bg-yellow-500",
+};
+
 // NotificationSystem 컴포넌트
 export const NotificationSystem: React.FC = () => {
 	renderLog("NotificationSystem rendered");
@@ -11,15 +18,7 @@ export const NotificationSystem: React.FC = () => {
 			{notifications.map((notification) => (
 				<div
 					key={notification.id}
-					className={`p-4 rounded shadow-lg ${
-						notification.type === "success"
-							? "bg-green-500"
-							: notification.type === "error"
-							? "bg-red-500"
-							: notification.type === "warning"
-							? "bg-yellow-500"
-							: "bg-blue-500"
-					} text-white`}
+					className={`p-4 rounded shadow-lg ${notificationColors[notification.type]} text-white`}
 				>
 					{notification.message}
 					<button
