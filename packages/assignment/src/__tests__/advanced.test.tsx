@@ -1,10 +1,9 @@
 import { fireEvent, render, renderHook, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import App from "../App";
 import * as utils from "../utils";
 import {
-  AppProvider,
   useNotificationContext,
   useThemeContext,
   useUserContext,
@@ -16,13 +15,20 @@ import {
 } from "@/app/context/providers";
 import { useProductsContext } from "@/pages/products/context/useProductsContext";
 import { ProductsProvider } from "@/pages/products/context/ProductsProvider";
-import { act, StrictMode } from "react";
+import { act } from "react";
 import { ProductAddForm } from "@/pages/products/components";
-import { createRoot } from "react-dom/client";
-import { ProductsPage } from "@/pages";
 
 const renderLogMock = vi.spyOn(utils, "renderLog");
 const generateItemsSpy = vi.spyOn(utils, "generateItems");
+
+const renderRoot = async () => {
+  document.body.innerHTML = "<div id='root'></div>";
+  await import("../main").catch((err) => {
+    console.log(err);
+  });
+};
+renderRoot();
+document.body.innerHTML = "";
 
 describe("최적화된 App 컴포넌트 테스트", () => {
   beforeEach(() => {
@@ -57,9 +63,8 @@ describe("최적화된 App 컴포넌트 테스트", () => {
     renderLogMock.mockClear();
 
     const loginButton = await screen.findByText("로그인");
-    await fireEvent.click(loginButton);
+    fireEvent.click(loginButton);
 
-    // Header가 변경 되면 알림이 발생하고, 알림 정보를 CompleteForm과 NotificationSystem이 가져다 사용 중
     expect(renderLogMock).toHaveBeenCalledWith("Header rendered");
     expect(renderLogMock).toHaveBeenCalledWith("ComplexForm rendered");
     expect(renderLogMock).toHaveBeenCalledWith("NotificationSystem rendered");
