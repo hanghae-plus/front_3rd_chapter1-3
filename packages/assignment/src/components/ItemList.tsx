@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import { memo } from '../@lib';
-import { useThemeContext } from '../context/index.ts';
+import React, { useState } from 'react'; 
+import { memo, useMemo } from '../@lib'; 
+import { useThemeContext } from '../context/index.ts'; 
 import { renderLog } from '../utils';
 
-// Item 타입을 확장하여 price와 category를 추가했습니다.
 interface Item {
   id: number;
   name: string;
@@ -16,18 +15,26 @@ interface ItemListProps {
 }
 
 const ItemList: React.FC<ItemListProps> = memo(({ items }) => {
-  renderLog('ItemList rendered')
+  renderLog('ItemList rendered');
   const [filter, setFilter] = useState('');
-  const { theme } = useThemeContext(); 
+  const { theme } = useThemeContext();
 
-  const filteredItems = items.filter(item =>
-    item.name.toLowerCase().includes(filter.toLowerCase()) ||
-    item.category.toLowerCase().includes(filter.toLowerCase())
-  );
+  const filteredItems = useMemo(() => {
+    return items.filter(item =>
+      item.name.toLowerCase().includes(filter.toLowerCase()) ||
+      item.category.toLowerCase().includes(filter.toLowerCase())
+    );
+  }, [items, filter]);
 
-  const averagePrice = items.length > 0
-    ? items.reduce((sum, item) => sum + item.price, 0) / items.length
-    : 0;
+  const displayedItems = useMemo(() => {
+    return filteredItems.slice(0, 100);
+  }, [filteredItems]);
+
+  const averagePrice = useMemo(() => {
+    return items.length > 0
+      ? items.reduce((sum, item) => sum + item.price, 0) / items.length
+      : 0;
+  }, [items]);
 
   return (
     <div className={`mt-8`}>
@@ -41,13 +48,16 @@ const ItemList: React.FC<ItemListProps> = memo(({ items }) => {
       />
       <p className="mb-4">평균 가격: {averagePrice.toLocaleString()}원</p>
       <ul className="space-y-2">
-        {filteredItems.slice(0, 100).map(item => (
-          <li key={item.id} className={`p-2 rounded shadow ${theme === 'light' ? 'bg-white text-black' : 'bg-gray-700 text-white'}`}>
+        {displayedItems.map(item => (
+          <li
+            key={item.id}
+            className={`p-2 rounded shadow ${theme === 'light' ? 'bg-white text-black' : 'bg-gray-700 text-white'}`}
+          >
             {item.name} - {item.category} - {item.price.toLocaleString()}원
           </li>
         ))}
       </ul>
-      
+
       {filteredItems.length > 100 && <p className="mt-4">...그 외 {filteredItems.length - 100}개 상품</p>}
     </div>
   );
