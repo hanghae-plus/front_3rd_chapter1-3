@@ -37,15 +37,15 @@ const objectEquals = (objA: any, objB: any): boolean => {
     if (objA === objB) {
         return true;
     }
-    
+    if(Object.keys(objA).length === 0 && Object.keys(objB).length === 0) {
+        return true;
+    }
     if (Object.keys(objA).length !== Object.keys(objB).length) {
         return false;
     }
-
+    let result = false;
     Object.keys(objA).forEach((key) => {
-        if(!deepEquals(objA[key], objB[key])){
-            return false;
-        }
+       result = deepEquals(objA[key],objB[key]);
     });
-    return true;
+    return result;
 }
