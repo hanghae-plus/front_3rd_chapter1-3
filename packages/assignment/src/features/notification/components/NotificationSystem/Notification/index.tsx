@@ -18,6 +18,19 @@ export default function Notification({
     removeNotification(id);
   };
 
+  const notificationClass = (type: string) => {
+    switch (type) {
+      case "success":
+        return "bg-green-500";
+      case "error":
+        return "bg-red-500";
+      case "warning":
+        return "bg-yellow-500";
+      default:
+        return "bg-blue-500";
+    }
+  };
+
   useEffect(() => {
     setTimeoutRef.current = setTimeout(() => {
       closeNotification();
@@ -30,15 +43,7 @@ export default function Notification({
   }, []);
   return (
     <div
-      className={`p-4 rounded shadow-lg ${
-        type === "success"
-          ? "bg-green-500"
-          : type === "error"
-          ? "bg-red-500"
-          : type === "warning"
-          ? "bg-yellow-500"
-          : "bg-blue-500"
-      } text-white`}
+      className={`p-4 rounded shadow-lg ${notificationClass(type)} text-white`}
     >
       {message}
       <button
