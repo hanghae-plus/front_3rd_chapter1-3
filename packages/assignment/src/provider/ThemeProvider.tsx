@@ -1,7 +1,7 @@
 import React, { useState, ReactNode } from 'react';
 import ThemeContext from '../context/ThemeContext'
 import { ThemeType } from '../types/type';
-import { useMemo } from '../@lib/hooks/useMemo'
+import { useMemo, useCallback } from '../@lib'
 
 /**
  * @description 테마 상태를 관리하고, 테마 관련 정보를 자식 컴포넌트에 제공하는 컨텍스트 프로바이더
@@ -14,9 +14,9 @@ import { useMemo } from '../@lib/hooks/useMemo'
 export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [theme, setTheme] = useState<ThemeType>('light');
 
-  const toggleTheme = () => {
+  const toggleTheme = useCallback(() => {
     setTheme(prev => prev === 'light' ? 'dark' : 'light');
-  };
+  }, []);
   
   //useMemo를 사용하여 테마 변경에 따라 컨텍스트 값을 재계산
   const value = useMemo(() => ({ theme, toggleTheme }), [theme]);
