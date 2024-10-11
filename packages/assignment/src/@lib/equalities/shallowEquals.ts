@@ -9,7 +9,7 @@ export function shallowEquals(objA: any, objB: any): boolean {
 	if (keysA.length !== keysB.length) return false;
 
 	for (const key of keysA) {
-		if (objA[key] !== objB[key]) return false;
+		if (!Object.prototype.hasOwnProperty.call(objB, key) || objA[key] !== objB[key]) return false;
 	}
 
 	return true;

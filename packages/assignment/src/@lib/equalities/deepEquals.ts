@@ -9,9 +9,8 @@ export function deepEquals(objA: any, objB: any): boolean {
 	if (keysA.length !== keysB.length) return false;
 
 	for (const key of keysA) {
-		if (typeof objA[key] === "object" && typeof objB[key] === "object") {
-			if (!deepEquals(objA[key], objB[key])) return false;
-		} else if (objA[key] !== objB[key]) return false;
+		if (!Object.prototype.hasOwnProperty.call(objB, key) || !deepEquals(objA[key], objB[key]))
+			return false;
 	}
 
 	return true;
