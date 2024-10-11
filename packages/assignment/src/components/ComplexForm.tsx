@@ -3,7 +3,7 @@ import { useNotificationContext } from '../context/index.ts';
 import { memo, useCallback } from '../@lib';
 import { renderLog } from '../utils';
 
-const ComplexForm: React.FC = memo(() => {
+export const ComplexForm: React.FC = memo(() => {
   renderLog('ComplexForm rendered')
 
   const { addNotification } = useNotificationContext();
@@ -88,5 +88,3 @@ const ComplexForm: React.FC = memo(() => {
     </div>
   );
 });
-
-export default ComplexForm;

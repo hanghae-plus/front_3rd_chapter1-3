@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { generateItems } from '../utils';
-import Header from './Header';
-import ItemList from './ItemList';
-import ComplexForm from './ComplexForm';
-import NotificationSystem from './NotificationSystem.tsx';
+import { Header, ItemList, ComplexForm, NotificationSystem } from './index';
 
 const Layout: React.FC = () => {
     const [items] = useState(() => generateItems(10000)) 

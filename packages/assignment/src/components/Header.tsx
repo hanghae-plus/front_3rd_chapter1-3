@@ -3,7 +3,7 @@ import { useThemeContext, useUserContext } from '../context/index.ts';
 import { memo} from '../@lib';
 import { renderLog } from '../utils';
 
-const Header: React.FC = memo(() => {
+export const Header: React.FC = memo(() => {
   renderLog('Header rendered');
   const { theme, toggleTheme } = useThemeContext();
   const { user, login, logout } = useUserContext();
@@ -81,4 +81,3 @@ const Header: React.FC = memo(() => {
   );
 });
 
-export default Header;

@@ -14,7 +14,7 @@ interface ItemListProps {
   items: Item[];
 }
 
-const ItemList: React.FC<ItemListProps> = memo(({ items }) => {
+export const ItemList: React.FC<ItemListProps> = memo(({ items }) => {
   renderLog('ItemList rendered');
   const [filter, setFilter] = useState('');
   const { theme } = useThemeContext();
@@ -62,5 +62,3 @@ const ItemList: React.FC<ItemListProps> = memo(({ items }) => {
     </div>
   );
 });
-
-export default ItemList;
