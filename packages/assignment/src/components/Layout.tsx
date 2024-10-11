@@ -6,7 +6,7 @@ import ComplexForm from './ComplexForm';
 import NotificationSystem from './NotificationSystem.tsx';
 
 const Layout: React.FC = () => {
-    const [items] = useState(generateItems(10000)); 
+    const [items] = useState(() => generateItems(10000)) 
   return (
     <div>
         <Header/>
