@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { renderLog } from "../utils";
 import { useTheme } from "../hooks/useTheme";
 import { ItemType } from "../types/type";
-import { memo } from "../@lib";
 
 /**
  * @components ItemList
@@ -13,7 +12,7 @@ import { memo } from "../@lib";
  * @returns 상품 검색 입력창, 필터링 된 상품 목록, 평균 가격을 포함한 UI를 리턴함
  */
 
-export const ItemList: React.FC<{ items: ItemType[] }> = memo(({ items }) => {
+export const ItemList: React.FC<{ items: ItemType[] }> = ({ items }) => {
   renderLog("ItemList rendered");
   const { theme } = useTheme(); //useTheme 훅을 사용하여 테마에 따라 UI의 스타일을 조정
   const [filter, setFilter] = useState("");
@@ -57,4 +56,4 @@ export const ItemList: React.FC<{ items: ItemType[] }> = memo(({ items }) => {
       )}
     </div>
   );
-});
+};

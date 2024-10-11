@@ -1,5 +1,4 @@
 import React from 'react';
-import { memo } from '../@lib';
 import { useTheme, useUser } from "../hooks";
 import { renderLog } from '../utils';
 
@@ -9,7 +8,7 @@ import { renderLog } from '../utils';
  * @returns {JSX.Element} 로그인 상태, 테마 토글 버튼을 포함한 헤더 요소를 반환
  */
 
-export const Header: React.FC = memo(() => {
+export const Header: React.FC = () => {
   renderLog('Header rendered');
   const { theme, toggleTheme } = useTheme(); //useTheme 훅을 사용하여 현재 테마 상태와 테마 토글 함수 관련 hooks 호출
   const { user, login, logout } = useUser(); //useUser 훅을 통해 사용자 로그인 상태와 관련 hooks 호출
@@ -47,4 +46,4 @@ export const Header: React.FC = memo(() => {
       </div>
     </header>
   );
-});
+};
