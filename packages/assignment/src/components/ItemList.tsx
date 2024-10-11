@@ -4,9 +4,18 @@ import { useTheme } from "../hooks/useTheme";
 import { ItemType } from "../types/type";
 import { memo } from "../@lib";
 
+/**
+ * @components ItemList
+ * @description 사용자 입력에 따라 필터링 된 상품 목록과 평균 가격을 표시하는 컴포넌트
+ * 상품 목록은 items prop을 통해 받고, 사용자는 상품 이름이나 카테고리를 입력하여 필터링을 진행함
+ *
+ * @param {{ items: ItemType[] }} props - 컴포넌트에 전달된 props
+ * @returns 상품 검색 입력창, 필터링 된 상품 목록, 평균 가격을 포함한 UI를 리턴함
+ */
+
 export const ItemList: React.FC<{ items: ItemType[] }> = memo(({ items }) => {
   renderLog("ItemList rendered");
-  const { theme } = useTheme();
+  const { theme } = useTheme(); //useTheme 훅을 사용하여 테마에 따라 UI의 스타일을 조정
   const [filter, setFilter] = useState("");
 
   const filteredItems = items.filter(
