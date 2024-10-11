@@ -21,20 +21,14 @@ export function deepEquals(objA: any, objB: any): boolean {
 }
 
 const arrayEquals = (arrayA: Array<any>, arrayB: Array<any>): boolean => {
-    if (arrayA.length === arrayB.length) {
-        for (let i = 0; i < arrayA.length; i++) {
-            if (Array.isArray(arrayA[i]) && Array.isArray(arrayB[i])) {
-                if (!deepEquals(arrayA[i], arrayB[i])) {
-                    return false;
-                }
-                continue;
-            }
-            if (!deepEquals(arrayA[i], arrayB[i])) {
-                return false;
-            }
-        }
-    } else {
+    if (arrayA.length !== arrayB.length) {
         return false;
+    }
+
+    for (let i = 0; i < arrayA.length; i++) {
+        if (!deepEquals(arrayA[i], arrayB[i])) {
+            return false;
+        }
     }
     return true;
 }
@@ -43,18 +37,18 @@ const objectEquals = (objA: any, objB: any): boolean => {
     if (objA === objB) {
         return true;
     }
-    if(Object.keys(objA).length === 0 && Object.keys(objB).length === 0) {
-        return true;
+    
+    if (Object.keys(objA).length !== Object.keys(objB).length) {
+        return false;
     }
+
     let result = false;
-    if (Object.keys(objA).length === Object.keys(objB).length) {
-        Object.keys(objA).forEach((key) => {
-            result = objA[key] === objB[key]
-            if (objA[key] instanceof Object && objB[key] instanceof Object) {
-                result = deepEquals(objA[key], objB[key]);
-            }
-        });
-    }
+    Object.keys(objA).forEach((key) => {
+        result = objA[key] === objB[key]
+        if (objA[key] instanceof Object && objB[key] instanceof Object) {
+            result = deepEquals(objA[key], objB[key]);
+        }
+    });
 
     return result;
 }
