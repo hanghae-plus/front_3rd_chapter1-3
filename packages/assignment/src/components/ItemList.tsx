@@ -17,15 +17,10 @@ export const ItemList: React.FC<{ items: Item[] }> = memo(({ items }) => {
   const [filter, setFilter] = useState("")
   const { theme } = useTheme()
 
-  const filteredItems = useMemo(
-    // 12ms => 8ms
-    () =>
-      items.filter(
-        (item) =>
-          item.name.toLowerCase().includes(filter.toLowerCase()) ||
-          item.category.toLowerCase().includes(filter.toLowerCase())
-      ),
-    [items]
+  const filteredItems = items.filter(
+    (item) =>
+      item.name.toLowerCase().includes(filter.toLowerCase()) ||
+      item.category.toLowerCase().includes(filter.toLowerCase())
   )
 
   const averagePrice = useMemo(() => items.reduce((sum, item) => sum + item.price, 0) / items.length, [items])

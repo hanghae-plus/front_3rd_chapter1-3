@@ -11,14 +11,16 @@ export function memo<P extends object>(
 ) {
   return (props: P) => {
     // 저장할 ref
-    const ref = useRef<P | null>(null)
+    const prevProps = useRef<P | null>(null)
+    const prevComponent = useRef<JSX.Element | null>(null)
 
     // ref가 없거나, props가 ref와 다르다면
-    if (!equals(props, ref.current)) {
+    if (!equals(props, prevProps.current)) {
       // ref에 props를 저장
-      ref.current = props
-      // Component를 생성해서 반환
-      return createElement(Component, { ...props })
+      prevProps.current = props
+      prevComponent.current = createElement(Component, props)
     }
+
+    return prevComponent.current
   }
 }
