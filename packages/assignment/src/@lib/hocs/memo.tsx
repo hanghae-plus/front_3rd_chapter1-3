@@ -3,7 +3,7 @@ import { ComponentType } from "react";
 import { useRef } from "../hooks";
 
 export function memo<P extends object>(Component: ComponentType<P>, equals = shallowEquals) {
-	return function (props: P) {
+	return function (props: P): React.ReactElement | null {
 		// 1. 이전 props를 저장할 ref 생성
 		// 2. 메모이제이션된 컴포넌트 생성
 		const prevProps = useRef<P | null>(null);
