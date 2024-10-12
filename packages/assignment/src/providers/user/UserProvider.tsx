@@ -1,5 +1,4 @@
 import { useState, createContext, useContext } from "react";
-import { useCallback } from "@/@lib/hooks/useCallback";
 import { useMemo } from "@/@lib/hooks/useMemo";
 import { useNotificationContext } from "@/providers/notification/NotificationProvider";
 
@@ -30,19 +29,19 @@ export const UserProvider = ({ children }: React.ReactNode) => {
 
   const { addNotification } = useNotificationContext();
 
-  const login = useCallback((email: string) => {
+  const login = (email: string) => {
     setUser({ id: 1, name: "홍길동", email });
     addNotification("성공적으로 로그인되었습니다", "success");
-  }, []);
+  };
 
-  const logout = useCallback(() => {
+  const logout = () => {
     setUser(null);
     addNotification("로그아웃되었습니다", "info");
-  }, []);
+  };
 
   const userValue: UserContextType = useMemo(
     () => ({ user, login, logout }),
-    [user, login, logout]
+    [user]
   );
 
   return (

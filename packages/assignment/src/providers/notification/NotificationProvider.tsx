@@ -1,5 +1,4 @@
 import React, { useState, createContext, useContext } from "react";
-import { useCallback } from "@/@lib/hooks/useCallback";
 import { useMemo } from "@/@lib/hooks/useMemo";
 
 interface Notification {
@@ -31,23 +30,20 @@ export const useNotificationContext = () => {
 export const NotificationProvider = ({ children }: React.ReactNode) => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
-  const addNotification = useCallback(
-    (message: string, type: Notification["type"]) => {
-      const newNotification: Notification = {
-        id: Date.now(),
-        message,
-        type,
-      };
-      setNotifications((prev) => [...prev, newNotification]);
-    },
-    []
-  );
+  const addNotification = (message: string, type: Notification["type"]) => {
+    const newNotification: Notification = {
+      id: Date.now(),
+      message,
+      type,
+    };
+    setNotifications((prev) => [...prev, newNotification]);
+  };
 
-  const removeNotification = useCallback((id: number) => {
+  const removeNotification = (id: number) => {
     setNotifications((prev) =>
       prev.filter((notification) => notification.id !== id)
     );
-  }, []);
+  };
 
   const notificationValue: NotificationContextType = useMemo(
     () => ({ notifications, addNotification, removeNotification }),
