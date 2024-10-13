@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { renderLog } from "../utils";
 import { useTheme } from "./hooks/useTheme";
+import { memo } from "../@lib";
 
 interface Item {
   id: number;
@@ -10,7 +11,7 @@ interface Item {
 }
 
 // ItemList 컴포넌트
-export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
+export const ItemList: React.FC<{ items: Item[] }> = memo(({ items }) => {
   renderLog("ItemList rendered");
   const [filter, setFilter] = useState("");
   const { theme } = useTheme();
@@ -54,4 +55,4 @@ export const ItemList: React.FC<{ items: Item[] }> = ({ items }) => {
       )}
     </div>
   );
-};
+});
