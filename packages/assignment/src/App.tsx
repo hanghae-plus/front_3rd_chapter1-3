@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ComplexForm } from "./component/ComplexForm";
-import Header from "./component/Header";
+import { Header } from "./component/Header";
 import { ItemList } from "./component/ItemList";
 import { NotificationSystem } from "./component/NotificationSystem";
 import { NotificationProvider } from "./component/provider/NotificationProvider";

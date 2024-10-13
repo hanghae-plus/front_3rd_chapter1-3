@@ -3,7 +3,7 @@ import { renderLog } from "../utils";
 import { useTheme } from "./hooks/useTheme";
 import { useUser } from "./hooks/useUser";
 
-function Header() {
+export const Header: React.FC = memo(() => {
   renderLog("Header rendered");
 
   const { theme, toggleTheme } = useTheme();
@@ -46,6 +46,4 @@ function Header() {
       </div>
     </header>
   );
-}
-
-export default memo(Header);
+});
