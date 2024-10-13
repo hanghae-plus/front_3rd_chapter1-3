@@ -1,24 +1,24 @@
 import { shallowEquals } from "../equalities";
 import { ComponentType, createElement } from "react";
 import { useRef } from "../hooks/useRef";
+import { useCallback } from "../hooks";
 
 export function memo<P extends object>(
   Component: ComponentType<P>,
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   equals = shallowEquals
 ) {
-  // 2. 메모이제이션된 컴포넌트 생성
+  // 메모이제이션된 컴포넌트 생성
   function MemoizedComponent(props: P) {
-    // const MemoizedComponent: FC<P> = (props) => {
-    // 1. 이전 props를 저장할 ref 생성
+    // 이전 props를 저장할 ref 생성
     const prevPropsRef = useRef<P | null>(null);
 
-    // 3. equals 함수를 사용하여 props 비교
-    const isEqual = prevPropsRef.current && equals(prevPropsRef.current, props);
+    // equals 함수를 사용하여 props 비교
+    // useCallback으로 isEqual 함수를 메모이제이션하여, props가 변경될 때마다 불필요한 함수 재생성을 방지
+    const isEqual = useCallback(() => {
+      return prevPropsRef.current && equals(prevPropsRef.current, props);
+    }, [props]);
 
-    // 4. props가 변경된 경우에만 새로운 렌더링 수행
+    // props가 변경된 경우에만 새로운 렌더링 수행
     if (!isEqual) {
       prevPropsRef.current = props; // 이전 props 업데이트
       return createElement(Component, props); // React.createElement 사용
