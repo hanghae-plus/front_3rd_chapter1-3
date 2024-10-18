@@ -1,3 +1,5 @@
+import { createContext, useContext } from 'react';
+
 export function renderLog(message: string) {
   console.log(message);
 }
@@ -11,4 +13,18 @@ export const generateItems = (count: number) => {
     category: categories[Math.floor(Math.random() * categories.length)],
     price: Math.floor(Math.random() * 100000) + 1000
   }));
+};
+
+export const createTypedContext = <T>() => {
+  const context = createContext<T | undefined>(undefined);
+
+  const useTypedContext = () => {
+    const useTypedContext = useContext(context);
+    if (!useTypedContext) {
+      throw new Error('Context를 제공하는 Provider 안에서 호출해야 합니다!');
+    }
+    return useTypedContext;
+  };
+
+  return { context, useContext: useTypedContext };
 };
